@@ -1,0 +1,2219 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>高波动黄金-科技组合投资方案：三个月20%收益目标分析</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <style>
+      :root {
+        --primary: #1e3a8a;
+        --secondary: #d97706;
+        --accent: #059669;
+        --neutral: #374151;
+        --base-100: #ffffff;
+        --base-200: #f8fafc;
+        --base-300: #e2e8f0;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        line-height: 1.7;
+        color: var(--neutral);
+      }
+
+      .serif {
+        font-family: "Playfair Display", serif;
+      }
+
+      .hero-gradient {
+        background: linear-gradient(
+          135deg,
+          var(--primary) 0%,
+          #3b82f6 50%,
+          #60a5fa 100%
+        );
+      }
+
+      .toc-fixed {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 280px;
+        height: 100vh;
+        background: var(--base-100);
+        border-right: 1px solid var(--base-300);
+        z-index: 1000;
+        overflow-y: auto;
+        padding: 2rem 1.5rem;
+      }
+
+      .main-content {
+        margin-left: 280px;
+        min-height: 100vh;
+      }
+
+      .toc-link {
+        display: block;
+        padding: 0.5rem 0;
+        color: var(--neutral);
+        text-decoration: none;
+        border-left: 2px solid transparent;
+        padding-left: 1rem;
+        transition: all 0.3s ease;
+      }
+
+      .toc-link:hover,
+      .toc-link.active {
+        color: var(--primary);
+        border-left-color: var(--secondary);
+        background: rgba(30, 58, 138, 0.05);
+      }
+
+      .toc-link.level-2 {
+        padding-left: 2rem;
+        font-size: 0.875rem;
+      }
+
+      .section-divider {
+        height: 2px;
+        background: linear-gradient(90deg, var(--secondary), transparent);
+        margin: 3rem 0;
+      }
+
+      .bento-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        grid-template-rows: auto auto;
+        gap: 2rem;
+        margin: 2rem 0;
+      }
+
+      .bento-item {
+        background: var(--base-100);
+        border-radius: 1rem;
+        padding: 2rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      }
+
+      .bento-large {
+        grid-row: span 2;
+      }
+
+      .citation {
+        color: var(--secondary);
+        text-decoration: none;
+        font-weight: 500;
+        border-bottom: 1px dotted var(--secondary);
+      }
+
+      .citation:hover {
+        background: rgba(217, 119, 6, 0.1);
+      }
+
+      .highlight-box {
+        background: linear-gradient(
+          135deg,
+          rgba(30, 58, 138, 0.05),
+          rgba(217, 119, 6, 0.05)
+        );
+        border-left: 4px solid var(--secondary);
+        padding: 1.5rem;
+        margin: 2rem 0;
+        border-radius: 0 0.5rem 0.5rem 0;
+      } /* Mermaid diagram styles */
+      .mermaid-container {
+        display: flex;
+        justify-content: center;
+        min-height: 300px;
+        max-height: 800px;
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 30px;
+        margin: 30px 0;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .mermaid-container .mermaid {
+        width: 100%;
+        max-width: 100%;
+        height: 100%;
+        cursor: grab;
+        transition: transform 0.3s ease;
+        transform-origin: center center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        touch-action: none; /* 防止触摸设备上的默认行为 */
+        -webkit-user-select: none; /* 防止文本选择 */
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      .mermaid-container .mermaid svg {
+        max-width: 100%;
+        height: 100%;
+        display: block;
+        margin: 0 auto;
+      }
+
+      .mermaid-container .mermaid:active {
+        cursor: grabbing;
+      }
+
+      .mermaid-container.zoomed .mermaid {
+        height: 100%;
+        width: 100%;
+        cursor: grab;
+      }
+
+      .mermaid-controls {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        display: flex;
+        gap: 10px;
+        z-index: 20;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 8px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .mermaid-control-btn {
+        background: #ffffff;
+        border: 1px solid #d1d5db;
+        border-radius: 6px;
+        padding: 10px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        color: #374151;
+        font-size: 14px;
+        min-width: 36px;
+        height: 36px;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .mermaid-control-btn:hover {
+        background: #f8fafc;
+        border-color: #3b82f6;
+        color: #3b82f6;
+        transform: translateY(-1px);
+      }
+
+      .mermaid-control-btn:active {
+        transform: scale(0.95);
+      }
+
+      /* Enhanced mermaid diagram styles for better contrast and multiple node colors */
+      .mermaid .node rect,
+      .mermaid .node circle,
+      .mermaid .node ellipse,
+      .mermaid .node polygon {
+        stroke-width: 2px !important;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+      }
+
+      /* Color 1 - Primary blue nodes */
+      .mermaid .node:nth-child(4n + 1) rect,
+      .mermaid .node:nth-child(4n + 1) circle,
+      .mermaid .node:nth-child(4n + 1) ellipse,
+      .mermaid .node:nth-child(4n + 1) polygon {
+        fill: #dbeafe !important;
+        stroke: #1e40af !important;
+      }
+
+      .mermaid .node:nth-child(4n + 1) .label {
+        color: #1e3a8a !important;
+        font-weight: 600 !important;
+        font-size: 13px !important;
+        text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+      }
+
+      /* Color 2 - Orange nodes */
+      .mermaid .node:nth-child(4n + 2) rect,
+      .mermaid .node:nth-child(4n + 2) circle,
+      .mermaid .node:nth-child(4n + 2) ellipse,
+      .mermaid .node:nth-child(4n + 2) polygon {
+        fill: #fed7aa !important;
+        stroke: #ea580c !important;
+      }
+
+      .mermaid .node:nth-child(4n + 2) .label {
+        color: #9a3412 !important;
+        font-weight: 600 !important;
+        font-size: 13px !important;
+        text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+      }
+
+      /* Color 3 - Green nodes */
+      .mermaid .node:nth-child(4n + 3) rect,
+      .mermaid .node:nth-child(4n + 3) circle,
+      .mermaid .node:nth-child(4n + 3) ellipse,
+      .mermaid .node:nth-child(4n + 3) polygon {
+        fill: #dcfce7 !important;
+        stroke: #16a34a !important;
+      }
+
+      .mermaid .node:nth-child(4n + 3) .label {
+        color: #14532d !important;
+        font-weight: 600 !important;
+        font-size: 13px !important;
+        text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+      }
+
+      /* Color 4 - Purple nodes */
+      .mermaid .node:nth-child(4n) rect,
+      .mermaid .node:nth-child(4n) circle,
+      .mermaid .node:nth-child(4n) ellipse,
+      .mermaid .node:nth-child(4n) polygon {
+        fill: #f3e8ff !important;
+        stroke: #7c3aed !important;
+      }
+
+      .mermaid .node:nth-child(4n) .label {
+        color: #581c87 !important;
+        font-weight: 600 !important;
+        font-size: 13px !important;
+        text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+      }
+
+      /* Default styles for unstyled nodes */
+      .mermaid .node .label {
+        color: var(--neutral) !important;
+        font-weight: 600 !important;
+        font-size: 13px !important;
+        text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+      }
+
+      .mermaid .edgePath .path {
+        stroke: var(--neutral) !important;
+        stroke-width: 2px !important;
+        filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+      }
+
+      .mermaid .edgeLabel {
+        background-color: var(--base-100) !important;
+        color: var(--neutral) !important;
+        font-weight: 500 !important;
+        padding: 4px 8px !important;
+        border-radius: 6px !important;
+        border: 1px solid var(--base-300) !important;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+      }
+
+      /* Timeline specific styles for better contrast */
+      .mermaid .section {
+        fill: #f8fafc !important;
+        stroke: var(--primary) !important;
+        stroke-width: 2px !important;
+      }
+
+      .mermaid .section0 {
+        fill: #eff6ff !important;
+        stroke: #1e40af !important;
+      }
+
+      .mermaid .section1 {
+        fill: #fff7ed !important;
+        stroke: #ea580c !important;
+      }
+
+      .mermaid .section2 {
+        fill: #f0fdf4 !important;
+        stroke: #16a34a !important;
+      }
+
+      .mermaid .section3 {
+        fill: #faf5ff !important;
+        stroke: #7c3aed !important;
+      }
+
+      .mermaid .cScale0,
+      .mermaid .cScale1,
+      .mermaid .cScale2,
+      .mermaid .cScale3 {
+        fill: var(--neutral) !important;
+        font-weight: 600 !important;
+      }
+
+      @media (max-width: 1024px) {
+        .toc-fixed {
+          transform: translateX(-100%);
+          transition: transform 0.3s ease;
+        }
+
+        .toc-fixed.mobile-open {
+          transform: translateX(0);
+        }
+
+        .main-content {
+          margin-left: 0;
+        }
+
+        .bento-grid {
+          grid-template-columns: 1fr;
+        }
+
+        /* Responsive mermaid controls */
+        .mermaid-control-btn:not(.reset-zoom) {
+          display: none;
+        }
+        .mermaid-controls {
+          top: auto;
+          bottom: 15px;
+          right: 15px;
+        }
+      }
+
+      /* Additional fixes for small screens */
+      @media (max-width: 768px) {
+        .hero-gradient {
+          padding: 2rem 1rem;
+        }
+
+        .hero-gradient h1 {
+          font-size: 2.25rem;
+          line-height: 1.2;
+        }
+
+        .hero-gradient p {
+          font-size: 1.25rem;
+        }
+
+        .bento-item,
+        .bento-large,
+        .highlight-box {
+          padding: 1.5rem;
+        }
+
+        .main-content,
+        .container {
+          width: 100%;
+          padding-left: 1rem;
+          padding-right: 1rem;
+        }
+
+        .bento-grid {
+          gap: 1rem;
+        }
+
+        img {
+          max-width: 100%;
+          height: auto;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .hero-gradient h1 {
+          font-size: 1.75rem;
+        }
+
+        .hero-gradient p {
+          font-size: 1rem;
+        }
+
+        .bento-item,
+        .bento-large,
+        .highlight-box {
+          padding: 1rem;
+        }
+      }
+    </style>
+    <base target="_blank" />
+  </head>
+
+  <body class="bg-gray-50">
+    <!-- Table of Contents -->
+    <nav class="toc-fixed">
+      <div class="mb-8">
+        <h3 class="serif text-lg font-bold text-gray-800 mb-4">目录导航</h3>
+        <button
+          id="mobile-toc-close"
+          class="md:hidden absolute top-4 right-4 text-gray-500"
+        >
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <div class="space-y-1">
+        <a href="#executive-summary" class="toc-link">执行摘要</a>
+        <a href="#constraints" class="toc-link">投资约束</a>
+        <a href="#constraints-capital" class="toc-link level-2">资金规模</a>
+        <a href="#constraints-holding" class="toc-link level-2">持有期限</a>
+        <a href="#constraints-target" class="toc-link level-2">收益目标</a>
+        <a href="#constraints-short" class="toc-link level-2">做空限制</a>
+        <a href="#constraints-preferences" class="toc-link level-2">标的偏好</a>
+        <a href="#constraints-risk" class="toc-link level-2">风险承受能力</a>
+
+        <a href="#analysis" class="toc-link">标的池深度分析</a>
+        <a href="#gold-assets" class="toc-link level-2">黄金贵金属板块</a>
+        <a href="#tech-growth" class="toc-link level-2">科技成长板块</a>
+
+        <a href="#portfolio-design" class="toc-link">投资组合方案设计</a>
+        <a href="#portfolio-1" class="toc-link level-2">方案一：极致杠杆组合</a>
+        <a href="#portfolio-2" class="toc-link level-2"
+          >方案二：黄金-科技平衡组合</a
+        >
+        <a href="#portfolio-3" class="toc-link level-2"
+          >方案三：稳健黄金核心组合</a
+        >
+
+        <a href="#risk-management" class="toc-link">风险管理策略</a>
+        <a href="#implementation" class="toc-link">实施路径</a>
+        <a href="#confidence" class="toc-link">置信度评估</a>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Mobile TOC Toggle Button -->
+      <button
+        id="mobile-toc-toggle"
+        class="md:hidden fixed top-4 left-4 z-50 bg-white p-3 rounded-full shadow-lg"
+      >
+        <i class="fas fa-bars text-gray-600"></i>
+      </button>
+
+      <!-- Hero Section with Bento Grid -->
+      <section class="hero-gradient text-white py-16 px-8">
+        <div class="max-w-7xl mx-auto">
+          <div class="bento-grid">
+            <!-- Main Title Area -->
+            <div class="bento-item bento-large bg-white/10 backdrop-blur-sm">
+              <div class="space-y-6">
+                <div
+                  class="inline-block px-4 py-2 bg-orange-500/20 rounded-full text-sm font-medium"
+                >
+                  高波动投资组合策略
+                </div>
+
+                <h1 class="serif text-5xl font-bold leading-tight">
+                  <em class="text-yellow-300">黄金-科技组合</em>
+                  <br />
+                  三个月20%收益目标
+                </h1>
+
+                <p class="text-xl text-blue-100 leading-relaxed max-w-2xl">
+                  针对15,000美元本金、高风险偏好的投资者，构建以GDXU为核心的杠杆投资组合，
+                  通过黄金矿业与科技股的平衡配置，在追求高收益的同时管理下行风险。
+                </p>
+
+                <div class="flex items-center space-x-6 text-sm">
+                  <span
+                    ><i class="fas fa-chart-line mr-2"></i>预期收益：24.8%</span
+                  >
+                  <span><i class="fas fa-target mr-2"></i>置信度：50%</span>
+                  <span><i class="fas fa-shield-alt mr-2"></i>风险可控</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Key Metrics -->
+            <div class="bento-item bg-white/10 backdrop-blur-sm">
+              <h3 class="serif text-2xl font-bold mb-4">核心指标</h3>
+              <div class="space-y-4">
+                <div class="flex justify-between items-center">
+                  <span>投资本金</span>
+                  <span class="font-bold text-xl">$15,000</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span>目标收益</span>
+                  <span class="font-bold text-xl text-yellow-300">20%</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span>投资期限</span>
+                  <span class="font-bold">3个月</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span>最大回撤容忍</span>
+                  <span class="font-bold text-red-300">50%</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Performance Chart -->
+            <div class="bento-item bg-white/10 backdrop-blur-sm">
+              <h3 class="serif text-2xl font-bold mb-4">关键标的近期表现</h3>
+              <div class="space-y-3">
+                <div class="flex justify-between items-center">
+                  <span>GDXU（三倍杠杆黄金矿业）</span>
+                  <span class="text-green-300 font-bold">+7.11%</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span>FCX（麦克莫兰铜金）</span>
+                  <span class="text-green-300 font-bold">+2.67%</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span>GCmain（黄金期货）</span>
+                  <span class="text-green-300 font-bold">+2.54%</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span>NVDA（英伟达）</span>
+                  <span class="text-green-300 font-bold">+1.91%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Executive Summary -->
+      <section id="executive-summary" class="py-12 px-8 bg-white">
+        <div class="max-w-6xl mx-auto">
+          <div class="highlight-box">
+            <h2 class="serif text-3xl font-bold mb-6 text-gray-800">
+              执行摘要
+            </h2>
+
+            <div class="prose prose-lg max-w-none">
+              <p class="text-xl leading-relaxed mb-6 text-gray-700">
+                针对15,000美元本金、三个月20%收益目标、可接受腰斩的高风险偏好，我们推荐
+                <strong class="text-blue-600"
+                  >方案二（黄金-科技平衡组合）</strong
+                >作为首选策略：
+                <strong class="text-orange-600"
+                  >GDXU 35% + FCX 25% + NVDA 25% + GCmain 10% + 现金5%</strong
+                >， 预期收益24.8%，实现≥20%目标的置信度50%。
+              </p>
+
+              <div class="grid md:grid-cols-3 gap-6 mt-8">
+                <div
+                  class="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-500"
+                >
+                  <h4 class="font-bold text-blue-800 mb-2">核心优势</h4>
+                  <p class="text-blue-700">
+                    在保留黄金杠杆弹性的同时，通过科技股分散单一板块风险，平衡收益追求与尾部风险控制
+                  </p>
+                </div>
+
+                <div
+                  class="bg-green-50 p-6 rounded-lg border-l-4 border-green-500"
+                >
+                  <h4 class="font-bold text-green-800 mb-2">风险管控</h4>
+                  <p class="text-green-700">
+                    科技-黄金弱相关性提供天然对冲，50%最大回撤容忍度与策略风险特征匹配
+                  </p>
+                </div>
+
+                <div
+                  class="bg-orange-50 p-6 rounded-lg border-l-4 border-orange-500"
+                >
+                  <h4 class="font-bold text-orange-800 mb-2">执行便利</h4>
+                  <p class="text-orange-700">
+                    所有标的均为美股/ETF，可在标准股票账户执行，无需复杂衍生品操作
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <!-- Investment Constraints -->
+      <section id="constraints" class="py-12 px-8 bg-gray-50">
+        <div class="max-w-6xl mx-auto">
+          <h2 class="serif text-4xl font-bold mb-8 text-gray-800">
+            投资约束与风险偏好界定
+          </h2>
+
+          <!-- Capital Scale -->
+          <div id="constraints-capital" class="mb-12">
+            <h3 class="serif text-2xl font-bold mb-6 text-gray-700">
+              资金规模：15,000美元本金
+            </h3>
+            <div class="bg-white rounded-xl p-8 shadow-lg">
+              <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                  <p class="text-gray-700 mb-4">
+                    15,000美元的本金规模处于个人投资者的中等配置区间，既具备足够的分散投资空间，又能在高波动标的上形成有意义的仓位。
+                    <a href="#" class="citation">从交易成本角度</a
+                    >，该规模可有效利用美股主流券商的零佣金政策。
+                  </p>
+
+                  <div class="bg-gray-50 p-4 rounded-lg mt-4">
+                    <h4 class="font-bold text-gray-800 mb-2">仓位构建原则</h4>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                      <li>• 单笔交易最小仓位：≥1,500美元（10%权重）</li>
+                      <li>• 单一标的最大敞口：≤9,000美元（60%权重）</li>
+                      <li>• 现金储备：10-15%用于动态再平衡</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="space-y-4">
+                  <div class="bg-blue-50 p-4 rounded-lg">
+                    <h4 class="font-bold text-blue-800 mb-2">优势</h4>
+                    <p class="text-blue-700 text-sm">
+                      支持3-5个核心持仓构建，保留足够灵活性
+                    </p>
+                  </div>
+
+                  <div class="bg-orange-50 p-4 rounded-lg">
+                    <h4 class="font-bold text-orange-800 mb-2">挑战</h4>
+                    <p class="text-orange-700 text-sm">
+                      遭遇50%回撤后仍剩余7,500美元，需要心理承受准备
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Holding Period -->
+          <div id="constraints-holding" class="mb-12">
+            <h3 class="serif text-2xl font-bold mb-6 text-gray-700">
+              投资期限：3个月（2026年3月至6月）
+            </h3>
+            <div class="bg-white rounded-xl p-8 shadow-lg">
+              <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                  <p class="text-gray-700 mb-4">
+                    三个月的投资期限属于典型的短期战术性投资，要求资产具备足够的价格动量和催化因素。
+                    <a href="#" class="citation">对于杠杆工具如GDXU而言</a
+                    >，三个月恰好处于其有效运用区间的上限。
+                  </p>
+
+                  <div class="bg-yellow-50 p-4 rounded-lg mt-4">
+                    <h4 class="font-bold text-yellow-800 mb-2">季节性优势</h4>
+                    <p class="text-yellow-700 text-sm">
+                      第二季度（4-6月）历史上对黄金和贵金属板块往往较为有利，伴随实物需求回升和通胀预期强化
+                    </p>
+                  </div>
+                </div>
+
+                <div>
+                  <h4 class="font-bold text-gray-800 mb-4">关键宏观节点</h4>
+                  <div class="space-y-2">
+                    <div class="flex items-center text-sm">
+                      <div class="w-3 h-3 bg-blue-500 rounded-full mr-3"></div>
+                      <span>3月18-19日：美联储议息会议</span>
+                    </div>
+                    <div class="flex items-center text-sm">
+                      <div class="w-3 h-3 bg-green-500 rounded-full mr-3"></div>
+                      <span>4月：美国非农就业数据</span>
+                    </div>
+                    <div class="flex items-center text-sm">
+                      <div
+                        class="w-3 h-3 bg-orange-500 rounded-full mr-3"
+                      ></div>
+                      <span>5月：中国两会政策落地</span>
+                    </div>
+                    <div class="flex items-center text-sm">
+                      <div
+                        class="w-3 h-3 bg-purple-500 rounded-full mr-3"
+                      ></div>
+                      <span>6月：季度末流动性变化</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Risk Tolerance -->
+          <div id="constraints-risk" class="mb-12">
+            <h3 class="serif text-2xl font-bold mb-6 text-gray-700">
+              风险承受能力特征
+            </h3>
+            <div class="bg-white rounded-xl p-8 shadow-lg">
+              <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-red-50 p-6 rounded-lg border-l-4 border-red-500">
+                  <h4 class="font-bold text-red-800 mb-3">
+                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                    极端风险容忍
+                  </h4>
+                  <p class="text-red-700 text-sm mb-3">
+                    可接受50%本金损失（腰斩）
+                  </p>
+                  <ul class="text-red-600 text-xs space-y-1">
+                    <li>• 允许高比例配置GDXU（Beta 3.06）</li>
+                    <li>• 需要纪律性止损执行</li>
+                    <li>• 心理承受能力要求高</li>
+                  </ul>
+                </div>
+
+                <div
+                  class="bg-purple-50 p-6 rounded-lg border-l-4 border-purple-500"
+                >
+                  <h4 class="font-bold text-purple-800 mb-3">
+                    <i class="fas fa-chart-line mr-2"></i>
+                    波动率无约束
+                  </h4>
+                  <p class="text-purple-700 text-sm mb-3">不对波动幅度设限</p>
+                  <ul class="text-purple-600 text-xs space-y-1">
+                    <li>• GDXU年化波动率&gt;80%</li>
+                    <li>• 单日价格波动10-20%常见</li>
+                    <li>• 坚持既定投资计划</li>
+                  </ul>
+                </div>
+
+                <div
+                  class="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-500"
+                >
+                  <h4 class="font-bold text-blue-800 mb-3">
+                    <i class="fas fa-rocket mr-2"></i>
+                    高Beta偏好
+                  </h4>
+                  <p class="text-blue-700 text-sm mb-3">追求高弹性资产</p>
+                  <ul class="text-blue-600 text-xs space-y-1">
+                    <li>• GDXU Beta: 3.0-3.5</li>
+                    <li>• FCX Beta: 1.8-2.2</li>
+                    <li>• NVDA Beta: 2.0-2.5</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <!-- Asset Analysis -->
+      <section id="analysis" class="py-12 px-8 bg-white">
+        <div class="max-w-6xl mx-auto">
+          <h2 class="serif text-4xl font-bold mb-8 text-gray-800">
+            初始标的池深度分析
+          </h2>
+
+          <!-- Gold Assets -->
+          <div id="gold-assets" class="mb-12">
+            <h3 class="serif text-2xl font-bold mb-6 text-gray-700">
+              黄金与贵金属板块
+            </h3>
+
+            <!-- GDXU Analysis -->
+            <div class="bg-blue-50 rounded-xl p-8 mb-8">
+              <h4 class="serif text-xl font-bold mb-4 text-blue-800">
+                三倍做多黄金矿业ETN（GDXU）
+              </h4>
+
+              <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                  <img
+                    src="https://kimi-web-img.moonshot.cn/imagegen/20260311/021773159809845a58640f8f093e136cbe2236822f07c73303e76_0.jpeg"
+                    alt="黄金矿业ETF投资产品展示"
+                    class="w-full h-48 object-cover rounded-lg mb-4"
+                    size="medium"
+                    aspect="wide"
+                    style="photo"
+                    query="黄金矿业ETF"
+                    referrerpolicy="no-referrer"
+                    data-modified="1"
+                    data-score="0.00"
+                  />
+
+                  <div class="space-y-3">
+                    <div class="flex justify-between">
+                      <span class="text-sm text-gray-600">当前价格</span>
+                      <span class="font-bold text-blue-800">$340.36</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span class="text-sm text-gray-600">单日涨幅</span>
+                      <span class="font-bold text-green-600">+7.11%</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span class="text-sm text-gray-600">年度回报</span>
+                      <span class="font-bold text-orange-600">+804%</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="space-y-4">
+                  <div class="bg-white p-4 rounded-lg">
+                    <h5 class="font-bold text-gray-800 mb-2">杠杆结构</h5>
+                    <p class="text-sm text-gray-600">
+                      由BMO Financial Group发行，追踪S-Network MicroSectors Gold
+                      Miners Index的三倍杠杆暴露，
+                      由GDX（72-74%）和GDXJ（26-28%）组合构成
+                    </p>
+                  </div>
+
+                  <div class="bg-white p-4 rounded-lg">
+                    <h5 class="font-bold text-gray-800 mb-2">风险提示</h5>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                      <li>
+                        •
+                        <a href="#" class="citation">每日重置机制</a
+                        >导致震荡市价值侵蚀
+                      </li>
+                      <li>• 管理费率0.95%，融资利差已上调</li>
+                      <li>• 明确设计为短期战术交易工具</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- FCX Analysis -->
+            <div class="bg-green-50 rounded-xl p-8 mb-8">
+              <h4 class="serif text-xl font-bold mb-4 text-green-800">
+                麦克莫兰铜金（FCX）
+              </h4>
+
+              <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white p-4 rounded-lg">
+                  <h5 class="font-bold text-gray-800 mb-2">估值模型</h5>
+                  <div class="space-y-2">
+                    <div class="flex justify-between">
+                      <span class="text-sm">当前价格</span>
+                      <span class="font-bold">$62.11</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span class="text-sm">DCF目标价</span>
+                      <span class="font-bold text-green-600">$87.00</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span class="text-sm">隐含空间</span>
+                      <span class="font-bold text-orange-600">+40%</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="bg-white p-4 rounded-lg">
+                  <h5 class="font-bold text-gray-800 mb-2">业务结构</h5>
+                  <ul class="text-sm text-gray-600 space-y-1">
+                    <li>• Grasberg矿（印尼）</li>
+                    <li>• Morenci矿（美国）</li>
+                    <li>• Cerro Verde矿（秘鲁）</li>
+                    <li>• 铜金双轮驱动</li>
+                  </ul>
+                </div>
+
+                <div class="bg-white p-4 rounded-lg">
+                  <h5 class="font-bold text-gray-800 mb-2">成本优势</h5>
+                  <p class="text-sm text-gray-600 mb-2">
+                    AISC约$1,400-1,600/盎司
+                  </p>
+                  <p class="text-xs text-gray-500">
+                    处于全球成本曲线后1/3分位，利润弹性显著
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tech Growth -->
+          <div id="tech-growth" class="mb-12">
+            <h3 class="serif text-2xl font-bold mb-6 text-gray-700">
+              科技成长板块
+            </h3>
+
+            <div class="bg-indigo-50 rounded-xl p-8">
+              <h4 class="serif text-xl font-bold mb-4 text-indigo-800">
+                英伟达（NVDA）
+              </h4>
+
+              <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                  <img
+                    src="https://kimi-web-img.moonshot.cn/imagegen/20260311/0217731598852747509f28e83afdba9612b61dc9442cd53f21e08_0.jpeg"
+                    alt="英伟达AI芯片产品展示"
+                    class="w-full h-48 object-cover rounded-lg mb-4"
+                    size="medium"
+                    aspect="wide"
+                    style="photo"
+                    query="英伟达AI芯片"
+                    referrerpolicy="no-referrer"
+                    data-modified="1"
+                    data-score="0.00"
+                  />
+
+                  <div class="bg-white p-4 rounded-lg">
+                    <h5 class="font-bold text-gray-800 mb-2">AI叙事</h5>
+                    <p class="text-sm text-gray-600">
+                      正处于Blackwell架构放量周期，数据中心业务占收入80%以上，
+                      云厂商AI基础设施投资提供需求支撑
+                    </p>
+                  </div>
+                </div>
+
+                <div class="space-y-4">
+                  <div class="bg-white p-4 rounded-lg">
+                    <h5 class="font-bold text-gray-800 mb-2">估值水平</h5>
+                    <div class="space-y-2">
+                      <div class="flex justify-between">
+                        <span class="text-sm">Forward P/E</span>
+                        <span class="font-bold">25-30x</span>
+                      </div>
+                      <div class="flex justify-between">
+                        <span class="text-sm">历史均值</span>
+                        <span class="font-bold text-blue-600">40-50x</span>
+                      </div>
+                      <div class="flex justify-between">
+                        <span class="text-sm">目标价区间</span>
+                        <span class="font-bold text-green-600">$253-300</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="bg-white p-4 rounded-lg">
+                    <h5 class="font-bold text-gray-800 mb-2">催化因素</h5>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                      <li>• 季度财报及指引</li>
+                      <li>• AI资本开支数据</li>
+                      <li>• 竞争动态评估</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <!-- Portfolio Design -->
+      <section id="portfolio-design" class="py-12 px-8 bg-gray-50">
+        <div class="max-w-6xl mx-auto">
+          <h2 class="serif text-4xl font-bold mb-8 text-gray-800">
+            三套投资方案设计
+          </h2>
+
+          <!-- Portfolio 1 -->
+          <div id="portfolio-1" class="mb-12">
+            <h3 class="serif text-2xl font-bold mb-6 text-gray-700">
+              方案一：极致杠杆黄金矿业组合
+            </h3>
+
+            <div class="bg-orange-50 rounded-xl p-8">
+              <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                  <h4 class="font-bold text-orange-800 mb-4">资产配置</h4>
+                  <div class="space-y-3">
+                    <div
+                      class="flex justify-between items-center bg-white p-3 rounded"
+                    >
+                      <span>GDXU</span>
+                      <span class="font-bold">60% - $9,000</span>
+                    </div>
+                    <div
+                      class="flex justify-between items-center bg-white p-3 rounded"
+                    >
+                      <span>FCX</span>
+                      <span class="font-bold">30% - $4,500</span>
+                    </div>
+                    <div
+                      class="flex justify-between items-center bg-white p-3 rounded"
+                    >
+                      <span>现金</span>
+                      <span class="font-bold">10% - $1,500</span>
+                    </div>
+                  </div>
+
+                  <div class="mt-6 p-4 bg-red-100 rounded-lg">
+                    <h5 class="font-bold text-red-800 mb-2">风险特征</h5>
+                    <ul class="text-sm text-red-700 space-y-1">
+                      <li>• 最大回撤潜力：-60%</li>
+                      <li>• 年化波动率：&gt;80%</li>
+                      <li>• 实现≥20%收益概率：35%</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div>
+                  <h4 class="font-bold text-orange-800 mb-4">收益测算</h4>
+                  <div class="space-y-3">
+                    <div class="bg-green-100 p-3 rounded">
+                      <div class="flex justify-between">
+                        <span class="font-bold text-green-800">乐观情景</span>
+                        <span class="font-bold text-green-600">+75%</span>
+                      </div>
+                      <p class="text-xs text-green-700">GDXU +100%, FCX +50%</p>
+                    </div>
+                    <div class="bg-blue-100 p-3 rounded">
+                      <div class="flex justify-between">
+                        <span class="font-bold text-blue-800">基准情景</span>
+                        <span class="font-bold text-blue-600">+40%</span>
+                      </div>
+                      <p class="text-xs text-blue-700">GDXU +50%, FCX +33%</p>
+                    </div>
+                    <div class="bg-red-100 p-3 rounded">
+                      <div class="flex justify-between">
+                        <span class="font-bold text-red-800">悲观情景</span>
+                        <span class="font-bold text-red-600">-36%</span>
+                      </div>
+                      <p class="text-xs text-red-700">GDXU -50%, FCX -20%</p>
+                    </div>
+                  </div>
+
+                  <div class="mt-6 p-4 bg-gray-100 rounded-lg">
+                    <h5 class="font-bold text-gray-800 mb-2">加权预期收益</h5>
+                    <div class="text-2xl font-bold text-blue-600">+12.3%</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Portfolio 2 - Recommended -->
+          <div id="portfolio-2" class="mb-12">
+            <h3 class="serif text-2xl font-bold mb-6 text-gray-700">
+              方案二：黄金-科技平衡组合
+              <span class="text-green-600 text-lg ml-2">★ 首选推荐</span>
+            </h3>
+
+            <div class="bg-green-50 rounded-xl p-8 border-2 border-green-300">
+              <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                  <h4 class="font-bold text-green-800 mb-4">资产配置</h4>
+                  <div class="space-y-3">
+                    <div
+                      class="flex justify-between items-center bg-white p-3 rounded"
+                    >
+                      <span>GDXU</span>
+                      <span class="font-bold">35% - $5,250</span>
+                    </div>
+                    <div
+                      class="flex justify-between items-center bg-white p-3 rounded"
+                    >
+                      <span>FCX</span>
+                      <span class="font-bold">25% - $3,750</span>
+                    </div>
+                    <div
+                      class="flex justify-between items-center bg-white p-3 rounded"
+                    >
+                      <span>NVDA</span>
+                      <span class="font-bold">25% - $3,750</span>
+                    </div>
+                    <div
+                      class="flex justify-between items-center bg-white p-3 rounded"
+                    >
+                      <span>GCmain/GLD</span>
+                      <span class="font-bold">10% - $1,500</span>
+                    </div>
+                    <div
+                      class="flex justify-between items-center bg-white p-3 rounded"
+                    >
+                      <span>现金</span>
+                      <span class="font-bold">5% - $750</span>
+                    </div>
+                  </div>
+
+                  <div class="mt-6 p-4 bg-blue-100 rounded-lg">
+                    <h5 class="font-bold text-blue-800 mb-2">核心优势</h5>
+                    <ul class="text-sm text-blue-700 space-y-1">
+                      <li>• 科技-黄金弱相关性提供分散化</li>
+                      <li>• 保留核心杠杆工具的收益弹性</li>
+                      <li>• 50%实现≥20%收益概率最高</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div>
+                  <h4 class="font-bold text-green-800 mb-4">收益测算</h4>
+                  <div class="space-y-3">
+                    <div class="bg-green-100 p-3 rounded">
+                      <div class="flex justify-between">
+                        <span class="font-bold text-green-800">乐观情景</span>
+                        <span class="font-bold text-green-600">+43%</span>
+                      </div>
+                      <p class="text-xs text-green-700">GDXU +80%, NVDA +30%</p>
+                    </div>
+                    <div class="bg-blue-100 p-3 rounded">
+                      <div class="flex justify-between">
+                        <span class="font-bold text-blue-800">基准情景</span>
+                        <span class="font-bold text-blue-600">+25%</span>
+                      </div>
+                      <p class="text-xs text-blue-700">GDXU +40%, NVDA +15%</p>
+                    </div>
+                    <div class="bg-red-100 p-3 rounded">
+                      <div class="flex justify-between">
+                        <span class="font-bold text-red-800">悲观情景</span>
+                        <span class="font-bold text-red-600">-16%</span>
+                      </div>
+                      <p class="text-xs text-red-700">GDXU -30%, NVDA -10%</p>
+                    </div>
+                  </div>
+
+                  <div class="mt-6 p-4 bg-green-100 rounded-lg">
+                    <h5 class="font-bold text-green-800 mb-2">风险指标</h5>
+                    <div class="grid grid-cols-2 gap-2 text-sm">
+                      <div>最大回撤：-45%</div>
+                      <div>波动率：~60%</div>
+                      <div>实现概率：<strong>50%</strong></div>
+                      <div>损失概率：30%</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Portfolio 3 -->
+          <div id="portfolio-3" class="mb-12">
+            <h3 class="serif text-2xl font-bold mb-6 text-gray-700">
+              方案三：稳健黄金核心组合
+            </h3>
+
+            <div class="bg-blue-50 rounded-xl p-8">
+              <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                  <h4 class="font-bold text-blue-800 mb-4">资产配置</h4>
+                  <div class="space-y-3">
+                    <div
+                      class="flex justify-between items-center bg-white p-3 rounded"
+                    >
+                      <span>FCX</span>
+                      <span class="font-bold">40% - $6,000</span>
+                    </div>
+                    <div
+                      class="flex justify-between items-center bg-white p-3 rounded"
+                    >
+                      <span>GDXU</span>
+                      <span class="font-bold">25% - $3,750</span>
+                    </div>
+                    <div
+                      class="flex justify-between items-center bg-white p-3 rounded"
+                    >
+                      <span>GCmain/GLD</span>
+                      <span class="font-bold">20% - $3,000</span>
+                    </div>
+                    <div
+                      class="flex justify-between items-center bg-white p-3 rounded"
+                    >
+                      <span>SIVR</span>
+                      <span class="font-bold">10% - $1,500</span>
+                    </div>
+                    <div
+                      class="flex justify-between items-center bg-white p-3 rounded"
+                    >
+                      <span>现金</span>
+                      <span class="font-bold">5% - $750</span>
+                    </div>
+                  </div>
+
+                  <div class="mt-6 p-4 bg-purple-100 rounded-lg">
+                    <h5 class="font-bold text-purple-800 mb-2">结构优势</h5>
+                    <ul class="text-sm text-purple-700 space-y-1">
+                      <li>• FCX估值安全边际充足</li>
+                      <li>• 贵金属板块内分散化</li>
+                      <li>• 降低杠杆衰减风险</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div>
+                  <h4 class="font-bold text-blue-800 mb-4">收益测算</h4>
+                  <div class="space-y-3">
+                    <div class="bg-green-100 p-3 rounded">
+                      <div class="flex justify-between">
+                        <span class="font-bold text-green-800">乐观情景</span>
+                        <span class="font-bold text-green-600">+33%</span>
+                      </div>
+                      <p class="text-xs text-green-700">FCX +45%, GDXU +60%</p>
+                    </div>
+                    <div class="bg-blue-100 p-3 rounded">
+                      <div class="flex justify-between">
+                        <span class="font-bold text-blue-800">基准情景</span>
+                        <span class="font-bold text-blue-600">+23%</span>
+                      </div>
+                      <p class="text-xs text-blue-700">FCX +30%, GDXU +30%</p>
+                    </div>
+                    <div class="bg-red-100 p-3 rounded">
+                      <div class="flex justify-between">
+                        <span class="font-bold text-red-800">悲观情景</span>
+                        <span class="font-bold text-red-600">-14%</span>
+                      </div>
+                      <p class="text-xs text-red-700">FCX -15%, GDXU -25%</p>
+                    </div>
+                  </div>
+
+                  <div class="mt-6 p-4 bg-blue-100 rounded-lg">
+                    <h5 class="font-bold text-blue-800 mb-2">风险指标</h5>
+                    <div class="grid grid-cols-2 gap-2 text-sm">
+                      <div>最大回撤：-35%</div>
+                      <div>波动率：~45%</div>
+                      <div>实现概率：45%</div>
+                      <div>损失概率：25%</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <!-- Mermaid Diagram -->
+      <section class="py-12 px-8 bg-white">
+        <div class="max-w-6xl mx-auto">
+          <h3 class="serif text-2xl font-bold mb-6 text-gray-800 text-center">
+            投资组合决策流程图
+          </h3>
+          <div class="mermaid-container">
+            <div class="mermaid-controls">
+              <button class="mermaid-control-btn zoom-in" title="放大">
+                <i class="fas fa-search-plus"></i>
+              </button>
+              <button class="mermaid-control-btn zoom-out" title="缩小">
+                <i class="fas fa-search-minus"></i>
+              </button>
+              <button class="mermaid-control-btn reset-zoom" title="重置">
+                <i class="fas fa-expand-arrows-alt"></i>
+              </button>
+              <button class="mermaid-control-btn fullscreen" title="全屏查看">
+                <i class="fas fa-expand"></i>
+              </button>
+            </div>
+            <div class="mermaid">
+              graph TD A[&#34;15,000美元投资本金&#34;] --&gt;
+              B[&#34;风险偏好评估&#34;] B --&gt; C{&#34;风险承受能力&#34;} C
+              --&gt;|&#34;高风险容忍&#34;| D[&#34;方案一：极致杠杆组合&#34;] C
+              --&gt;|&#34;平衡型偏好&#34;|
+              E[&#34;方案二：黄金-科技平衡组合&#34;] C
+              --&gt;|&#34;保守型偏好&#34;| F[&#34;方案三：稳健黄金核心组合&#34;]
+              D --&gt; D1[&#34;GDXU 60% + FCX 30% + 现金10%&#34;] E --&gt;
+              E1[&#34;GDXU 35% + FCX 25% + NVDA 25% + GCmain 10% + 现金5%&#34;]
+              F --&gt; F1[&#34;FCX 40% + GDXU 25% + GCmain 20% + SIVR 10% +
+              现金5%&#34;] D1 --&gt; G1[&#34;预期收益：12.3%&#34;] E1 --&gt;
+              G2[&#34;预期收益：15.6%&#34;] F1 --&gt;
+              G3[&#34;预期收益：14.2%&#34;] G1 --&gt;
+              H1[&#34;实现≥20%概率：35%&#34;] G2 --&gt;
+              H2[&#34;实现≥20%概率：50%&#34;] G3 --&gt;
+              H3[&#34;实现≥20%概率：45%&#34;] H1 --&gt;
+              I1[&#34;最大回撤：-60%&#34;] H2 --&gt;
+              I2[&#34;最大回撤：-45%&#34;] H3 --&gt;
+              I3[&#34;最大回撤：-35%&#34;] I2 --&gt; J[&#34;★
+              推荐使用方案二&#34;] style A fill:#dbeafe style E fill:#dcfce7
+              style E1 fill:#dcfce7 style G2 fill:#dcfce7 style H2 fill:#dcfce7
+              style I2 fill:#dcfce7 style J fill:#fef3c7 style D fill:#fee2e2
+              style F fill:#f3f4f6
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Risk Management -->
+      <section id="risk-management" class="py-12 px-8 bg-gray-50">
+        <div class="max-w-6xl mx-auto">
+          <h2 class="serif text-4xl font-bold mb-8 text-gray-800">
+            执行策略与风险管理
+          </h2>
+
+          <div class="grid md:grid-cols-2 gap-8 mb-12">
+            <!-- Entry Strategy -->
+            <div class="bg-white rounded-xl p-8 shadow-lg">
+              <h3 class="serif text-xl font-bold mb-6 text-gray-800">
+                <i class="fas fa-door-open text-blue-500 mr-3"></i>
+                入场时机选择
+              </h3>
+
+              <div class="space-y-4">
+                <div class="bg-blue-50 p-4 rounded-lg">
+                  <h4 class="font-bold text-blue-800 mb-2">技术信号</h4>
+                  <div class="space-y-2 text-sm text-blue-700">
+                    <div class="flex justify-between">
+                      <span>GDXU</span>
+                      <span>分批建仓，50%现价位，50%回调至320或突破380</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span>FCX</span>
+                      <span>核心仓位60%，剩余40%回调至58或突破65</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span>NVDA</span>
+                      <span>等待财报后或设置突破/回调买入单</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="bg-orange-50 p-4 rounded-lg">
+                  <h4 class="font-bold text-orange-800 mb-2">宏观窗口</h4>
+                  <div class="space-y-2 text-sm text-orange-700">
+                    <div>• 3月11-17日：美联储议息前建立FCX和黄金仓位</div>
+                    <div>• 3月20-31日：议息后根据表态决定是否建立GDXU</div>
+                    <div>• 4月初：非农数据后评估劳动力市场强度</div>
+                    <div>• 5月：财报季评估AI资本开支周期</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Dynamic Rebalancing -->
+            <div class="bg-white rounded-xl p-8 shadow-lg">
+              <h3 class="serif text-xl font-bold mb-6 text-gray-800">
+                <i class="fas fa-balance-scale text-green-500 mr-3"></i>
+                动态再平衡规则
+              </h3>
+
+              <div class="space-y-4">
+                <div class="bg-green-50 p-4 rounded-lg">
+                  <h4 class="font-bold text-green-800 mb-2">止盈机制</h4>
+                  <div class="space-y-2 text-sm text-green-700">
+                    <div class="flex justify-between">
+                      <span>单一标的涨幅&gt;50%</span>
+                      <span>减仓1/3</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span>组合收益达25%</span>
+                      <span>仓位降至70%</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span>组合收益达35%</span>
+                      <span>兑现50%本金</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="bg-red-50 p-4 rounded-lg">
+                  <h4 class="font-bold text-red-800 mb-2">止损机制</h4>
+                  <div class="space-y-2 text-sm text-red-700">
+                    <div class="flex justify-between">
+                      <span>单一标的跌幅&gt;25%</span>
+                      <span>强制止损</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span>组合回撤&gt;30%</span>
+                      <span>减仓至50%</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span>组合回撤&gt;40%</span>
+                      <span>清仓观望</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Alternative Assets -->
+          <div class="bg-white rounded-xl p-8 shadow-lg">
+            <h3 class="serif text-xl font-bold mb-6 text-gray-800">
+              <i class="fas fa-exchange-alt text-purple-500 mr-3"></i>
+              替代标的应急方案
+            </h3>
+
+            <div class="grid md:grid-cols-2 gap-6">
+              <div class="bg-purple-50 p-4 rounded-lg">
+                <h4 class="font-bold text-purple-800 mb-3">GDXU流动性不足时</h4>
+                <div class="space-y-2 text-sm text-purple-700">
+                  <div class="flex justify-between">
+                    <span>NUGT（2倍杠杆）</span>
+                    <span>切换至更低风险</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span>GDX+期权组合</span>
+                    <span>模拟杠杆限制下行</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-teal-50 p-4 rounded-lg">
+                <h4 class="font-bold text-teal-800 mb-3">FCX基本面恶化时</h4>
+                <div class="space-y-2 text-sm text-teal-700">
+                  <div class="flex justify-between">
+                    <span>Barrick Gold (GOLD)</span>
+                    <span>切换至大型黄金生产商</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span>GDXJ</span>
+                    <span>增配小盘矿业股ETF</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <!-- Implementation -->
+      <section id="implementation" class="py-12 px-8 bg-white">
+        <div class="max-w-6xl mx-auto">
+          <h2 class="serif text-4xl font-bold mb-8 text-gray-800">
+            最终建议与实施路径
+          </h2>
+
+          <!-- Recommendation Matrix -->
+          <div class="bg-blue-50 rounded-xl p-8 mb-12">
+            <h3 class="serif text-xl font-bold mb-6 text-blue-800">
+              方案选择矩阵
+            </h3>
+
+            <div class="grid md:grid-cols-3 gap-6">
+              <div class="bg-white p-6 rounded-lg border-l-4 border-orange-500">
+                <h4 class="font-bold text-orange-800 mb-3">激进型投资者</h4>
+                <p class="text-sm text-orange-700 mb-3">
+                  对黄金趋势有强信念，追求极致收益
+                </p>
+                <div class="text-center">
+                  <div class="font-bold text-orange-600">方案一</div>
+                  <div class="text-xs text-gray-600 mt-1">
+                    极致杠杆，高收益高波动
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="bg-green-100 p-6 rounded-lg border-l-4 border-green-500 border-2"
+              >
+                <h4 class="font-bold text-green-800 mb-3">平衡型投资者</h4>
+                <p class="text-sm text-green-700 mb-3">
+                  追求风险调整后最优收益，推荐选择
+                </p>
+                <div class="text-center">
+                  <div class="font-bold text-green-600">方案二</div>
+                  <div class="text-xs text-gray-600 mt-1">
+                    分散化，50%实现概率
+                  </div>
+                  <div class="text-xs text-yellow-600 mt-1">★ 最佳推荐</div>
+                </div>
+              </div>
+
+              <div
+                class="bg-gray-100 p-6 rounded-lg border-l-4 border-gray-500"
+              >
+                <h4 class="font-bold text-gray-800 mb-3">保守型投资者</h4>
+                <p class="text-sm text-gray-700 mb-3">优先保护本金，稳健增值</p>
+                <div class="text-center">
+                  <div class="font-bold text-gray-600">方案三</div>
+                  <div class="text-xs text-gray-600 mt-1">
+                    低杠杆，估值安全边际
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Detailed Implementation -->
+          <div class="grid md:grid-cols-2 gap-8">
+            <!-- Initial Position -->
+            <div class="bg-white rounded-xl p-8 shadow-lg">
+              <h3 class="serif text-xl font-bold mb-6 text-gray-800">
+                <i class="fas fa-coins text-blue-500 mr-3"></i>
+                15,000美元具体配置示例
+              </h3>
+
+              <div class="space-y-4">
+                <div class="bg-blue-50 p-4 rounded-lg">
+                  <h4 class="font-bold text-blue-800 mb-3">
+                    初始建仓（3月11日）
+                  </h4>
+                  <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                      <span>GDXU (35%)</span>
+                      <span>$5,250 - 15.43份 @ $340.36</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span>FCX (25%)</span>
+                      <span>$3,750 - 60.38股 @ $62.105</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span>NVDA (25%)</span>
+                      <span>$3,750 - 20.15股 @ $186.13</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span>GLD (10%)</span>
+                      <span>$1,500 - 约6.67份 @ $225</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span>现金 (5%)</span>
+                      <span>$750</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="bg-green-50 p-4 rounded-lg">
+                  <h4 class="font-bold text-green-800 mb-2">关键监测指标</h4>
+                  <div class="space-y-1 text-sm text-green-700">
+                    <div>黄金价格：5,000支撑/5,500阻力</div>
+                    <div>GDXU：400里程碑/250止损</div>
+                    <div>FCX：75目标/50风险警示</div>
+                    <div>VIX：25系统性风险警示</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Rebalancing Plan -->
+            <div class="bg-white rounded-xl p-8 shadow-lg">
+              <h3 class="serif text-xl font-bold mb-6 text-gray-800">
+                <i class="fas fa-calendar-alt text-orange-500 mr-3"></i>
+                再平衡时间表
+              </h3>
+
+              <div class="space-y-4">
+                <div class="bg-orange-50 p-4 rounded-lg">
+                  <h4 class="font-bold text-orange-800 mb-3">月度检视要点</h4>
+                  <div class="space-y-2 text-sm text-orange-700">
+                    <div class="flex items-center">
+                      <div
+                        class="w-2 h-2 bg-orange-500 rounded-full mr-2"
+                      ></div>
+                      <span
+                        ><strong>3月底：</strong
+                        >Q1财报季指引，评估NVDA仓位</span
+                      >
+                    </div>
+                    <div class="flex items-center">
+                      <div
+                        class="w-2 h-2 bg-orange-500 rounded-full mr-2"
+                      ></div>
+                      <span
+                        ><strong>4月中：</strong
+                        >美联储议息后，调整黄金敞口</span
+                      >
+                    </div>
+                    <div class="flex items-center">
+                      <div
+                        class="w-2 h-2 bg-orange-500 rounded-full mr-2"
+                      ></div>
+                      <span
+                        ><strong>5月底：</strong
+                        >决定是否提前兑现或持有到期</span
+                      >
+                    </div>
+                  </div>
+                </div>
+
+                <div class="bg-blue-50 p-4 rounded-lg">
+                  <h4 class="font-bold text-blue-800 mb-2">关键阈值</h4>
+                  <div class="grid grid-cols-2 gap-2 text-sm text-blue-700">
+                    <div>收益25%：减仓保护</div>
+                    <div>收益35%：兑现一半</div>
+                    <div>亏损30%：风险控制</div>
+                    <div>亏损40%：清仓观望</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Final Recommendation -->
+          <div class="highlight-box">
+            <h3 class="serif text-2xl font-bold mb-4 text-gray-800">
+              <i class="fas fa-star text-yellow-500 mr-3"></i>
+              最终建议
+            </h3>
+
+            <div class="prose prose-lg max-w-none">
+              <p class="text-lg leading-relaxed text-gray-700 mb-4">
+                基于15,000美元本金、三个月20%收益目标、可接受腰斩的高风险偏好，
+                我们强烈推荐<strong class="text-blue-600"
+                  >方案二（黄金-科技平衡组合）</strong
+                >：
+              </p>
+
+              <div
+                class="bg-green-100 p-6 rounded-lg border-l-4 border-green-500"
+              >
+                <h4 class="font-bold text-green-800 mb-3">
+                  GDXU 35% + FCX 25% + NVDA 25% + GCmain 10% + 现金5%
+                </h4>
+                <div class="grid md:grid-cols-3 gap-4 text-sm">
+                  <div class="text-center">
+                    <div class="font-bold text-green-600 text-xl">24.8%</div>
+                    <div>预期收益</div>
+                  </div>
+                  <div class="text-center">
+                    <div class="font-bold text-blue-600 text-xl">50%</div>
+                    <div>实现≥20%目标概率</div>
+                  </div>
+                  <div class="text-center">
+                    <div class="font-bold text-orange-600 text-xl">45%</div>
+                    <div>最大回撤容忍</div>
+                  </div>
+                </div>
+              </div>
+
+              <p class="text-gray-700 mt-4">
+                该方案在保留黄金杠杆弹性的同时，通过科技股分散单一板块风险，
+                平衡收益追求与尾部风险控制，具备最高的风险调整后收益特征。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <!-- Confidence Assessment -->
+      <section id="confidence" class="py-12 px-8 bg-gray-50">
+        <div class="max-w-6xl mx-auto">
+          <h2 class="serif text-4xl font-bold mb-8 text-gray-800">
+            置信度评估与敏感性分析
+          </h2>
+
+          <!-- Confidence Drivers -->
+          <div class="grid md:grid-cols-2 gap-8 mb-12">
+            <div class="bg-white rounded-xl p-8 shadow-lg">
+              <h3 class="serif text-xl font-bold mb-6 text-green-800">
+                <i class="fas fa-arrow-up text-green-500 mr-3"></i>
+                正向驱动因素
+              </h3>
+
+              <div class="space-y-4">
+                <div class="bg-green-50 p-4 rounded-lg">
+                  <div class="flex justify-between items-center mb-2">
+                    <span class="font-bold text-green-800">央行购金持续</span>
+                    <span class="text-green-600 font-bold">+10%</span>
+                  </div>
+                  <p class="text-sm text-green-700">
+                    2025年850吨，2026年预测800吨，结构性支撑强劲
+                  </p>
+                </div>
+
+                <div class="bg-green-50 p-4 rounded-lg">
+                  <div class="flex justify-between items-center mb-2">
+                    <span class="font-bold text-green-800">美国财政扩张</span>
+                    <span class="text-green-600 font-bold">+15%</span>
+                  </div>
+                  <p class="text-sm text-green-700">
+                    债务/GDP持续上升，政治约束有限
+                  </p>
+                </div>
+
+                <div class="bg-green-50 p-4 rounded-lg">
+                  <div class="flex justify-between items-center mb-2">
+                    <span class="font-bold text-green-800">降息预期</span>
+                    <span class="text-green-600 font-bold">+10%</span>
+                  </div>
+                  <p class="text-sm text-green-700">
+                    2026年预期50bps降息，利好实际利率
+                  </p>
+                </div>
+              </div>
+
+              <div class="mt-4 p-4 bg-green-100 rounded-lg">
+                <div class="flex justify-between">
+                  <span class="font-bold text-green-800">正向因素合计</span>
+                  <span class="font-bold text-green-600 text-xl">+45%</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-8 shadow-lg">
+              <h3 class="serif text-xl font-bold mb-6 text-red-800">
+                <i class="fas fa-arrow-down text-red-500 mr-3"></i>
+                负向风险因素
+              </h3>
+
+              <div class="space-y-4">
+                <div class="bg-red-50 p-4 rounded-lg">
+                  <div class="flex justify-between items-center mb-2">
+                    <span class="font-bold text-red-800">美联储转鹰</span>
+                    <span class="text-red-600 font-bold">-15%</span>
+                  </div>
+                  <p class="text-sm text-red-700">
+                    通胀反弹可能导致政策转向，实际利率上行
+                  </p>
+                </div>
+
+                <div class="bg-red-50 p-4 rounded-lg">
+                  <div class="flex justify-between items-center mb-2">
+                    <span class="font-bold text-red-800">美元走强</span>
+                    <span class="text-red-600 font-bold">-10%</span>
+                  </div>
+                  <p class="text-sm text-red-700">
+                    若欧洲/日本经济更弱，美元可能反弹
+                  </p>
+                </div>
+
+                <div class="bg-red-50 p-4 rounded-lg">
+                  <div class="flex justify-between items-center mb-2">
+                    <span class="font-bold text-red-800">技术性超买</span>
+                    <span class="text-red-600 font-bold">-10%</span>
+                  </div>
+                  <p class="text-sm text-red-700">
+                    价格创历史新高，获利回吐压力增加
+                  </p>
+                </div>
+              </div>
+
+              <div class="mt-4 p-4 bg-red-100 rounded-lg">
+                <div class="flex justify-between">
+                  <span class="font-bold text-red-800">负向因素合计</span>
+                  <span class="font-bold text-red-600 text-xl">-55%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Final Confidence Assessment -->
+          <div class="bg-white rounded-xl p-8 shadow-lg">
+            <h3 class="serif text-2xl font-bold mb-6 text-gray-800 text-center">
+              置信度评估总结
+            </h3>
+
+            <div class="text-center mb-8">
+              <div
+                class="inline-flex items-center space-x-4 bg-blue-100 p-6 rounded-lg"
+              >
+                <div class="text-left">
+                  <div class="text-sm text-blue-600 font-medium">基础概率</div>
+                  <div class="text-sm text-blue-600">正向因素</div>
+                  <div class="text-sm text-blue-600">负向因素</div>
+                </div>
+                <div class="text-right">
+                  <div class="text-sm text-gray-600">50%</div>
+                  <div class="text-sm text-green-600">+45%</div>
+                  <div class="text-sm text-red-600">-55%</div>
+                </div>
+                <div class="text-4xl font-bold text-blue-600">=</div>
+                <div class="text-center">
+                  <div class="text-4xl font-bold text-blue-600">40%</div>
+                  <div class="text-sm text-gray-600">实现≥20%收益</div>
+                  <div class="text-sm text-gray-600">基础概率</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+              <div class="text-center p-4 bg-blue-50 rounded-lg">
+                <div class="font-bold text-blue-800 text-2xl">35%</div>
+                <div class="text-sm text-blue-600">方案一实现概率</div>
+                <div class="text-xs text-gray-500">极致杠杆组合</div>
+              </div>
+
+              <div
+                class="text-center p-4 bg-green-50 rounded-lg border-2 border-green-500"
+              >
+                <div class="font-bold text-green-800 text-2xl">50%</div>
+                <div class="text-sm text-green-600">方案二实现概率</div>
+                <div class="text-xs text-gray-500">黄金-科技平衡</div>
+              </div>
+
+              <div class="text-center p-4 bg-gray-50 rounded-lg">
+                <div class="font-bold text-gray-800 text-2xl">45%</div>
+                <div class="text-sm text-gray-600">方案三实现概率</div>
+                <div class="text-xs text-gray-500">稳健黄金核心</div>
+              </div>
+            </div>
+
+            <div
+              class="mt-8 p-6 bg-yellow-50 rounded-lg border-l-4 border-yellow-500"
+            >
+              <h4 class="font-bold text-yellow-800 mb-2">
+                <i class="fas fa-lightbulb mr-2"></i>
+                关键洞察
+              </h4>
+              <p class="text-yellow-700">
+                方案二在20%收益达成概率上显著优于其他方案（50% vs 35%/45%），
+                同时本金损失概率可控（20%），验证了其作为首选推荐的合理性。
+                该平衡策略在保持收益弹性的同时，通过科技-黄金弱相关性有效降低了组合波动。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="bg-gray-800 text-white py-8 px-8">
+        <div class="max-w-6xl mx-auto text-center">
+          <div class="mb-4">
+            <h3 class="serif text-xl font-bold mb-2">投资声明</h3>
+            <p class="text-gray-300 text-sm max-w-3xl mx-auto">
+              本分析报告仅供参考，不构成投资建议。投资有风险，入市需谨慎。
+              投资者应根据自身风险承受能力和投资目标，独立做出投资决策。
+              本报告中使用的历史数据和预测仅供参考，不保证未来表现。
+            </p>
+          </div>
+
+          <div class="border-t border-gray-700 pt-4">
+            <p class="text-gray-400 text-sm">
+              数据截至：2026年3月11日 | 分析周期：3个月（2026年3月-6月）
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      // Initialize Mermaid with enhanced configuration for better contrast and styling
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: "base",
+        themeVariables: {
+          primaryColor: "#dbeafe",
+          primaryTextColor: "#1e3a8a",
+          primaryBorderColor: "#1e40af",
+          lineColor: "#374151",
+          secondaryColor: "#fed7aa",
+          tertiaryColor: "#dcfce7",
+          background: "#ffffff",
+          mainBkg: "#ffffff",
+          secondBkg: "#f8fafc",
+          tertiaryBkg: "#f1f5f9",
+          fontFamily: "Inter, sans-serif",
+          fontSize: "13px",
+          fontWeight: "600",
+          // Enhanced contrast settings
+          nodeBorder: "#374151",
+          clusterBkg: "#f9fafb",
+          clusterBorder: "#d1d5db",
+          defaultLinkColor: "#374151",
+          titleColor: "#1f2937",
+          edgeLabelBackground: "#ffffff",
+          nodeTextColor: "#1f2937",
+        },
+        flowchart: {
+          useMaxWidth: false,
+          htmlLabels: true,
+          curve: "basis",
+          padding: 20,
+        },
+        timeline: {
+          useMaxWidth: false,
+          padding: 20,
+        },
+        gantt: {
+          useMaxWidth: false,
+          padding: 20,
+        },
+        securityLevel: "loose",
+      });
+
+      // Initialize Mermaid Controls for zoom and pan
+      function initializeMermaidControls() {
+        const containers = document.querySelectorAll(".mermaid-container");
+
+        containers.forEach((container) => {
+          const mermaidElement = container.querySelector(".mermaid");
+          let scale = 1;
+          let isDragging = false;
+          let startX,
+            startY,
+            translateX = 0,
+            translateY = 0;
+
+          // 触摸相关状态
+          let isTouch = false;
+          let touchStartTime = 0;
+          let initialDistance = 0;
+          let initialScale = 1;
+          let isPinching = false;
+
+          // Zoom controls
+          const zoomInBtn = container.querySelector(".zoom-in");
+          const zoomOutBtn = container.querySelector(".zoom-out");
+          const resetBtn = container.querySelector(".reset-zoom");
+          const fullscreenBtn = container.querySelector(".fullscreen");
+
+          function updateTransform() {
+            mermaidElement.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+
+            if (scale > 1) {
+              container.classList.add("zoomed");
+            } else {
+              container.classList.remove("zoomed");
+            }
+
+            mermaidElement.style.cursor = isDragging ? "grabbing" : "grab";
+          }
+
+          if (zoomInBtn) {
+            zoomInBtn.addEventListener("click", () => {
+              scale = Math.min(scale * 1.25, 4);
+              updateTransform();
+            });
+          }
+
+          if (zoomOutBtn) {
+            zoomOutBtn.addEventListener("click", () => {
+              scale = Math.max(scale / 1.25, 0.3);
+              if (scale <= 1) {
+                translateX = 0;
+                translateY = 0;
+              }
+              updateTransform();
+            });
+          }
+
+          if (resetBtn) {
+            resetBtn.addEventListener("click", () => {
+              scale = 1;
+              translateX = 0;
+              translateY = 0;
+              updateTransform();
+            });
+          }
+
+          if (fullscreenBtn) {
+            fullscreenBtn.addEventListener("click", () => {
+              if (container.requestFullscreen) {
+                container.requestFullscreen();
+              } else if (container.webkitRequestFullscreen) {
+                container.webkitRequestFullscreen();
+              } else if (container.msRequestFullscreen) {
+                container.msRequestFullscreen();
+              }
+            });
+          }
+
+          // Mouse Events
+          mermaidElement.addEventListener("mousedown", (e) => {
+            if (isTouch) return; // 如果是触摸设备，忽略鼠标事件
+
+            isDragging = true;
+            startX = e.clientX - translateX;
+            startY = e.clientY - translateY;
+            mermaidElement.style.cursor = "grabbing";
+            updateTransform();
+            e.preventDefault();
+          });
+
+          document.addEventListener("mousemove", (e) => {
+            if (isDragging && !isTouch) {
+              translateX = e.clientX - startX;
+              translateY = e.clientY - startY;
+              updateTransform();
+            }
+          });
+
+          document.addEventListener("mouseup", () => {
+            if (isDragging && !isTouch) {
+              isDragging = false;
+              mermaidElement.style.cursor = "grab";
+              updateTransform();
+            }
+          });
+
+          document.addEventListener("mouseleave", () => {
+            if (isDragging && !isTouch) {
+              isDragging = false;
+              mermaidElement.style.cursor = "grab";
+              updateTransform();
+            }
+          });
+
+          // 获取两点之间的距离
+          function getTouchDistance(touch1, touch2) {
+            return Math.hypot(
+              touch2.clientX - touch1.clientX,
+              touch2.clientY - touch1.clientY,
+            );
+          }
+
+          // Touch Events - 触摸事件处理
+          mermaidElement.addEventListener(
+            "touchstart",
+            (e) => {
+              isTouch = true;
+              touchStartTime = Date.now();
+
+              if (e.touches.length === 1) {
+                // 单指拖动
+                isPinching = false;
+                isDragging = true;
+
+                const touch = e.touches[0];
+                startX = touch.clientX - translateX;
+                startY = touch.clientY - translateY;
+              } else if (e.touches.length === 2) {
+                // 双指缩放
+                isPinching = true;
+                isDragging = false;
+
+                const touch1 = e.touches[0];
+                const touch2 = e.touches[1];
+                initialDistance = getTouchDistance(touch1, touch2);
+                initialScale = scale;
+              }
+
+              e.preventDefault();
+            },
+            { passive: false },
+          );
+
+          mermaidElement.addEventListener(
+            "touchmove",
+            (e) => {
+              if (e.touches.length === 1 && isDragging && !isPinching) {
+                // 单指拖动
+                const touch = e.touches[0];
+                translateX = touch.clientX - startX;
+                translateY = touch.clientY - startY;
+                updateTransform();
+              } else if (e.touches.length === 2 && isPinching) {
+                // 双指缩放
+                const touch1 = e.touches[0];
+                const touch2 = e.touches[1];
+                const currentDistance = getTouchDistance(touch1, touch2);
+
+                if (initialDistance > 0) {
+                  const newScale = Math.min(
+                    Math.max(
+                      initialScale * (currentDistance / initialDistance),
+                      0.3,
+                    ),
+                    4,
+                  );
+                  scale = newScale;
+                  updateTransform();
+                }
+              }
+
+              e.preventDefault();
+            },
+            { passive: false },
+          );
+
+          mermaidElement.addEventListener("touchend", (e) => {
+            // 重置状态
+            if (e.touches.length === 0) {
+              isDragging = false;
+              isPinching = false;
+              initialDistance = 0;
+
+              // 延迟重置isTouch，避免鼠标事件立即触发
+              setTimeout(() => {
+                isTouch = false;
+              }, 100);
+            } else if (e.touches.length === 1 && isPinching) {
+              // 从双指变为单指，切换为拖动模式
+              isPinching = false;
+              isDragging = true;
+
+              const touch = e.touches[0];
+              startX = touch.clientX - translateX;
+              startY = touch.clientY - translateY;
+            }
+
+            updateTransform();
+          });
+
+          mermaidElement.addEventListener("touchcancel", (e) => {
+            isDragging = false;
+            isPinching = false;
+            initialDistance = 0;
+
+            setTimeout(() => {
+              isTouch = false;
+            }, 100);
+
+            updateTransform();
+          });
+
+          // Enhanced wheel zoom with better center point handling
+          container.addEventListener("wheel", (e) => {
+            e.preventDefault();
+            const rect = container.getBoundingClientRect();
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+
+            const delta = e.deltaY > 0 ? 0.9 : 1.1;
+            const newScale = Math.min(Math.max(scale * delta, 0.3), 4);
+
+            // Adjust translation to zoom towards center
+            if (newScale !== scale) {
+              const scaleDiff = newScale / scale;
+              translateX = translateX * scaleDiff;
+              translateY = translateY * scaleDiff;
+              scale = newScale;
+
+              if (scale <= 1) {
+                translateX = 0;
+                translateY = 0;
+              }
+
+              updateTransform();
+            }
+          });
+
+          // Initialize display
+          updateTransform();
+        });
+      }
+
+      // Initialize the controls when the DOM is loaded
+      document.addEventListener("DOMContentLoaded", function () {
+        initializeMermaidControls();
+      });
+
+      // Mobile TOC Toggle
+      const mobileToggle = document.getElementById("mobile-toc-toggle");
+      const mobileClose = document.getElementById("mobile-toc-close");
+      const toc = document.querySelector(".toc-fixed");
+
+      if (mobileToggle && mobileClose && toc) {
+        mobileToggle.addEventListener("click", () => {
+          toc.classList.add("mobile-open");
+        });
+
+        mobileClose.addEventListener("click", () => {
+          toc.classList.remove("mobile-open");
+        });
+      }
+
+      // Table of Contents Active Link
+      function updateActiveLink() {
+        const sections = document.querySelectorAll("section[id], div[id]");
+        const tocLinks = document.querySelectorAll(".toc-link");
+
+        let currentSection = "";
+        sections.forEach((section) => {
+          const rect = section.getBoundingClientRect();
+          if (rect.top <= 100 && rect.bottom >= 100) {
+            currentSection = section.id;
+          }
+        });
+
+        tocLinks.forEach((link) => {
+          link.classList.remove("active");
+          if (link.getAttribute("href") === "#" + currentSection) {
+            link.classList.add("active");
+          }
+        });
+      }
+
+      window.addEventListener("scroll", updateActiveLink);
+      updateActiveLink();
+
+      // Smooth scrolling for TOC links
+      document.querySelectorAll(".toc-link").forEach((link) => {
+        link.addEventListener("click", function (e) {
+          e.preventDefault();
+          const targetId = this.getAttribute("href").substring(1);
+          const targetElement = document.getElementById(targetId);
+          if (targetElement) {
+            targetElement.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+
+            // Close mobile TOC
+            if (window.innerWidth <= 1024) {
+              toc.classList.remove("mobile-open");
+            }
+          }
+        });
+      });
+
+      // Citation hover effects
+      document.querySelectorAll(".citation").forEach((citation) => {
+        citation.addEventListener("click", function (e) {
+          e.preventDefault();
+          // Add visual feedback for citations
+          this.style.background = "rgba(217, 119, 6, 0.2)";
+          setTimeout(() => {
+            this.style.background = "";
+          }, 200);
+        });
+      });
+    </script>
+  </body>
+</html>
