@@ -1,0 +1,1693 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AGENT SKILL OPS MANUAL | 飞行操作手册</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================
+           FLIGHT OPERATIONS MANUAL - CSS
+           Aviation-themed dark interface
+           ============================================ */
+        
+        :root {
+            /* Aviation Color Palette */
+            --bg-primary: #0a0e17;
+            --bg-secondary: #111827;
+            --bg-tertiary: #1a2332;
+            --bg-panel: #0d1320;
+            
+            /* Aviation Indicator Colors */
+            --aviation-amber: #f59e0b;
+            --aviation-amber-dim: #d97706;
+            --aviation-green: #10b981;
+            --aviation-green-dim: #059669;
+            --aviation-red: #ef4444;
+            --aviation-red-dim: #dc2626;
+            --aviation-cyan: #06b6d4;
+            --aviation-cyan-dim: #0891b2;
+            --aviation-white: #f8fafc;
+            --aviation-gray: #94a3b8;
+            --aviation-gray-dim: #64748b;
+            
+            /* Panel Colors */
+            --panel-border: #1e3a5f;
+            --panel-glow: rgba(6, 182, 212, 0.15);
+            
+            /* Typography */
+            --font-mono: 'JetBrains Mono', 'Consolas', monospace;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            
+            /* Spacing */
+            --sidebar-width: 320px;
+            --header-height: 60px;
+            --section-gap: 2rem;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg-primary);
+            color: var(--aviation-white);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* ============================================
+           SCROLLBAR STYLING
+           ============================================ */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--panel-border);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--aviation-cyan-dim);
+        }
+        
+        /* ============================================
+           LAYOUT STRUCTURE
+           ============================================ */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* ============================================
+           SIDEBAR - Navigation Panel
+           ============================================ */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--bg-panel);
+            border-right: 1px solid var(--panel-border);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+        
+        .sidebar-header {
+            padding: 1.25rem;
+            border-bottom: 1px solid var(--panel-border);
+            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-panel) 100%);
+        }
+        
+        .flight-id {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .flight-id-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--aviation-cyan) 0%, var(--aviation-cyan-dim) 100%);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+        
+        .flight-id-text {
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--aviation-cyan);
+            letter-spacing: 0.05em;
+        }
+        
+        .manual-title {
+            font-size: 0.75rem;
+            color: var(--aviation-gray);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        
+        /* Search Box */
+        .search-container {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--panel-border);
+        }
+        
+        .search-box {
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 0.625rem 2.5rem 0.625rem 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--panel-border);
+            border-radius: 6px;
+            color: var(--aviation-white);
+            font-family: var(--font-sans);
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--aviation-cyan);
+            box-shadow: 0 0 0 3px var(--panel-glow);
+        }
+        
+        .search-input::placeholder {
+            color: var(--aviation-gray-dim);
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--aviation-gray);
+            font-size: 0.875rem;
+        }
+        
+        .search-results-count {
+            font-size: 0.75rem;
+            color: var(--aviation-gray);
+            margin-top: 0.5rem;
+            font-family: var(--font-mono);
+        }
+        
+        /* Navigation */
+        .nav-container {
+            padding: 0.75rem 0;
+        }
+        
+        .nav-section {
+            margin-bottom: 0.25rem;
+        }
+        
+        .nav-section-header {
+            display: flex;
+            align-items: center;
+            padding: 0.625rem 1.25rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+        
+        .nav-section-header:hover {
+            background: rgba(6, 182, 212, 0.05);
+            border-left-color: var(--aviation-cyan-dim);
+        }
+        
+        .nav-section-header.active {
+            background: rgba(6, 182, 212, 0.1);
+            border-left-color: var(--aviation-cyan);
+        }
+        
+        .nav-toggle {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 0.5rem;
+            color: var(--aviation-gray);
+            font-size: 0.625rem;
+            transition: transform 0.2s ease;
+        }
+        
+        .nav-section.expanded .nav-toggle {
+            transform: rotate(90deg);
+        }
+        
+        .nav-section-number {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--aviation-cyan);
+            margin-right: 0.5rem;
+            min-width: 1.5rem;
+        }
+        
+        .nav-section-title {
+            font-size: 0.8125rem;
+            color: var(--aviation-white);
+            font-weight: 500;
+        }
+        
+        .nav-section-header.active .nav-section-title {
+            color: var(--aviation-cyan);
+        }
+        
+        .nav-subsections {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .nav-section.expanded .nav-subsections {
+            max-height: 500px;
+        }
+        
+        .nav-subsection {
+            padding: 0.5rem 1.25rem 0.5rem 3.5rem;
+            font-size: 0.75rem;
+            color: var(--aviation-gray);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+        
+        .nav-subsection:hover {
+            color: var(--aviation-white);
+            background: rgba(6, 182, 212, 0.05);
+        }
+        
+        .nav-subsection.active {
+            color: var(--aviation-cyan);
+            background: rgba(6, 182, 212, 0.08);
+        }
+        
+        /* Progress Indicator */
+        .progress-panel {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: var(--sidebar-width);
+            background: var(--bg-panel);
+            border-top: 1px solid var(--panel-border);
+            padding: 1rem 1.25rem;
+            z-index: 101;
+        }
+        
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.6875rem;
+            color: var(--aviation-gray);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+        
+        .progress-bar {
+            height: 4px;
+            background: var(--bg-secondary);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--aviation-cyan) 0%, var(--aviation-green) 100%);
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+        
+        /* ============================================
+           MAIN CONTENT AREA
+           ============================================ */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+        }
+        
+        /* Header */
+        .top-header {
+            position: sticky;
+            top: 0;
+            background: rgba(10, 14, 23, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--panel-border);
+            padding: 0 2rem;
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 50;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--aviation-white);
+            font-size: 1.25rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+        
+        .header-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--aviation-white);
+        }
+        
+        .header-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            color: var(--aviation-green);
+        }
+        
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            background: var(--aviation-green);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        /* Content */
+        .content-wrapper {
+            padding: 2rem;
+            max-width: 900px;
+        }
+        
+        /* ============================================
+           TYPOGRAPHY & CONTENT STYLING
+           ============================================ */
+        .content-header {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--panel-border);
+        }
+        
+        .content-header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--aviation-white);
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+        
+        .content-header .subtitle {
+            font-size: 1rem;
+            color: var(--aviation-gray);
+            line-height: 1.7;
+        }
+        
+        .doc-link {
+            color: var(--aviation-cyan);
+            text-decoration: none;
+            border-bottom: 1px dotted var(--aviation-cyan);
+            transition: all 0.2s ease;
+        }
+        
+        .doc-link:hover {
+            color: var(--aviation-white);
+            border-bottom-style: solid;
+        }
+        
+        /* Section Styling */
+        .section {
+            margin-bottom: var(--section-gap);
+            scroll-margin-top: calc(var(--header-height) + 1rem);
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--panel-border);
+        }
+        
+        .section-number {
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: var(--aviation-cyan);
+            background: rgba(6, 182, 212, 0.1);
+            padding: 0.25rem 0.625rem;
+            border-radius: 4px;
+            border: 1px solid rgba(6, 182, 212, 0.3);
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--aviation-white);
+        }
+        
+        .section-content {
+            color: var(--aviation-gray);
+            line-height: 1.8;
+        }
+        
+        .section-content p {
+            margin-bottom: 1rem;
+        }
+        
+        /* Subsection */
+        .subsection {
+            margin: 1.5rem 0;
+            scroll-margin-top: calc(var(--header-height) + 1rem);
+        }
+        
+        .subsection-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--aviation-white);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .subsection-title::before {
+            content: '';
+            width: 4px;
+            height: 1rem;
+            background: var(--aviation-cyan);
+            border-radius: 2px;
+        }
+        
+        /* Lists */
+        .section-content ul,
+        .section-content ol {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+        
+        .section-content li {
+            margin-bottom: 0.75rem;
+        }
+        
+        .section-content ul li::marker {
+            color: var(--aviation-cyan);
+        }
+        
+        .section-content ol {
+            counter-reset: item;
+        }
+        
+        .section-content ol li {
+            counter-increment: item;
+        }
+        
+        /* Checklist Items */
+        .checklist {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .checklist li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--panel-border);
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            transition: all 0.2s ease;
+        }
+        
+        .checklist li:hover {
+            border-color: var(--aviation-cyan-dim);
+            background: var(--bg-tertiary);
+        }
+        
+        .checklist-number {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--aviation-cyan);
+            min-width: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .checklist-content {
+            flex: 1;
+        }
+        
+        /* ============================================
+           ALERTS & CALLOUTS
+           ============================================ */
+        .alert {
+            padding: 1rem 1.25rem;
+            border-radius: 6px;
+            margin: 1.25rem 0;
+            border-left: 4px solid;
+        }
+        
+        .alert-warning {
+            background: rgba(245, 158, 11, 0.1);
+            border-color: var(--aviation-amber);
+        }
+        
+        .alert-warning .alert-title {
+            color: var(--aviation-amber);
+        }
+        
+        .alert-danger {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: var(--aviation-red);
+        }
+        
+        .alert-danger .alert-title {
+            color: var(--aviation-red);
+        }
+        
+        .alert-info {
+            background: rgba(6, 182, 212, 0.1);
+            border-color: var(--aviation-cyan);
+        }
+        
+        .alert-info .alert-title {
+            color: var(--aviation-cyan);
+        }
+        
+        .alert-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .alert-content {
+            font-size: 0.875rem;
+            color: var(--aviation-gray);
+        }
+        
+        /* ============================================
+           CODE BLOCKS
+           ============================================ */
+        .code-block-wrapper {
+            position: relative;
+            margin: 1.25rem 0;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--panel-border);
+        }
+        
+        .code-block-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem 1rem;
+            background: var(--bg-tertiary);
+            border-bottom: 1px solid var(--panel-border);
+        }
+        
+        .code-language {
+            font-family: var(--font-mono);
+            font-size: 0.6875rem;
+            color: var(--aviation-gray);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .copy-btn {
+            background: none;
+            border: none;
+            color: var(--aviation-gray);
+            font-size: 0.75rem;
+            cursor: pointer;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+        }
+        
+        .copy-btn:hover {
+            color: var(--aviation-white);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .copy-btn.copied {
+            color: var(--aviation-green);
+        }
+        
+        pre {
+            background: var(--bg-secondary);
+            padding: 1.25rem;
+            overflow-x: auto;
+            font-family: var(--font-mono);
+            font-size: 0.8125rem;
+            line-height: 1.6;
+        }
+        
+        code {
+            font-family: var(--font-mono);
+            font-size: 0.8125rem;
+        }
+        
+        :not(pre) > code {
+            background: rgba(6, 182, 212, 0.1);
+            color: var(--aviation-cyan);
+            padding: 0.125rem 0.375rem;
+            border-radius: 4px;
+            font-size: 0.875em;
+        }
+        
+        /* Syntax Highlighting */
+        .code-comment { color: var(--aviation-gray-dim); }
+        .code-keyword { color: var(--aviation-cyan); }
+        .code-string { color: var(--aviation-green); }
+        .code-function { color: var(--aviation-amber); }
+        .code-number { color: var(--aviation-red); }
+        
+        /* ============================================
+           FILE TREE
+           ============================================ */
+        .file-tree {
+            background: var(--bg-secondary);
+            border: 1px solid var(--panel-border);
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin: 1.25rem 0;
+            font-family: var(--font-mono);
+            font-size: 0.8125rem;
+        }
+        
+        .file-tree-line {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem 0;
+        }
+        
+        .file-tree-indent {
+            color: var(--aviation-gray-dim);
+        }
+        
+        .file-tree-folder {
+            color: var(--aviation-amber);
+        }
+        
+        .file-tree-file {
+            color: var(--aviation-cyan);
+        }
+        
+        .file-tree-comment {
+            color: var(--aviation-gray-dim);
+            margin-left: 1rem;
+        }
+        
+        /* ============================================
+           TERMINAL/PROMPT BLOCKS
+           ============================================ */
+        .prompt-block {
+            background: var(--bg-secondary);
+            border: 1px solid var(--panel-border);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin: 1.25rem 0;
+        }
+        
+        .prompt-label {
+            font-size: 0.6875rem;
+            color: var(--aviation-gray);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .prompt-content {
+            font-family: var(--font-sans);
+            font-size: 0.875rem;
+            color: var(--aviation-white);
+            line-height: 1.7;
+            padding: 1rem;
+            background: var(--bg-primary);
+            border-radius: 6px;
+            border-left: 3px solid var(--aviation-cyan);
+        }
+        
+        .prompt-content code {
+            background: rgba(6, 182, 212, 0.15);
+            padding: 0.125rem 0.375rem;
+            border-radius: 3px;
+        }
+        
+        /* ============================================
+           DEFINITION TOOLTIPS
+           ============================================ */
+        .term {
+            color: var(--aviation-cyan);
+            border-bottom: 1px dotted var(--aviation-cyan);
+            cursor: help;
+            position: relative;
+        }
+        
+        .term:hover::after {
+            content: attr(data-definition);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-tertiary);
+            color: var(--aviation-white);
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            z-index: 10;
+            border: 1px solid var(--panel-border);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* ============================================
+           BACK TO TOP BUTTON
+           ============================================ */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 44px;
+            height: 44px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--panel-border);
+            border-radius: 8px;
+            color: var(--aviation-white);
+            font-size: 1.25rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 90;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top:hover {
+            background: var(--aviation-cyan);
+            border-color: var(--aviation-cyan);
+            color: var(--bg-primary);
+        }
+        
+        /* ============================================
+           MOBILE RESPONSIVE
+           ============================================ */
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .progress-panel {
+                display: none;
+            }
+            
+            .overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 99;
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+            }
+            
+            .overlay.active {
+                opacity: 1;
+                visibility: visible;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .content-wrapper {
+                padding: 1.5rem;
+            }
+            
+            .content-header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .section-title {
+                font-size: 1.25rem;
+            }
+            
+            .top-header {
+                padding: 0 1rem;
+            }
+        }
+        
+        /* ============================================
+           SEARCH HIGHLIGHTING
+           ============================================ */
+        .search-highlight {
+            background: rgba(245, 158, 11, 0.3);
+            color: var(--aviation-white);
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+        
+        /* ============================================
+           PRINT STYLES
+           ============================================ */
+        @media print {
+            .sidebar,
+            .top-header,
+            .back-to-top,
+            .progress-panel {
+                display: none;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            body {
+                background: white;
+                color: black;
+            }
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="flight-id">
+                    <div class="flight-id-icon">✈</div>
+                    <div class="flight-id-text">AGENT-SKILL-001</div>
+                </div>
+                <div class="manual-title">Operations Manual</div>
+            </div>
+            
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" class="search-input" id="searchInput" placeholder="搜索程序、检查单...">
+                    <span class="search-icon">🔍</span>
+                </div>
+                <div class="search-results-count" id="searchResults"></div>
+            </div>
+            
+            <nav class="nav-container" id="navContainer">
+                <!-- Navigation items will be generated by JavaScript -->
+            </nav>
+            
+            <div class="progress-panel">
+                <div class="progress-label">
+                    <span>阅读进度</span>
+                    <span id="progressPercent">0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+            </div>
+        </aside>
+        
+        <!-- Mobile Overlay -->
+        <div class="overlay" id="overlay"></div>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-header">
+                <div class="header-left">
+                    <button class="menu-toggle" id="menuToggle">☰</button>
+                    <span class="header-title">AGENT SKILL 操作手册</span>
+                </div>
+                <div class="header-status">
+                    <span class="status-indicator"></span>
+                    <span>SYSTEM NORMAL</span>
+                </div>
+            </header>
+            
+            <div class="content-wrapper">
+                <!-- Content Header -->
+                <div class="content-header">
+                    <h1>打造 Agent Skill 的最佳实践指南</h1>
+                    <p class="subtitle">
+                        这份指南将告诉你如何编写专业级的 Agent Skill，如何使用大语言模型（<span class="term" data-definition="Large Language Model，即人工智能的大脑">LLM</span>）来验证它们，以及如何保持"上下文窗口"（<span class="term" data-definition="AI 能记住和处理的信息量">context window</span>）精简高效。
+                    </p>
+                    <p class="subtitle">
+                        这是一份浓缩的精华指南。如果你想看完整的官方文档，可以访问 <a href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices" class="doc-link" target="_blank">Claude 的文档</a>。
+                    </p>
+                </div>
+                
+                <!-- Section 1: Folder Structure -->
+                <section class="section" id="sec-1">
+                    <div class="section-header">
+                        <span class="section-number">SEC-01</span>
+                        <h2 class="section-title">Skill 的文件夹结构</h2>
+                    </div>
+                    <div class="section-content">
+                        <p>每个 Skill 都必须遵循这样的目录结构：</p>
+                        
+                        <div class="file-tree">
+                            <div class="file-tree-line">
+                                <span class="file-tree-folder">📁 skill-name/</span>
+                                <span class="file-tree-comment"># Skill 文件夹名称</span>
+                            </div>
+                            <div class="file-tree-line">
+                                <span class="file-tree-indent">├──</span>
+                                <span class="file-tree-file">📄 SKILL.md</span>
+                                <span class="file-tree-comment"># 必需：元数据 + 核心指令（少于 500 行）</span>
+                            </div>
+                            <div class="file-tree-line">
+                                <span class="file-tree-indent">├──</span>
+                                <span class="file-tree-folder">📂 scripts/</span>
+                                <span class="file-tree-comment"># 可执行代码（Python/Bash），设计为小型 CLI 工具</span>
+                            </div>
+                            <div class="file-tree-line">
+                                <span class="file-tree-indent">├──</span>
+                                <span class="file-tree-folder">📂 references/</span>
+                                <span class="file-tree-comment"># 参考资料（API 文档、速查表等）</span>
+                            </div>
+                            <div class="file-tree-line">
+                                <span class="file-tree-indent">└──</span>
+                                <span class="file-tree-folder">📂 assets/</span>
+                                <span class="file-tree-comment"># 模板或静态文件，用于输出</span>
+                            </div>
+                        </div>
+                        
+                        <ul class="checklist">
+                            <li>
+                                <span class="checklist-number">01</span>
+                                <span class="checklist-content">
+                                    <strong>SKILL.md：</strong>这是 Skill 的"大脑"，负责导航和高层流程控制。
+                                </span>
+                            </li>
+                            <li>
+                                <span class="checklist-number">02</span>
+                                <span class="checklist-content">
+                                    <strong>References：</strong>从 SKILL.md 直接引用，<strong>只放一层子目录</strong>。
+                                </span>
+                            </li>
+                            <li>
+                                <span class="checklist-number">03</span>
+                                <span class="checklist-content">
+                                    <strong>Scripts：</strong>用于处理容易出错或重复的操作，减少变数。<strong>不要把库代码放在这里</strong>。
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+                
+                <!-- Section 2: Metadata Optimization -->
+                <section class="section" id="sec-2">
+                    <div class="section-header">
+                        <span class="section-number">SEC-02</span>
+                        <h2 class="section-title">优化元数据，让 Skill 更容易被发现</h2>
+                    </div>
+                    <div class="section-content">
+                        <p><code>SKILL.md</code> 文件开头的 <code>name</code> 和 <code>description</code> 是 Agent 在决定是否调用某个 Skill 之前唯一能看到的两个字段。如果这两个字段写得不够清晰、不够具体，你的 Skill 就等于"隐身"了。</p>
+                        
+                        <div class="subsection" id="sec-2-1">
+                            <h3 class="subsection-title">严格遵守命名规则</h3>
+                            <p><code>name</code> 字段必须是 1-64 个字符，只能包含小写字母、数字和连字符（不能连续出现连字符），并且<strong>必须和父文件夹名称完全一致</strong>（例如：<code>name: angular-testing</code> 必须放在 <code>angular-testing/SKILL.md</code> 文件中）。</p>
+                        </div>
+                        
+                        <div class="subsection" id="sec-2-2">
+                            <h3 class="subsection-title">写触发优化的描述</h3>
+                            <p>（最多 1024 个字符）。这是 Agent 路由决策时唯一看到的元数据。用第三人称描述功能，并包含"负面触发词"。</p>
+                            
+                            <div class="alert alert-danger">
+                                <div class="alert-title">⚠ 不好的例子</div>
+                                <div class="alert-content">"React 技能。"（太模糊）</div>
+                            </div>
+                            
+                            <div class="alert alert-info">
+                                <div class="alert-title">✓ 好的例子</div>
+                                <div class="alert-content">"使用 Tailwind CSS 创建和构建 React 组件。当用户想要更新组件样式或 UI 逻辑时使用。不要用于 Vue、Svelte 或纯 CSS 项目。"</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Section 3: Progressive Disclosure -->
+                <section class="section" id="sec-3">
+                    <div class="section-header">
+                        <span class="section-number">SEC-03</span>
+                        <h2 class="section-title">渐进式披露与资源管理</h2>
+                    </div>
+                    <div class="section-content">
+                        <p>保持上下文窗口整洁，只在需要时才加载信息。<strong>SKILL.md</strong> 是高层逻辑的"大脑"；把细节内容放到子目录中。</p>
+                        
+                        <ul class="checklist">
+                            <li>
+                                <span class="checklist-number">01</span>
+                                <span class="checklist-content">
+                                    <strong>保持 SKILL.md 精简：</strong>主文件限制在 <strong>500 行以内</strong>。用它来做导航和主要流程控制。
+                                </span>
+                            </li>
+                            <li>
+                                <span class="checklist-number">02</span>
+                                <span class="checklist-content">
+                                    <strong>使用扁平化子目录：</strong>把大块内容移到标准文件夹。文件只放<strong>一层深度</strong>（例如：<code>references/schema.md</code>，而不是 <code>references/db/v1/schema.md</code>）。
+                                    <ul style="margin-top: 0.5rem; margin-left: 1rem;">
+                                        <li><code>references/</code>：API 文档、速查表、领域逻辑。</li>
+                                        <li><code>scripts/</code>：用于确定性任务的可执行代码。</li>
+                                        <li><code>assets/</code>：输出模板、JSON 模式、图片。</li>
+                                    </ul>
+                                </span>
+                            </li>
+                            <li>
+                                <span class="checklist-number">03</span>
+                                <span class="checklist-content">
+                                    <strong>即时加载（JiT）：</strong>明确告诉 Agent 什么时候读取文件。在你指示之前，它看不到这些资源（例如：<em>"查看 <code>references/auth-flow.md</code> 了解具体的错误代码"</em>）。
+                                </span>
+                            </li>
+                            <li>
+                                <span class="checklist-number">04</span>
+                                <span class="checklist-content">
+                                    <strong>显式路径：</strong>始终使用<strong>相对路径</strong>，用正斜杠（<code>/</code>），不管操作系统是什么。
+                                </span>
+                            </li>
+                        </ul>
+                        
+                        <div class="alert alert-warning">
+                            <div class="alert-title">⚠ 注意事项</div>
+                            <div class="alert-content">
+                                Skill 是为 Agent 设计的，不是为人类设计的。为了保持上下文窗口精简，避免不必要的 Token 消耗，<strong>不要创建：</strong>
+                                <ul style="margin-top: 0.5rem;">
+                                    <li><strong>文档文件：</strong><code>README.md</code>、<code>CHANGELOG.md</code> 或 <code>INSTALLATION_GUIDE.md</code>。</li>
+                                    <li><strong>冗余逻辑：</strong>如果 Agent 不需要帮助就能可靠地处理某个任务，就删掉相关指令。</li>
+                                    <li><strong>库代码：</strong>Skill 应该引用现有工具，或包含小型、单一用途的脚本。长期维护的库代码应该放在标准仓库的 CLI 目录中。</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Section 4: Procedural Instructions -->
+                <section class="section" id="sec-4">
+                    <div class="section-header">
+                        <span class="section-number">SEC-04</span>
+                        <h2 class="section-title">使用具体的程序指令，而不是散文</h2>
+                    </div>
+                    <div class="section-content">
+                        <p>为 LLM 创建指令，而不是为人类。</p>
+                        
+                        <div class="subsection" id="sec-4-1">
+                            <h3 class="subsection-title">使用分步骤编号</h3>
+                            <p>把工作流程定义为严格的时间顺序。如果有决策树，清晰地画出来（例如：<em>"第 2 步：如果需要源码映射（<span class="term" data-definition="把压缩后的代码映射回原始代码的工具">source map</span>），运行 <code>ng build --source-map</code>。否则，跳到第 3 步。"</em>）。</p>
+                        </div>
+                        
+                        <div class="subsection" id="sec-4-2">
+                            <h3 class="subsection-title">提供具体模板</h3>
+                            <p>Agent 的模式匹配能力非常强。与其花大段文字描述 JSON 输出应该长什么样，不如把模板放在 assets/ 文件夹里，然后告诉 Agent 复制它的结构。</p>
+                        </div>
+                        
+                        <div class="subsection" id="sec-4-3">
+                            <h3 class="subsection-title">用第三人称命令式写作</h3>
+                            <p>把指令框定为对 Agent 的直接命令（例如：<em>"提取文本..."</em> 而不是 <em>"我将提取..."</em> 或 <em>"你应该提取..."</em>）。</p>
+                        </div>
+                        
+                        <div class="subsection" id="sec-4-4">
+                            <h3 class="subsection-title">使用一致的术语</h3>
+                            <p>在 Skill 文件中引用概念时要具体且一致。</p>
+                            <ul>
+                                <li><strong>使用一致的术语：</strong>选择一个单一术语来指代特定概念。</li>
+                                <li><strong>具体性：</strong>使用你描述的领域中最具体的术语。例如，在 Angular 中使用"模板"（template）这个概念，而不是"html"、"markup"或"view"。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Section 5: Deterministic Scripts -->
+                <section class="section" id="sec-5">
+                    <div class="section-header">
+                        <span class="section-number">SEC-05</span>
+                        <h2 class="section-title">为重复操作打包确定性脚本</h2>
+                    </div>
+                    <div class="section-content">
+                        <p>不要让 LLM 每次都从零开始写复杂的解析逻辑或样板代码。</p>
+                        
+                        <ul class="checklist">
+                            <li>
+                                <span class="checklist-number">01</span>
+                                <span class="checklist-content">
+                                    <strong>把脆弱/重复的任务外包出去：</strong>如果 Agent 需要解析复杂数据集或查询特定数据库，给它一个测试过的 Python、Bash 或 Node 脚本，放在 scripts/ 目录里运行。
+                                </span>
+                            </li>
+                            <li>
+                                <span class="checklist-number">02</span>
+                                <span class="checklist-content">
+                                    <strong>优雅地处理边缘情况：</strong>Agent 依靠标准输出（<span class="term" data-definition="程序正常输出的信息">stdout</span>）和标准错误（<span class="term" data-definition="程序报错的信息">stderr</span>）来判断脚本是否成功。编写返回高度描述性、人类可读错误消息的脚本，这样 Agent 就知道如何自我纠正，而不需要用户干预。
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+                
+                <!-- Section 6: Validation Guide -->
+                <section class="section" id="sec-6">
+                    <div class="section-header">
+                        <span class="section-number">SEC-06</span>
+                        <h2 class="section-title">验证指南</h2>
+                    </div>
+                    <div class="section-content">
+                        <p>既然 LLM 会使用你的 Skill，确保它们有用的最好方法就是和 LLM 一起协作验证。</p>
+                        
+                        <p>为你的 Skill 准备评估（evals）非常重要，以确保你做的改动有积极影响，不会导致功能倒退。一个流行的 Skill 基准测试是 <a href="https://arxiv.org/abs/2602.12670" class="doc-link" target="_blank">SkillsBench</a>，可以给你一些灵感。</p>
+                        
+                        <p>一旦你完成了 Skill 的初稿，可以通过以下步骤来验证你的工作：</p>
+                        
+                        <div class="subsection" id="sec-6-1">
+                            <h3 class="subsection-title">发现性验证</h3>
+                            <p>Agent 严格根据 YAML 元数据来加载 Skill。测试 LLM 如何单独解读你的描述，以防止误触发（比如明明是用于 Angular 的 Skill，却在 React 项目上被触发）。</p>
+                            
+                            <p>把下面这段文字原封不动地粘贴到一个新的 LLM 对话中：</p>
+                            
+                            <div class="prompt-block">
+                                <div class="prompt-label">📋 LLM 验证提示模板</div>
+                                <div class="prompt-content">
+                                    我正在基于 agentskills.io 规范构建一个 Agent Skill。Agent 将完全根据下面的 YAML 元数据来决定是否加载这个 Skill。<br><br>
+                                    <code>name: angular-vite-migrator<br>
+                                    description: 将 Angular CLI 项目从 Webpack 迁移到 Vite 和 esbuild。当用户想要更新构建器配置、用 rollup 等效插件替换 webpack 插件，或加速 Angular 编译时使用。</code><br><br>
+                                    严格基于这个描述：<br>
+                                    1. 生成 3 个你 100% 确定应该触发这个 Skill 的真实用户提示。<br>
+                                    2. 生成 3 个听起来相似但<strong>不应该</strong>触发这个 Skill 的用户提示（例如，把 React 应用迁移到 Vite，或只是更新 Angular 版本）。<br>
+                                    3. 评价这个描述：它太宽泛了吗？建议一个优化后的重写版本。
+                                </div>
+                            </div>
+                            
+                            <p>此外，用你期望触发 Skill 的任务提示 Agent，并检查它的思考过程。和 Agent 来回对话，找出它选择（或不选择）特定 Skill 的原因。</p>
+                        </div>
+                        
+                        <div class="subsection" id="sec-6-2">
+                            <h3 class="subsection-title">逻辑验证</h3>
+                            <p>确保你的分步指令是确定性的，不会强迫 Agent 去"编造"（<span class="term" data-definition="AI 生成不存在或错误的信息">hallucinate</span>）缺失的步骤。</p>
+                            
+                            <p>把你的整个 <code>SKILL.md</code> 和目录结构喂给 LLM：</p>
+                            
+                            <div class="prompt-block">
+                                <div class="prompt-label">📋 逻辑验证提示模板</div>
+                                <div class="prompt-content">
+                                    这是我的 SKILL.md 完整草稿及其支持文件的目录树。<br><br>
+                                    <code>
+                                    ├── SKILL.md<br>
+                                    ├── scripts/esbuild-optimizer.mjs<br>
+                                    └── assets/vite.config.template.ts<br>
+                                    </code><br><br>
+                                    [在这里粘贴你的 SKILL.md 内容]<br><br>
+                                    扮演一个刚刚触发这个 Skill 的自主 Agent。基于"把我的 Angular v17 应用迁移到 Vite"这个请求，模拟你的逐步执行过程。<br><br>
+                                    对于每一步，写出你的内心独白：<br>
+                                    1. 你具体在做什么？<br>
+                                    2. 你在读取或运行哪个具体的文件/脚本？<br>
+                                    3. 标记任何执行障碍：指出你被迫猜测或编造的准确位置，因为我的指令含糊不清（例如，如何把 Angular 环境文件映射到 Vite 的 import.meta.env）。
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="subsection" id="sec-6-3">
+                            <h3 class="subsection-title">边缘情况测试</h3>
+                            <p>强迫 LLM 去寻找漏洞、不支持的配置，以及 Web 工具固有的失败状态。</p>
+                            
+                            <p>让 LLM 攻击你的逻辑：</p>
+                            
+                            <div class="prompt-block">
+                                <div class="prompt-label">📋 边缘情况测试提示模板</div>
+                                <div class="prompt-content">
+                                    现在，切换角色。扮演一个无情的 QA 测试员。你的目标是打破这个 Skill。<br>
+                                    问我 3 到 5 个关于 SKILL.md 中边缘情况、失败状态或缺失回退机制的高度具体、具有挑战性的问题。重点关注：<br><br>
+                                    • 如果 <code>scripts/esbuild-optimizer.mjs</code> 因为遗留的 CommonJS 依赖而失败怎么办？<br>
+                                    • 如果用户的 <code>angular.json</code> 包含 Vite 不支持的深度定制 Webpack 构建器（<code>@angular-builders/custom-webpack</code>）怎么办？<br>
+                                    • 我对用户的 Node 环境做了什么隐含的假设？<br><br>
+                                    现在还不要修复这些问题。只问我编号的问题，然后等我来回答。
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="subsection" id="sec-6-4">
+                            <h3 class="subsection-title">架构优化</h3>
+                            <p>LLM 经常试图把大型配置文件直接塞进主提示。用这一步来强制执行渐进式披露，缩小 Token 占用。</p>
+                            
+                            <p>让 LLM 应用你的修复并重组 Skill：</p>
+                            
+                            <div class="prompt-block">
+                                <div class="prompt-label">📋 架构优化提示模板</div>
+                                <div class="prompt-content">
+                                    基于我对边缘情况问题的回答，重写 SKILL.md 文件，严格执行渐进式披露设计模式：<br><br>
+                                    1. 保持主 <code>SKILL.md</code> 严格作为高层步骤集，使用第三人称命令式（例如，执行 esbuild 脚本，读取 Vite 配置模板）。<br>
+                                    2. 如果文件中有密集的规则、大型 <code>vite.config.ts</code> 模板，或复杂的 <code>angular.json</code> 模式，把它们移除。告诉我创建一个新文件在 <code>references/</code> 或 <code>assets/</code> 中，并用一个严格的命令替换 <code>SKILL.md</code> 中的文本，只在需要时读取那个特定文件。<br>
+                                    3. 在底部添加一个专门的错误处理部分，整合我关于 Webpack 回退和 CommonJS 解析的答案。
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Footer -->
+                <footer style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--panel-border); text-align: center; color: var(--aviation-gray); font-size: 0.75rem;">
+                    <p>AGENT SKILL OPS MANUAL | VER 1.0 | END OF DOCUMENT</p>
+                </footer>
+            </div>
+        </main>
+        
+        <!-- Back to Top Button -->
+        <button class="back-to-top" id="backToTop" title="返回顶部">↑</button>
+    </div>
+    
+    <script>
+        // ============================================
+        // FLIGHT OPERATIONS MANUAL - JAVASCRIPT
+        // ============================================
+        
+        // Navigation Data Structure
+        const navData = [
+            {
+                id: 'sec-1',
+                number: 'SEC-01',
+                title: 'Skill 的文件夹结构',
+                subsections: []
+            },
+            {
+                id: 'sec-2',
+                number: 'SEC-02',
+                title: '优化元数据，让 Skill 更容易被发现',
+                subsections: [
+                    { id: 'sec-2-1', title: '严格遵守命名规则' },
+                    { id: 'sec-2-2', title: '写触发优化的描述' }
+                ]
+            },
+            {
+                id: 'sec-3',
+                number: 'SEC-03',
+                title: '渐进式披露与资源管理',
+                subsections: []
+            },
+            {
+                id: 'sec-4',
+                number: 'SEC-04',
+                title: '使用具体的程序指令，而不是散文',
+                subsections: [
+                    { id: 'sec-4-1', title: '使用分步骤编号' },
+                    { id: 'sec-4-2', title: '提供具体模板' },
+                    { id: 'sec-4-3', title: '用第三人称命令式写作' },
+                    { id: 'sec-4-4', title: '使用一致的术语' }
+                ]
+            },
+            {
+                id: 'sec-5',
+                number: 'SEC-05',
+                title: '为重复操作打包确定性脚本',
+                subsections: []
+            },
+            {
+                id: 'sec-6',
+                number: 'SEC-06',
+                title: '验证指南',
+                subsections: [
+                    { id: 'sec-6-1', title: '发现性验证' },
+                    { id: 'sec-6-2', title: '逻辑验证' },
+                    { id: 'sec-6-3', title: '边缘情况测试' },
+                    { id: 'sec-6-4', title: '架构优化' }
+                ]
+            }
+        ];
+        
+        // DOM Elements
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const menuToggle = document.getElementById('menuToggle');
+        const navContainer = document.getElementById('navContainer');
+        const searchInput = document.getElementById('searchInput');
+        const searchResults = document.getElementById('searchResults');
+        const backToTop = document.getElementById('backToTop');
+        const progressFill = document.getElementById('progressFill');
+        const progressPercent = document.getElementById('progressPercent');
+        
+        // ============================================
+        // NAVIGATION GENERATION
+        // ============================================
+        function generateNavigation() {
+            navContainer.innerHTML = navData.map(section => `
+                <div class="nav-section" data-section="${section.id}">
+                    <div class="nav-section-header" data-target="${section.id}">
+                        <span class="nav-toggle">▶</span>
+                        <span class="nav-section-number">${section.number}</span>
+                        <span class="nav-section-title">${section.title}</span>
+                    </div>
+                    ${section.subsections.length > 0 ? `
+                        <div class="nav-subsections">
+                            ${section.subsections.map(sub => `
+                                <div class="nav-subsection" data-target="${sub.id}">${sub.title}</div>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+        
+        // ============================================
+        // NAVIGATION INTERACTIONS
+        // ============================================
+        function initNavigation() {
+            // Section header clicks
+            document.querySelectorAll('.nav-section-header').forEach(header => {
+                header.addEventListener('click', (e) => {
+                    const section = header.closest('.nav-section');
+                    const targetId = header.dataset.target;
+                    const targetElement = document.getElementById(targetId);
+                    
+                    // Toggle expand/collapse
+                    section.classList.toggle('expanded');
+                    
+                    // Scroll to section
+                    if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth' });
+                    }
+                    
+                    // Close mobile menu
+                    if (window.innerWidth <= 1024) {
+                        closeSidebar();
+                    }
+                });
+            });
+            
+            // Subsection clicks
+            document.querySelectorAll('.nav-subsection').forEach(sub => {
+                sub.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const targetId = sub.dataset.target;
+                    const targetElement = document.getElementById(targetId);
+                    
+                    if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth' });
+                    }
+                    
+                    // Close mobile menu
+                    if (window.innerWidth <= 1024) {
+                        closeSidebar();
+                    }
+                });
+            });
+        }
+        
+        // ============================================
+        // MOBILE SIDEBAR
+        // ============================================
+        function openSidebar() {
+            sidebar.classList.add('open');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeSidebar() {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        menuToggle.addEventListener('click', openSidebar);
+        overlay.addEventListener('click', closeSidebar);
+        
+        // ============================================
+        // SEARCH FUNCTIONALITY
+        // ============================================
+        let searchMatches = [];
+        let currentMatchIndex = -1;
+        
+        function performSearch(query) {
+            // Clear previous highlights
+            clearHighlights();
+            
+            if (!query.trim()) {
+                searchResults.textContent = '';
+                return;
+            }
+            
+            const contentWrapper = document.querySelector('.content-wrapper');
+            const textNodes = getTextNodes(contentWrapper);
+            
+            searchMatches = [];
+            const regex = new RegExp(`(${escapeRegex(query)})`, 'gi');
+            
+            textNodes.forEach(node => {
+                const text = node.textContent;
+                if (regex.test(text)) {
+                    const span = document.createElement('span');
+                    span.innerHTML = text.replace(regex, '<mark class="search-highlight">$1</mark>');
+                    
+                    const parent = node.parentNode;
+                    if (parent && parent.tagName !== 'SCRIPT' && parent.tagName !== 'STYLE') {
+                        const matches = span.querySelectorAll('.search-highlight');
+                        matches.forEach(match => searchMatches.push(match));
+                        
+                        // Replace only if we found matches and parent is a text container
+                        if (parent.childNodes.length === 1 && node.nodeType === Node.TEXT_NODE) {
+                            parent.innerHTML = span.innerHTML;
+                        }
+                    }
+                }
+            });
+            
+            searchResults.textContent = searchMatches.length > 0 
+                ? `找到 ${searchMatches.length} 个匹配` 
+                : '无匹配结果';
+            
+            // Scroll to first match
+            if (searchMatches.length > 0) {
+                searchMatches[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+        
+        function getTextNodes(element) {
+            const textNodes = [];
+            const walker = document.createTreeWalker(
+                element,
+                NodeFilter.SHOW_TEXT,
+                null,
+                false
+            );
+            
+            let node;
+            while (node = walker.nextNode()) {
+                if (node.textContent.trim()) {
+                    textNodes.push(node);
+                }
+            }
+            
+            return textNodes;
+        }
+        
+        function clearHighlights() {
+            document.querySelectorAll('.search-highlight').forEach(highlight => {
+                const parent = highlight.parentNode;
+                if (parent) {
+                    parent.replaceChild(document.createTextNode(highlight.textContent), highlight);
+                    parent.normalize();
+                }
+            });
+        }
+        
+        function escapeRegex(string) {
+            return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        }
+        
+        let searchTimeout;
+        searchInput.addEventListener('input', (e) => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => performSearch(e.target.value), 300);
+        });
+        
+        // ============================================
+        // PROGRESS INDICATOR
+        // ============================================
+        function updateProgress() {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = Math.min(100, Math.round((scrollTop / docHeight) * 100));
+            
+            progressFill.style.width = `${progress}%`;
+            progressPercent.textContent = `${progress}%`;
+        }
+        
+        window.addEventListener('scroll', updateProgress);
+        
+        // ============================================
+        // ACTIVE SECTION HIGHLIGHTING
+        // ============================================
+        function updateActiveSection() {
+            const sections = document.querySelectorAll('.section, .subsection');
+            const scrollPos = window.scrollY + 100;
+            
+            sections.forEach(section => {
+                const top = section.offsetTop;
+                const bottom = top + section.offsetHeight;
+                
+                if (scrollPos >= top && scrollPos < bottom) {
+                    // Update nav active states
+                    document.querySelectorAll('.nav-section-header, .nav-subsection').forEach(el => {
+                        el.classList.remove('active');
+                    });
+                    
+                    const navItem = document.querySelector(`[data-target="${section.id}"]`);
+                    if (navItem) {
+                        navItem.classList.add('active');
+                        
+                        // Expand parent section if it's a subsection
+                        if (navItem.classList.contains('nav-subsection')) {
+                            navItem.closest('.nav-section').classList.add('expanded');
+                        }
+                    }
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', updateActiveSection);
+        
+        // ============================================
+        // BACK TO TOP BUTTON
+        // ============================================
+        function toggleBackToTop() {
+            if (window.scrollY > 500) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        }
+        
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        window.addEventListener('scroll', toggleBackToTop);
+        
+        // ============================================
+        // COPY CODE FUNCTIONALITY
+        // ============================================
+        function initCodeCopy() {
+            // Add copy buttons to code blocks
+            document.querySelectorAll('pre').forEach(pre => {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'code-block-wrapper';
+                
+                const header = document.createElement('div');
+                header.className = 'code-block-header';
+                
+                const lang = document.createElement('span');
+                lang.className = 'code-language';
+                lang.textContent = 'CODE';
+                
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'copy-btn';
+                copyBtn.innerHTML = '📋 复制';
+                
+                copyBtn.addEventListener('click', async () => {
+                    const code = pre.textContent;
+                    try {
+                        await navigator.clipboard.writeText(code);
+                        copyBtn.innerHTML = '✓ 已复制';
+                        copyBtn.classList.add('copied');
+                        
+                        setTimeout(() => {
+                            copyBtn.innerHTML = '📋 复制';
+                            copyBtn.classList.remove('copied');
+                        }, 2000);
+                    } catch (err) {
+                        copyBtn.innerHTML = '✗ 失败';
+                        setTimeout(() => {
+                            copyBtn.innerHTML = '📋 复制';
+                        }, 2000);
+                    }
+                });
+                
+                header.appendChild(lang);
+                header.appendChild(copyBtn);
+                
+                pre.parentNode.insertBefore(wrapper, pre);
+                wrapper.appendChild(header);
+                wrapper.appendChild(pre);
+            });
+        }
+        
+        // ============================================
+        // KEYBOARD SHORTCUTS
+        // ============================================
+        document.addEventListener('keydown', (e) => {
+            // Ctrl/Cmd + K to focus search
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                searchInput.focus();
+            }
+            
+            // Escape to close mobile menu
+            if (e.key === 'Escape') {
+                closeSidebar();
+                searchInput.blur();
+            }
+        });
+        
+        // ============================================
+        // INITIALIZATION
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            generateNavigation();
+            initNavigation();
+            initCodeCopy();
+            updateProgress();
+            updateActiveSection();
+            
+            // Expand first section by default
+            document.querySelector('.nav-section').classList.add('expanded');
+        });
+        
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 1024) {
+                closeSidebar();
+            }
+        });
+    </script>
+</body>
+</html>
