@@ -174,7 +174,7 @@ Critical Path: T1 → T2 → T3
 
 ---
 
-- [ ] 2. 修改 generate-index.js 支持 case 链接
+- [x] 2. 修改 generate-index.js 支持 case 链接
 
   **What to do**:
   1. 读取当前的 `generate-index.js`
@@ -246,7 +246,7 @@ Critical Path: T1 → T2 → T3
 
 ---
 
-- [ ] 3. 验证整合结果
+- [x] 3. 验证整合结果
 
   **What to do**:
   1. 运行 `node generate-index.js` 重新生成首页
