@@ -14,6 +14,10 @@ const files = fs
   .filter((f) => f.endsWith(".html"))
   .sort((a, b) => b.localeCompare(a));
 
+// 检查是否存在 case/ 目录
+const caseDir = path.join(reportsDir, "case");
+const hasCase = fs.existsSync(caseDir) && fs.statSync(caseDir).isDirectory();
+
 // 注入极简 CSS，避免纯文本瞎眼
 const html = `
 <!DOCTYPE html>
@@ -33,14 +37,15 @@ const html = `
   <h1>Data Reports</h1>
   <div class="report-list">
     ${
-      files.length === 0
+      files.length === 0 && !hasCase
         ? "<p>暂无报告，请在 reports 目录下添加 HTML 文件。</p>"
-        : files
-            .map(
+        : [
+            hasCase ? '<a href="/reports/case/" target="_blank">2026-3投资战略备忘录</a>' : '',
+            ...files.map(
               (f) =>
                 `<a href="/reports/${encodeURIComponent(f)}" target="_blank">${f.replace(".html", "")}</a>`,
             )
-            .join("\n")
+          ].filter(Boolean).join("\n")
     }
   </div>
 </body>
@@ -48,4 +53,5 @@ const html = `
 `;
 
 fs.writeFileSync(path.join(__dirname, "index.html"), html);
-console.log(`[Success] 索引已生成，共挂载 ${files.length} 份报告。`);
+const totalCount = files.length + (hasCase ? 1 : 0);
+console.log(`[Success] 索引已生成，共挂载 ${totalCount} 份报告。`);
