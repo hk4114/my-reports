@@ -1,0 +1,51 @@
+# Task 1: 目录移动验证报告
+## 执行时间: 2025-03-30
+
+### 移动操作
+- 源目录: ./case/
+- 目标目录: ./reports/case/
+- 命令: mv case/ reports/case/
+
+### 移动前状态
+**case/ 目录内容:**
+```
+total 8
+drwxr-xr-x@  4 kanehua  staff  128 Mar 30 13:33 .
+drwxr-xr-x@ 12 kanehua  staff  384 Mar 30 14:17 ..
+drwxr-xr-x@  5 kanehua  staff  160 Mar 30 13:33 assets
+-rw-r--r--@  1 kanehua  staff  411 Mar 30 13:33 index.html
+```
+
+**reports/ 目录内容:**
+```
+total 400
+drwxr-xr-x@  5 kanehua  staff    160 Mar 30 13:33 .
+drwxr-xr-x@ 12 kanehua  staff    384 Mar 30 14:17 ..
+-rw-r--r--@  1 kanehua  staff  69212 Mar 16 10:52 20260303.html
+-rw-r--r--@  1 kanehua  staff  85728 Mar 26 17:16 20260311.html
+-rw-r--r--@  1 kanehua  staff  48441 Mar 26 17:16 20260326.html
+```
+
+### 移动后状态
+**reports/case/ 目录内容:**
+```
+total 8
+drwxr-xr-x@ 4 kanehua  staff  128 Mar 30 13:33 .
+drwxr-xr-x@ 6 kanehua  staff  192 Mar 30 14:27 ..
+drwxr-xr-x@ 5 kanehua  staff  160 Mar 30 13:33 assets
+-rw-r--r--@ 1 kanehua  staff  411 Mar 30 13:33 index.html
+```
+
+**原 case/ 目录状态:**
+```
+ls: case/: No such file or directory
+```
+
+### 验证结果
+✅ reports/case/index.html 存在
+✅ reports/case/assets/ 目录存在
+✅ 原根目录 case/ 已不存在
+✅ 所有文件完整，未修改任何内容
+
+### 结论
+目录移动成功完成。
