@@ -43,7 +43,7 @@ const html = `
             hasCase ? '<a href="/reports/case/" target="_blank">2026-3投资战略备忘录</a>' : '',
             ...files.map(
               (f) =>
-                `<a href="/reports/${encodeURIComponent(f)}" target="_blank">${f.replace(".html", "")}</a>`,
+                `<a href="./reports/${encodeURIComponent(f)}" target="_blank">${f.replace(".html", "")}</a>`,
             )
           ].filter(Boolean).join("\n")
     }
