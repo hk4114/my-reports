@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenCode 速查表</title>
+    <link rel="icon" href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='.9em' font-size='90'&gt;%E2%9A%A1&l123;/text&gt;&lt;/svg&gt;">
+    <style>
+        /* === RESET & BASE === */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            /* OpenCode Section Colors - 7 Themes */
+            --quick-bg: #EFF6FF;
+            --quick-header: #2563EB;
+            --slash-bg: #EFF6FF;
+            --slash-header: #2563EB;
+            --workflow-bg: #ECFDF5;
+            --workflow-header: #059669;
+            --rules-bg: #F5F3FF;
+            --rules-header: #7C3AED;
+            --agent-bg: #FFFBEB;
+            --agent-header: #D97706;
+            --mcp-bg: #ECFEFF;
+            --mcp-header: #0891B2;
+            --plugin-bg: #FEF2F2;
+            --plugin-header: #DC2626;
+            --trouble-bg: #F9FAFB;
+            --trouble-header: #4B5563;
+
+            /* Typography */
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', 'Consolas', monospace;
+        }
+
+        html {
+            font-size: 16px;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            line-height: 1.5;
+            background: #fff;
+            color: #1F2937;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        /* === PAGE LAYOUT === */
+        .page {
+            width: 100%;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        /* === HEADER === */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #E5E7EB;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .header-meta {
+            font-size: 1rem;
+            color: #6B7280;
+            text-align: right;
+        }
+
+        .header-meta .version-info {
+            display: block;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .header-meta .last-updated {
+            display: block;
+            font-size: 0.9rem;
+            color: #9CA3AF;
+        }
+
+        /* === MAIN GRID === */
+        .main-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: 1fr;
+            gap: 16px;
+            align-items: stretch;
+        }
+
+        /* === SECTION BASE === */
+        .section {
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .section-header {
+            padding: 10px 16px;
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-content {
+            padding: 12px 16px;
+            flex: 1;
+        }
+
+        /* === SUB-SECTION === */
+        .sub-header {
+            font-weight: 700;
+            font-style: italic;
+            font-size: 0.95rem;
+            color: #374151;
+            margin-top: 12px;
+            margin-bottom: 6px;
+            padding-bottom: 4px;
+            border-bottom: 1px dotted rgba(0, 0, 0, 0.15);
+        }
+
+        .sub-header:first-child {
+            margin-top: 0;
+        }
+
+        /* === KEY-VALUE ROWS === */
+        .row {
+            display: flex;
+            gap: 10px;
+            padding: 5px 0;
+            line-height: 1.4;
+        }
+
+        .key {
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #1F2937;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .key.clickable {
+            color: #2563EB;
+            cursor: pointer;
+            text-decoration: underline;
+            text-decoration-style: dotted;
+            transition: color 0.15s;
+        }
+
+        .key.clickable:hover {
+            color: #1D4ED8;
+            background: rgba(37, 99, 235, 0.1);
+            border-radius: 2px;
+        }
+
+        .desc {
+            font-size: 0.95rem;
+            color: #4B5563;
+            flex: 1;
+        }
+
+        /* === KEYCAP STYLE === */
+        .keycap {
+            display: inline-block;
+            background: linear-gradient(180deg, #FAFAFA 0%, #E5E7EB 100%);
+            border: 1px solid #D1D5DB;
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #374151;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1), inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+            margin-right: 3px;
+        }
+
+        /* === SECTION SPECIFIC COLORS === */
+        .section-quick { background: var(--quick-bg); }
+        .section-quick .section-header { background: var(--quick-header); }
+        
+        .section-slash { background: var(--slash-bg); }
+        .section-slash .section-header { background: var(--slash-header); }
+        
+        .section-workflow { background: var(--workflow-bg); }
+        .section-workflow .section-header { background: var(--workflow-header); }
+        
+        .section-rules { background: var(--rules-bg); }
+        .section-rules .section-header { background: var(--rules-header); }
+        
+        .section-agent { background: var(--agent-bg); }
+        .section-agent .section-header { background: var(--agent-header); }
+        
+        .section-mcp { background: var(--mcp-bg); }
+        .section-mcp .section-header { background: var(--mcp-header); }
+        
+        .section-plugin { background: var(--plugin-bg); }
+        .section-plugin .section-header { background: var(--plugin-header); }
+        
+        .section-trouble { background: var(--trouble-bg); }
+        .section-trouble .section-header { background: var(--trouble-header); }
+
+        /* === CODE STYLES === */
+        code {
+            font-family: var(--font-mono);
+            background: #1F2937;
+            color: #F3F4F6;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .inline-code {
+            font-family: var(--font-mono);
+            background: rgba(0, 0, 0, 0.05);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        /* === MODAL STYLES === */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 6px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 85vh;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            animation: modalIn 0.2s ease-out;
+        }
+
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .modal-header {
+            background: #111827;
+            color: white;
+            padding: 3mm 4mm;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: #9CA3AF;
+            font-size: 1.5rem;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            transition: all 0.15s;
+        }
+
+        .modal-close:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-body {
+            padding: 4mm;
+            overflow-y: auto;
+            max-height: calc(85vh - 50px);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .modal-body h3 {
+            font-size: 1rem;
+            color: #111827;
+            margin: 1.5mm 0 1mm;
+            padding-bottom: 0.5mm;
+            border-bottom: 1px solid #E5E7EB;
+        }
+
+        .modal-body h3:first-child {
+            margin-top: 0;
+        }
+
+        .modal-body pre {
+            background: #1F2937;
+            color: #F3F4F6;
+            padding: 3mm;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            line-height: 1.5;
+            margin: 2mm 0;
+        }
+
+        .modal-body code {
+            background: #F3F4F6;
+            color: #1F2937;
+            padding: 0.2mm 1mm;
+        }
+
+        .modal-body ul, .modal-body ol {
+            margin: 2mm 0;
+            padding-left: 5mm;
+        }
+
+        .modal-body li {
+            margin: 1mm 0;
+        }
+
+        .modal-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2mm 0;
+            font-size: 0.85rem;
+        }
+
+        .modal-body th,
+        .modal-body td {
+            border: 1px solid #E5E7EB;
+            padding: 1.5mm 2mm;
+            text-align: left;
+        }
+
+        .modal-body th {
+            background: #F9FAFB;
+            font-weight: 600;
+        }
+
+        .modal-body a {
+            color: #2563EB;
+            text-decoration: none;
+        }
+
+        .modal-body a:hover {
+            text-decoration: underline;
+        }
+
+        .modal-body p {
+            margin: 2mm 0;
+        }
+
+        /* === PRINT STYLES === */
+        @media print {
+            html {
+                font-size: 14px !important;
+            }
+
+            body {
+                padding: 16px;
+                background: white;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .page {
+                max-width: none;
+                width: 100%;
+            }
+
+            .main-grid {
+                gap: 12px;
+            }
+
+            .modal-overlay {
+                display: none !important;
+            }
+
+            .key.clickable {
+                color: #1F2937;
+                text-decoration: none;
+            }
+
+            .key.clickable:hover {
+                background: none;
+            }
+
+            /* Prevent page breaks inside sections */
+            .section {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+
+            .section-content {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+
+            .sub-header {
+                break-after: avoid;
+                page-break-after: avoid;
+            }
+
+            .row {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+
+            /* Force monospace font for all commands/keys in print */
+            .key,
+            .keycap,
+            code,
+            .footer-item code {
+                font-family: 'Courier New', 'Courier', monospace !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .section-header {
+                padding: 8px 16px;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .section-content {
+                padding: 12px 16px;
+            }
+
+            .row {
+                padding: 4px 0;
+            }
+
+            .sub-header {
+                margin-top: 10px;
+            }
+
+            .keycap {
+                background: #F3F4F6 !important;
+                box-shadow: none;
+                border: 1px solid #9CA3AF;
+            }
+
+            .header {
+                margin-bottom: 12px;
+            }
+        }
+
+        /* === RESPONSIVE === */
+        @media screen and (max-width: 1400px) {
+            .main-grid {
+                grid-template-columns: repeat(2, 1fr);
+                grid-template-rows: auto;
+                align-items: start;
+            }
+        }
+
+        @media screen and (max-width: 900px) {
+            html {
+                font-size: 14px;
+            }
+
+            body {
+                padding: 16px;
+            }
+
+            .header h1 {
+                font-size: 1.6rem;
+            }
+
+            .main-grid {
+                grid-template-columns: 1fr;
+                align-items: start;
+            }
+
+            .modal {
+                max-height: 90vh;
+                margin: 10px;
+            }
+
+            .modal-body {
+                max-height: calc(90vh - 50px);
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <!-- HEADER -->
+        <header class="header">
+            <h1>⚡ OpenCode 速查表</h1>
+            <div class="header-meta">
+                <span class="version-info">OpenCode CLI</span>
+                <span class="last-updated">最后更新：2026年3月31日</span>
+            </div>
+        </header>
+
+        <!-- MAIN GRID -->
+        <main class="main-grid">
+
+            <!-- COLUMN 1: 快速入门 + 斜杠命令 -->
+            <div class="column">
+                <!-- 快速入门 -->
+                <section class="section section-quick">
+                    <div class="section-header">⌨️ 快速入门</div>
+                    <div class="section-content">
+                        <div class="sub-header">启动命令</div>
+                        <div class="row"><span class="key">opencode</span> <span class="desc">启动 TUI</span></div>
+                        <div class="row"><span class="key">opencode /path</span> <span class="desc">指定项目目录</span></div>
+                        <div class="row"><span class="key">--continue</span> <span class="desc">继续上一个会话</span></div>
+                        <div class="row"><span class="key">--version</span> <span class="desc">查看版本</span></div>
+
+                        <div class="sub-header">快捷键</div>
+                        <div class="row"><span class="key"><span class="keycap">Tab</span></span> <span class="desc">切换主代理</span></div>
+                        <div class="row"><span class="key"><span class="keycap">@</span></span> <span class="desc">引用文件</span></div>
+                        <div class="row"><span class="key"><span class="keycap">!</span></span> <span class="desc">执行 bash</span></div>
+                        <div class="row"><span class="key"><span class="keycap">ctrl</span><span class="keycap">x</span></span> <span class="desc">斜杠命令前缀</span></div>
+
+                        <div class="sub-header">CLI 命令</div>
+                        <div class="row"><span class="key">run</span> <span class="desc">非交互模式运行</span></div>
+                        <div class="row"><span class="key">models</span> <span class="desc">列出模型</span></div>
+                        <div class="row"><span class="key">agent list</span> <span class="desc">管理代理</span></div>
+                        <div class="row"><span class="key">session list</span> <span class="desc">管理会话</span></div>
+                        <div class="row"><span class="key">stats</span> <span class="desc">统计信息</span></div>
+                        <div class="row"><span class="key">serve/web</span> <span class="desc">启动服务</span></div>
+                        <div class="row"><span class="key">upgrade</span> <span class="desc">升级</span></div>
+                        <div class="row"><span class="key">--print-logs</span> <span class="desc">打印日志</span></div>
+                    </div>
+                </section>
+
+                <!-- 斜杠命令 -->
+                <section class="section section-slash">
+                    <div class="section-header">⚡ 斜杠命令</div>
+                    <div class="section-content">
+                        <div class="sub-header">会话管理</div>
+                        <div class="row"><span class="key">/connect</span> <span class="desc">添加提供商</span></div>
+                        <div class="row"><span class="key">/compact</span> <span class="desc">压缩会话 <span class="inline-code">ctrl+x c</span></span></div>
+                        <div class="row"><span class="key">/details</span> <span class="desc">切换工具详情 <span class="inline-code">ctrl+x d</span></span></div>
+                        <div class="row"><span class="key">/editor</span> <span class="desc">打开外部编辑器 <span class="inline-code">ctrl+x e</span></span></div>
+                        <div class="row"><span class="key">/exit</span> <span class="desc">退出 <span class="inline-code">ctrl+x q</span></span></div>
+                        <div class="row"><span class="key">/export</span> <span class="desc">导出对话 <span class="inline-code">ctrl+x x</span></span></div>
+                        <div class="row"><span class="key">/help</span> <span class="desc">显示帮助 <span class="inline-code">ctrl+x h</span></span></div>
+                        <div class="row"><span class="key">/new</span> <span class="desc">新会话 <span class="inline-code">ctrl+x n</span></span></div>
+                        <div class="row"><span class="key">/undo</span> <span class="desc">撤销修改 <span class="inline-code">ctrl+x u</span></span></div>
+                        <div class="row"><span class="key">/redo</span> <span class="desc">重做修改 <span class="inline-code">ctrl+x r</span></span></div>
+                        <div class="row"><span class="key">/sessions</span> <span class="desc">会话列表 <span class="inline-code">ctrl+x l</span></span></div>
+
+                        <div class="sub-header">配置命令</div>
+                        <div class="row"><span class="key">/init</span> <span class="desc">创建 AGENTS.md <span class="inline-code">ctrl+x i</span></span></div>
+                        <div class="row"><span class="key">/models</span> <span class="desc">列出模型 <span class="inline-code">ctrl+x m</span></span></div>
+                        <div class="row"><span class="key">/themes</span> <span class="desc">列出主题 <span class="inline-code">ctrl+x t</span></span></div>
+                    </div>
+                </section>
+            </div><!-- end column 1 -->
+
+            <!-- COLUMN 2: 工作流与技巧 + 规则系统 -->
+            <div class="column">
+                <!-- 工作流与技巧 -->
+                <section class="section section-workflow">
+                    <div class="section-header">🧠 工作流与技巧</div>
+                    <div class="section-content">
+                        <div class="sub-header">开发流程</div>
+                        <div class="row"><span class="key clickable" onclick="showModal('add-feature')">添加新功能</span> <span class="desc">Plan→Build 流程</span></div>
+                        <div class="row"><span class="key clickable" onclick="showModal('code-review')">代码审查流程</span> <span class="desc">代理分析步骤</span></div>
+                        <div class="row"><span class="key clickable" onclick="showModal('undo-redo')">/undo /redo</span> <span class="desc">撤销与重做</span></div>
+
+                        <div class="sub-header">最佳实践</div>
+                        <div class="row"><span class="key">/init</span> <span class="desc">初始化 AGENTS.md</span></div>
+                        <div class="row"><span class="key">先规划再执行</span> <span class="desc">复杂任务使用 Plan</span></div>
+                        <div class="row"><span class="key">使用 @</span> <span class="desc">引用相关文件</span></div>
+                        <div class="row"><span class="key">Git 仓库</span> <span class="desc">确保使用撤销功能</span></div>
+                        <div class="row"><span class="key">封装技能</span> <span class="desc">将常用工作流封装</span></div>
+                    </div>
+                </section>
+
+                <!-- 规则系统 -->
+                <section class="section section-rules">
+                    <div class="section-header">📋 规则系统</div>
+                    <div class="section-content">
+                        <div class="sub-header">AGENTS.md 位置</div>
+                        <div class="row"><span class="key clickable" onclick="showModal('rules-location')">项目级</span> <span class="desc">./AGENTS.md</span></div>
+                        <div class="row"><span class="key clickable" onclick="showModal('rules-location')">全局级</span> <span class="desc">~/.config/opencode/</span></div>
+                        <div class="row"><span class="key clickable" onclick="showModal('rules-location')">Claude兼容</span> <span class="desc">CLAUDE.md</span></div>
+
+                        <div class="sub-header">外部引用</div>
+                        <div class="row"><span class="key clickable" onclick="showModal('external-rules')">opencode.json</span> <span class="desc">引用外部文件</span></div>
+
+                        <div class="sub-header">初始化</div>
+                        <div class="row"><span class="key">/init</span> <span class="desc">创建 AGENTS.md</span></div>
+                    </div>
+                </section>
+            </div><!-- end column 2 -->
+
+            <!-- COLUMN 3: 代理系统 + MCP服务器 -->
+            <div class="column">
+                <!-- 代理系统 -->
+                <section class="section section-agent">
+                    <div class="section-header">🤖 代理系统</div>
+                    <div class="section-content">
+                        <div class="sub-header">主代理</div>
+                        <div class="row"><span class="key clickable" onclick="showModal('primary-agents')">Build</span> <span class="desc">默认开发代理</span></div>
+                        <div class="row"><span class="key clickable" onclick="showModal('primary-agents')">Plan</span> <span class="desc">规划代理（只读）</span></div>
+
+                        <div class="sub-header">子代理</div>
+                        <div class="row"><span class="key clickable" onclick="showModal('subagents')">@general</span> <span class="desc">通用研究代理</span></div>
+                        <div class="row"><span class="key clickable" onclick="showModal('subagents')">@explore</span> <span class="desc">代码库探索代理</span></div>
+
+                        <div class="sub-header">切换方式</div>
+                        <div class="row"><span class="key"><span class="keycap">Tab</span></span> <span class="desc">切换主代理</span></div>
+                        <div class="row"><span class="key">@name</span> <span class="desc">提及调用子代理</span></div>
+
+                        <div class="sub-header">创建自定义代理</div>
+                        <div class="row"><span class="key clickable" onclick="showModal('create-agent')">CLI 创建</span> <span class="desc">opencode agent create</span></div>
+                        <div class="row"><span class="key clickable" onclick="showModal('create-agent')">JSON 配置</span> <span class="desc">opencode.json</span></div>
+                        <div class="row"><span class="key clickable" onclick="showModal('create-agent')">Markdown</span> <span class="desc">~/.config/opencode/agents/</span></div>
+                    </div>
+                </section>
+
+                <!-- MCP 服务器 -->
+                <section class="section section-mcp">
+                    <div class="section-header">🔌 MCP 服务器</div>
+                    <div class="section-content">
+                        <div class="sub-header">配置类型</div>
+                        <div class="row"><span class="key clickable" onclick="showModal('mcp-local')">本地 MCP</span> <span class="desc">type: local</span></div>
+                        <div class="row"><span class="key clickable" onclick="showModal('mcp-remote')">远程 MCP</span> <span class="desc">type: remote</span></div>
+
+                        <div class="sub-header">常用示例</div>
+                        <div class="row"><span class="key clickable" onclick="showModal('mcp-sentry')">Sentry</span> <span class="desc">错误追踪</span></div>
+                        <div class="row"><span class="key clickable" onclick="showModal('mcp-context7')">Context7</span> <span class="desc">文档搜索</span></div>
+                        <div class="row"><span class="key clickable" onclick="showModal('mcp-grep')">Grep</span> <span class="desc">GitHub 代码搜索</span></div>
+
+                        <div class="sub-header">管理命令</div>
+                        <div class="row"><span class="key">mcp list</span> <span class="desc">列出服务器</span></div>
+                        <div class="row"><span class="key">mcp add</span> <span class="desc">添加服务器</span></div>
+                        <div class="row"><span class="key">mcp auth</span> <span class="desc">认证</span></div>
+                        <div class="row"><span class="key">mcp debug</span> <span class="desc">调试</span></div>
+                    </div>
+                </section>
+            </div><!-- end column 3 -->
+
+            <!-- COLUMN 4: 推荐插件 + 故障排除 -->
+            <div class="column">
+                <!-- 推荐插件 -->
+                <section class="section section-plugin">
+                    <div class="section-header">🔧 推荐插件</div>
+                    <div class="section-content">
+                        <div class="sub-header">认证插件</div>
+                        <div class="row"><span class="key clickable" onclick="showModal('plugin-gemini')">opencode-gemini-auth</span> <span class="desc">Gemini 套餐替代</span></div>
+                        <div class="row"><span class="key clickable" onclick="showModal('plugin-antigravity')">opencode-antigravity-auth</span> <span class="desc">免费模型替代</span></div>
+
+                        <div class="sub-header">功能插件</div>
+                        <div class="row"><span class="key clickable" onclick="showModal('plugin-ohmy')">oh-my-opencode</span> <span class="desc">后台代理、LSP/MCP</span></div>
+                        <div class="row"><span class="key clickable" onclick="showModal('plugin-skillful')">opencode-skillful</span> <span class="desc">技能管理工具</span></div>
+                    </div>
+                </section>
+
+                <!-- 故障排除 -->
+                <section class="section section-trouble">
+                    <div class="section-header">🛠️ 故障排除</div>
+                    <div class="section-content">
+                        <div class="sub-header">常见问题</div>
+                        <div class="row"><span class="key clickable" onclick="showModal('trouble-start')">无法启动</span> <span class="desc">日志检查、升级</span></div>
+                        <div class="row"><span class="key clickable" onclick="showModal('trouble-auth')">身份验证</span> <span class="desc">重新认证、API密钥</span></div>
+                        <div class="row"><span class="key clickable" onclick="showModal('trouble-provider')">ProviderInitError</span> <span class="desc">清除配置</span></div>
+                        <div class="row"><span class="key clickable" onclick="showModal('trouble-api')">AI_APICallError</span> <span class="desc">清除缓存</span></div>
+
+                        <div class="sub-header">文件位置</div>
+                        <div class="row"><span class="key clickable" onclick="showModal('file-locations')">日志文件</span> <span class="desc">~/.local/share/opencode/</span></div>
+                        <div class="row"><span class="key clickable" onclick="showModal('file-locations')">存储位置</span> <span class="desc">配置与会话数据</span></div>
+
+                        <div class="sub-header">速查表</div>
+                        <div class="row"><span class="key">模型不响应</span> <span class="desc">检查 API 密钥和网络</span></div>
+                        <div class="row"><span class="key">工具被禁用</span> <span class="desc">检查 permission 配置</span></div>
+                        <div class="row"><span class="key">MCP 不工作</span> <span class="desc">运行 mcp debug</span></div>
+                        <div class="row"><span class="key">无法撤销</span> <span class="desc">确保是 Git 仓库</span></div>
+                        <div class="row"><span class="key">性能问题</span> <span class="desc">使用 /compact</span></div>
+                        <div class="row"><span class="key">上下文溢出</span> <span class="desc">增加 reserved 值</span></div>
+                    </div>
+                </section>
+            </div><!-- end column 4 -->
+
+        </main>
+
+    </div><!-- end page -->
+
+    <!-- MODAL OVERLAY -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <span class="modal-title" id="modalTitle">标题</span>
+                <button class="modal-close" onclick="hideModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                内容
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Modal Data - All 20 modals
+        const modalData = {
+            'add-feature': {
+                title: '添加新功能流程',
+                content: `<h3>5步开发流程</h3>
+<ol>
+<li><strong>切换到计划模式</strong> - 按 <code>Tab</code> 键切换到 Plan 代理</li>
+<li><strong>描述需求</strong> - 详细说明需要实现的功能</li>
+<li><strong>获取实现计划</strong> - Plan 代理会分析并给出详细步骤</li>
+<li><strong>迭代完善计划</strong> - 对计划提出修改意见直到满意</li>
+<li><strong>执行计划</strong> - 按 <code>Tab</code> 切回 Build 代理执行实施</li>
+</ol>
+<h3>示例代码</h3>
+<pre># 1. 切换到 Plan 模式
+[按 Tab 键]
+
+# 2. 描述需求
+"帮我添加一个用户登录功能，包含：
+ - 邮箱/密码验证
+ - JWT Token 生成
+ - 密码加密存储"</pre>`
+            },
+            'code-review': {
+                title: '代码审查流程',
+                content: `<h3>3步审查流程</h3>
+<ol>
+<li><strong>使用 Plan 代理分析</strong> - 切换到 Plan 模式让代理分析代码问题</li>
+<li><strong>使用子代理深入研究</strong> - 使用 <code>@general</code> 或 <code>@explore</code> 深入特定代码区域</li>
+<li><strong>使用 /undo 撤销</strong> - 对不满意的修改使用 <code>/undo</code> 撤销</li>
+</ol>
+<h3>示例</h3>
+<pre># 分析代码质量
+"@general 帮我审查 src/auth.js 的安全性"
+
+# 深入探索
+"@explore 检查用户输入验证逻辑"
+
+# 撤销不满意的修改
+/undo</pre>`
+            },
+            'undo-redo': {
+                title: '撤销与重做',
+                content: `<h3>基本命令</h3>
+<table>
+<tr><th>命令</th><th>功能</th></tr>
+<tr><td><code>/undo</code></td><td>撤销最后一条消息及所有修改</td></tr>
+<tr><td><code>/redo</code></td><td>重做之前撤销的内容</td></tr>
+</table>
+<h3>使用要求</h3>
+<p><strong>注意：项目需要是 Git 仓库才能使用撤销功能。</strong></p>
+<p>建议在开始工作前确保项目已初始化 Git：</p>
+<pre>git init
+git add .
+git commit -m "Initial commit"</pre>
+<h3>快捷键</h3>
+<ul>
+<li><code>/undo</code> - 快捷键: <code>ctrl+x u</code></li>
+<li><code>/redo</code> - 快捷键: <code>ctrl+x r</code></li>
+</ul>`
+            },
+            'rules-location': {
+                title: '规则文件位置',
+                content: `<h3>三级规则位置</h3>
+<table>
+<tr><th>级别</th><th>路径</th><th>说明</th></tr>
+<tr><td>项目级</td><td><code>./AGENTS.md</code></td><td>项目特定规则，提交到 Git 共享</td></tr>
+<tr><td>全局级</td><td><code>~/.config/opencode/AGENTS.md</code></td><td>个人规则，不共享</td></tr>
+<tr><td>Claude兼容</td><td><code>CLAUDE.md</code> / <code>~/.claude/CLAUDE.md</code></td><td>向后兼容 Claude Code</td></tr>
+</table>
+<h3>初始化命令</h3>
+<pre># 在 TUI 中运行
+/init</pre>
+<p><strong>提示：</strong>应将 <code>AGENTS.md</code> 提交到 Git，与团队共享。</p>`
+            },
+            'external-rules': {
+                title: '引用外部文件',
+                content: `<h3>在 opencode.json 中配置</h3>
+<p>可以指定多个指令文件：</p>
+<pre>{
+  "instructions": [
+    "CONTRIBUTING.md",
+    "docs/guidelines.md",
+    ".cursor/rules/*.md"
+  ]
+}</pre>
+<h3>支持远程 URL</h3>
+<pre>{
+  "instructions": [
+    "https://raw.githubusercontent.com/my-org/shared-rules/main/style.md"
+  ]
+}</pre>
+<h3>文件格式</h3>
+<p>支持 Markdown、JSON 配置文件，可以被纳入 LLM 上下文用于自定义 OpenCode 行为。</p>`
+            },
+            'primary-agents': {
+                title: '主代理类型',
+                content: `<h3>直接交互的主要助手</h3>
+<table>
+<tr><th>代理</th><th>模式</th><th>描述</th></tr>
+<tr><td><strong>Build</strong></td><td>primary</td><td>默认开发代理，启用所有工具</td></tr>
+<tr><td><strong>Plan</strong></td><td>primary</td><td>受限代理，只分析和规划，不做修改</td></tr>
+</table>
+<h3>切换方式</h3>
+<p>按 <code>Tab</code> 键在主代理间循环切换。</p>
+<h3>使用建议</h3>
+<ul>
+<li><strong>Build</strong>：用于实际编码、修改文件、执行命令</li>
+<li><strong>Plan</strong>：用于复杂任务的分析和规划阶段</li>
+</ul>`
+            },
+            'subagents': {
+                title: '子代理',
+                content: `<h3>主代理调用的专业助手</h3>
+<table>
+<tr><th>代理</th><th>调用方式</th><th>描述</th></tr>
+<tr><td><strong>General</strong></td><td><code>@general</code></td><td>通用研究代理，处理广泛问题</td></tr>
+<tr><td><strong>Explore</strong></td><td><code>@explore</code></td><td>只读代码库探索代理</td></tr>
+</table>
+<h3>使用方式</h3>
+<pre># 提及调用子代理
+@general help me search for this function
+
+@explore analyze the project structure</pre>
+<h3>特点</h3>
+<ul>
+<li>子代理由主代理在后台调用</li>
+<li>可以并行处理多个子任务</li>
+<li>结果返回给主代理整合</li>
+</ul>`
+            },
+            'create-agent': {
+                title: '创建自定义代理',
+                content: `<h3>三种创建方法</h3>
+
+<h3>方法一：CLI 创建</h3>
+<pre>opencode agent create</pre>
+<p>交互式向导，引导配置代理属性。</p>
+
+<h3>方法二：JSON 配置</h3>
+<p>在 <code>opencode.json</code> 中添加：</p>
+<pre>{
+  "agent": {
+    "code-reviewer": {
+      "mode": "subagent",
+      "description": "Reviews code for best practices",
+      "model": "anthropic/claude-sonnet-4-5",
+      "prompt": "You are a code reviewer...",
+      "tools": { "write": false, "edit": false },
+      "permission": { "edit": "deny" }
+    }
+  }
+}</pre>
+
+<h3>方法三：Markdown 文件</h3>
+<p>创建 <code>~/.config/opencode/agents/review.md</code>：</p>
+<pre>---
+description: Reviews code for quality
+mode: subagent
+model: anthropic/claude-sonnet-4-5
+temperature: 0.1
+tools:
+  write: false
+  edit: false
+---
+
+You are in code review mode...</pre>
+
+<h3>配置选项</h3>
+<table>
+<tr><th>选项</th><th>描述</th></tr>
+<tr><td>description</td><td>代理功能描述（必填）</td></tr>
+<tr><td>mode</td><td>primary / subagent / all</td></tr>
+<tr><td>model</td><td>使用的模型</td></tr>
+<tr><td>prompt</td><td>系统提示词或文件路径</td></tr>
+<tr><td>temperature</td><td>响应随机性（0.0-1.0）</td></tr>
+<tr><td>tools</td><td>可用工具配置</td></tr>
+<tr><td>permission</td><td>权限配置</td></tr>
+</table>`
+            },
+            'mcp-local': {
+                title: '本地 MCP 服务器',
+                content: `<h3>配置格式</h3>
+<p>在 <code>opencode.json</code> 中添加本地 MCP：</p>
+<pre>{
+  "mcp": {
+    "my-local-server": {
+      "type": "local",
+      "command": ["npx", "-y", "my-mcp-command"],
+      "enabled": true,
+      "environment": {
+        "MY_ENV": "value"
+      }
+    }
+  }
+}</pre>
+<h3>配置说明</h3>
+<table>
+<tr><th>字段</th><th>说明</th></tr>
+<tr><td>type</td><td>固定为 "local"</td></tr>
+<tr><td>command</td><td>启动命令数组</td></tr>
+<tr><td>enabled</td><td>是否启用</td></tr>
+<tr><td>environment</td><td>环境变量（可选）</td></tr>
+</table>
+<h3>特点</h3>
+<ul>
+<li>在本地运行进程</li>
+<li>适合需要本地访问的工具</li>
+<li>通过 stdio 通信</li>
+</ul>`
+            },
+            'mcp-remote': {
+                title: '远程 MCP 服务器',
+                content: `<h3>配置格式</h3>
+<p>在 <code>opencode.json</code> 中添加远程 MCP：</p>
+<pre>{
+  "mcp": {
+    "my-remote-server": {
+      "type": "remote",
+      "url": "https://my-mcp-server.com",
+      "enabled": true,
+      "headers": {
+        "Authorization": "Bearer MY_API_KEY"
+      }
+    }
+  }
+}</pre>
+<h3>配置说明</h3>
+<table>
+<tr><th>字段</th><th>说明</th></tr>
+<tr><td>type</td><td>固定为 "remote"</td></tr>
+<tr><td>url</td><td>MCP 服务器 URL</td></tr>
+<tr><td>enabled</td><td>是否启用</td></tr>
+<tr><td>headers</td><td>请求头（可选）</td></tr>
+</table>
+<h3>特点</h3>
+<ul>
+<li>连接远程 HTTP/SSE 服务器</li>
+<li>适合 SaaS 服务集成</li>
+<li>通过 HTTP 通信</li>
+</ul>`
+            },
+            'mcp-sentry': {
+                title: 'Sentry MCP 服务器',
+                content: `<h3>配置</h3>
+<pre>{
+  "mcp": {
+    "sentry": {
+      "type": "remote",
+      "url": "https://mcp.sentry.dev/mcp",
+      "oauth": {}
+    }
+  }
+}</pre>
+<h3>认证命令</h3>
+<pre>opencode mcp auth sentry</pre>
+<h3>功能</h3>
+<ul>
+<li>错误追踪和监控</li>
+<li>查看 issue 详情</li>
+<li>获取错误上下文</li>
+<li>关联代码位置</li>
+</ul>
+<h3>使用</h3>
+<p>配置并认证后，OpenCode 可以：</p>
+<ul>
+<li>查询 Sentry 中的错误</li>
+<li>分析错误堆栈</li>
+<li>建议修复方案</li>
+</ul>`
+            },
+            'mcp-context7': {
+                title: 'Context7 MCP 服务器',
+                content: `<h3>配置</h3>
+<pre>{
+  "mcp": {
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp"
+    }
+  }
+}</pre>
+<h3>功能</h3>
+<p>Context7 提供文档搜索功能：</p>
+<ul>
+<li>搜索技术文档</li>
+<li>获取 API 参考</li>
+<li>代码示例查询</li>
+</ul>
+<h3>使用场景</h3>
+<ul>
+<li>查询不熟悉的库文档</li>
+<li>获取准确的 API 用法</li>
+<li>了解最佳实践</li>
+</ul>`
+            },
+            'mcp-grep': {
+                title: 'Grep by Vercel MCP',
+                content: `<h3>配置</h3>
+<pre>{
+  "mcp": {
+    "gh_grep": {
+      "type": "remote",
+      "url": "https://mcp.grep.app"
+    }
+  }
+}</pre>
+<h3>功能</h3>
+<p>Grep by Vercel 提供 GitHub 代码搜索：</p>
+<ul>
+<li>搜索公开代码库</li>
+<li>查找代码示例</li>
+<li>分析常见用法</li>
+</ul>
+<h3>使用场景</h3>
+<ul>
+<li>查找开源代码示例</li>
+<li>了解库的常用模式</li>
+<li>参考社区最佳实践</li>
+</ul>`
+            },
+            'plugin-gemini': {
+                title: 'opencode-gemini-auth 插件',
+                content: `<h3>功能</h3>
+<p>使用现有的 Gemini 套餐替代 API 计费，节省费用。</p>
+<h3>安装</h3>
+<pre># 通过 npm 安装
+npm install -g opencode-gemini-auth</pre>
+<h3>链接</h3>
+<p><a href="https://github.com/jenslys/opencode-gemini-auth" target="_blank">https://github.com/jenslys/opencode-gemini-auth</a></p>
+<h3>使用</h3>
+<p>安装后配置认证，即可在 OpenCode 中使用 Gemini 模型而无需额外 API 费用。</p>`
+            },
+            'plugin-antigravity': {
+                title: 'opencode-antigravity-auth 插件',
+                content: `<h3>功能</h3>
+<p>使用 Antigravity 的免费模型替代 API 计费。</p>
+<h3>安装</h3>
+<pre># 通过 npm 安装
+npm install -g opencode-antigravity-auth</pre>
+<h3>链接</h3>
+<p><a href="https://github.com/NoeFabris/opencode-antigravity-auth" target="_blank">https://github.com/NoeFabris/opencode-antigravity-auth</a></p>
+<h3>使用</h3>
+<p>安装后配置认证，可使用 Antigravity 提供的免费模型。</p>`
+            },
+            'plugin-ohmy': {
+                title: 'oh-my-opencode 插件',
+                content: `<h3>功能</h3>
+<ul>
+<li>后台代理支持</li>
+<li>预构建的 LSP/AST/MCP 工具</li>
+<li>精选代理集合</li>
+<li>兼容 Claude Code</li>
+</ul>
+<h3>安装</h3>
+<pre>npm install -g oh-my-opencode</pre>
+<h3>链接</h3>
+<p><a href="https://github.com/code-yeongyu/oh-my-openagent" target="_blank">https://github.com/code-yeongyu/oh-my-openagent</a></p>
+
+<h3>配置自动更新</h3>
+<p>创建 <code>~/.config/opencode/oh-my-opencode.json</code>：</p>
+<pre>{
+  "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/master/assets/oh-my-opencode.schema.json",
+  "auto_update": true
+}</pre>
+
+<h3>保留原生 Agent</h3>
+<pre>{
+  "sisyphus_agent": {
+    "default_builder_enabled": true,
+    "replace_plan": false
+  }
+}</pre>`
+            },
+            'plugin-skillful': {
+                title: 'opencode-skillful 插件',
+                content: `<h3>功能</h3>
+<p>技能管理工具，提供三个核心工具：</p>
+<table>
+<tr><th>工具</th><th>功能</th></tr>
+<tr><td><code>skill_find</code></td><td>搜索技能</td></tr>
+<tr><td><code>skill_use</code></td><td>加载技能到对话中</td></tr>
+<tr><td><code>skill_resource</code></td><td>读取技能资源文件</td></tr>
+</table>
+
+<h3>安装</h3>
+<pre>npm install -g opencode-skillful</pre>
+
+<h3>链接</h3>
+<p><a href="https://github.com/zenobi-us/opencode-skillful" target="_blank">https://github.com/zenobi-us/opencode-skillful</a></p>
+
+<h3>配置技能路径</h3>
+<p>创建 <code>~/.config/opencode-skillful/config.json</code>：</p>
+<pre>{
+  "debug": false,
+  "basePaths": ["~/.config/opencode/skills", ".opencode/skills"],
+  "promptRenderer": "xml"
+}</pre>
+
+<h3>使用示例</h3>
+<pre>skill_find "react"
+skill_use "react-hooks"
+skill_resource skill_name="my-skill" relative_path="README.md"</pre>`
+            },
+            'trouble-start': {
+                title: 'OpenCode 无法启动',
+                content: `<h3>解决方案</h3>
+<ol>
+<li><strong>检查日志</strong> - 查看日志文件中的错误消息</li>
+<li><strong>使用 --print-logs</strong> - 运行 <code>opencode --print-logs</code> 查看终端输出</li>
+<li><strong>更新版本</strong> - 运行 <code>opencode upgrade</code> 更新到最新版本</li>
+</ol>
+<h3>日志位置</h3>
+<ul>
+<li>macOS/Linux: <code>~/.local/share/opencode/log/</code></li>
+<li>Windows: <code>%USERPROFILE%\.local\share\opencode\log</code></li>
+</ul>`
+            },
+            'trouble-auth': {
+                title: '身份验证问题',
+                content: `<h3>解决方案</h3>
+<ol>
+<li><strong>重新认证</strong> - 在 TUI 中使用 <code>/connect</code> 重新认证</li>
+<li><strong>检查 API 密钥</strong> - 确认 API 密钥是否有效</li>
+<li><strong>网络连接</strong> - 确保网络允许连接到提供商 API</li>
+</ol>
+<h3>常用命令</h3>
+<pre>/connect          # 添加或重新配置提供商
+opencode upgrade  # 更新到最新版本</pre>`
+            },
+            'trouble-provider': {
+                title: 'ProviderInitError',
+                content: `<h3>解决方案</h3>
+<ol>
+<li><strong>验证提供商配置</strong> - 检查配置是否正确</li>
+<li><strong>清除配置</strong> - 删除配置目录重新配置</li>
+<li><strong>重新认证</strong> - 运行 <code>/connect</code> 重新认证</li>
+</ol>
+<h3>清除配置命令</h3>
+<pre>rm -rf ~/.local/share/opencode</pre>
+<p>清除后重新运行 <code>/connect</code> 进行认证。</p>`
+            },
+            'trouble-api': {
+                title: 'AI_APICallError',
+                content: `<h3>解决方案</h3>
+<p>清除提供商包缓存：</p>
+<pre>rm -rf ~/.cache/opencode</pre>
+<h3>其他检查</h3>
+<ul>
+<li>检查网络连接</li>
+<li>确认 API 密钥有效</li>
+<li>查看提供商服务状态</li>
+<li>尝试切换其他模型</li>
+</ul>`
+            },
+            'file-locations': {
+                title: '文件位置',
+                content: `<h3>日志文件位置</h3>
+<table>
+<tr><th>系统</th><th>路径</th></tr>
+<tr><td>macOS/Linux</td><td><code>~/.local/share/opencode/log/</code></td></tr>
+<tr><td>Windows</td><td><code>%USERPROFILE%\.local\share\opencode\log</code></td></tr>
+</table>
+
+<h3>存储位置</h3>
+<table>
+<tr><th>系统</th><th>路径</th></tr>
+<tr><td>macOS/Linux</td><td><code>~/.local/share/opencode/</code></td></tr>
+<tr><td>Windows</td><td><code>%USERPROFILE%\.local\share\opencode</code></td></tr>
+</table>
+
+<h3>存储内容</h3>
+<ul>
+<li><code>auth.json</code> - API 密钥、OAuth Token</li>
+<li><code>log/</code> - 应用日志</li>
+<li><code>project/</code> - 项目会话数据</li>
+</ul>`
+            }
+        };
+
+        // Show modal
+        function showModal(key) {
+            const data = modalData[key];
+            if (!data) return;
+            
+            document.getElementById('modalTitle').textContent = data.title;
+            document.getElementById('modalBody').innerHTML = data.content;
+            document.getElementById('modalOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Hide modal
+        function hideModal() {
+            document.getElementById('modalOverlay').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Close modal on overlay click
+        function closeModal(event) {
+            if (event.target === document.getElementById('modalOverlay')) {
+                hideModal();
+            }
+        }
+
+        // ESC key to close modal
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && document.getElementById('modalOverlay').classList.contains('active')) {
+                hideModal();
+            }
+        });
+    </script>
+</body>
+</html>
