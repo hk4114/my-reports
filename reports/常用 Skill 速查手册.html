@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>常用 Skill 速查手册</title>
+    <link rel="icon" href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='.9em' font-size='90'&gt;🚀&lt;/text&gt;&lt;/svg&gt;">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        /* === RESET & BASE === */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            /* Distinct theme colors for cards */
+            --theme-0-bg: #EFF6FF; --theme-0-header: #1D4ED8;
+            --theme-1-bg: #ECFDF5; --theme-1-header: #047857;
+            --theme-2-bg: #F5F3FF; --theme-2-header: #6D28D9;
+            --theme-3-bg: #FFFBEB; --theme-3-header: #B45309;
+            --theme-4-bg: #ECFEFF; --theme-4-header: #0E7490;
+            --theme-5-bg: #FEF2F2; --theme-5-header: #B91C1C;
+            --theme-6-bg: #F9FAFB; --theme-6-header: #374151;
+            --theme-7-bg: #FFF1F2; --theme-7-header: #BE123C;
+            --theme-8-bg: #F0FDF4; --theme-8-header: #15803D;
+            --theme-9-bg: #FDF4FF; --theme-9-header: #A21CAF;
+            
+            --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', 'Consolas', monospace;
+        }
+        
+        body {
+            font-family: var(--font-sans);
+            font-size: 14px; /* More compact for cheatsheet */
+            line-height: 1.5;
+            background: #F3F4F6; /* Light gray background to make cards pop */
+            color: #1F2937;
+            padding: 24px;
+            min-height: 100vh;
+        }
+        
+        .page {
+            width: 100%;
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+        
+        /* === HEADER === */
+        .header {
+            display: flex; justify-content: space-between; align-items: flex-end;
+            margin-bottom: 24px; padding-bottom: 16px; border-bottom: 2px solid #D1D5DB;
+        }
+        .header h1 { font-size: 2.25rem; font-weight: 800; color: #111827; letter-spacing: -0.025em; }
+        .header-meta { font-size: 0.95rem; color: #6B7280; font-weight: 500; }
+        
+        /* === MASONRY GRID === */
+        .masonry-grid {
+            column-count: 1;
+            column-gap: 20px;
+        }
+        @media (min-width: 768px) { .masonry-grid { column-count: 2; } }
+        @media (min-width: 1024px) { .masonry-grid { column-count: 3; } }
+        @media (min-width: 1440px) { .masonry-grid { column-count: 4; } }
+
+        /* === SECTION (CARD) === */
+        .section {
+            break-inside: avoid;
+            page-break-inside: avoid;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            margin-bottom: 20px;
+            overflow: hidden;
+            border: 1px solid #E5E7EB;
+        }
+        
+        .section-header {
+            padding: 12px 16px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 0.025em;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .section-content {
+            padding: 8px 0;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sub-header {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #4B5563;
+            padding: 12px 16px 4px 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        /* === ROW (Left/Right Aligned) === */
+        .row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 8px 16px;
+            border-bottom: 1px solid #F3F4F6;
+            gap: 12px;
+        }
+        .row:last-child { border-bottom: none; }
+        .row:hover { background: #F9FAFB; } /* Subtle hover effect for rows */
+        
+        .key {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #1F2937;
+        }
+        
+        .key.clickable {
+            flex: 0 0 auto;
+            max-width: 45%;
+            text-align: left;
+            color: #2563EB;
+            cursor: pointer;
+            border: none;
+            background: none;
+            padding: 2px 4px;
+            margin-left: -4px;
+            border-radius: 4px;
+            transition: all 0.15s;
+        }
+        .key.clickable:hover, .key.clickable:focus {
+            color: #1D4ED8;
+            background: rgba(37, 99, 235, 0.1);
+            outline: none;
+        }
+        
+        .desc {
+            flex: 1;
+            font-size: 0.9rem;
+            color: #4B5563;
+            text-align: right; /* Right align for a clean two-column feel */
+            word-break: break-word;
+            line-height: 1.4;
+        }
+        
+        code {
+            font-family: var(--font-mono); background: #1F2937; color: #F3F4F6;
+            padding: 2px 6px; border-radius: 4px; font-size: 0.8rem;
+        }
+
+        /* Text blocks inside cards */
+        .section-content > p {
+            padding: 4px 16px;
+            font-size: 0.9rem;
+            color: #4B5563;
+        }
+
+        /* === MODAL STYLES === */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(17, 24, 39, 0.75); backdrop-filter: blur(2px);
+            display: none; align-items: center; justify-content: center;
+            z-index: 1000; padding: 20px; opacity: 0; transition: opacity 0.2s;
+        }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal {
+            background: white; border-radius: 12px; 
+            max-width: 1200px; width: 100%; max-height: 90vh; 
+            overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            transform: scale(0.95); transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex; flex-direction: column;
+        }
+        .modal-overlay.active .modal { transform: scale(1); }
+        .modal-header {
+            background: #111827; color: white; padding: 20px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .modal-title { font-size: 1.25rem; font-weight: 700; letter-spacing: 0.025em; }
+        .modal-close {
+            background: none; border: none; color: #9CA3AF; font-size: 1.75rem; cursor: pointer;
+            line-height: 1; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+            border-radius: 6px; transition: all 0.15s;
+        }
+        .modal-close:hover, .modal-close:focus { color: white; background: rgba(255, 255, 255, 0.1); outline: none; }
+        .modal-body {
+            padding: 24px; overflow-y: auto; font-size: 1rem; line-height: 1.6; color: #374151;
+        }
+        .modal-body table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+        .modal-body th, .modal-body td { border: 1px solid #E5E7EB; padding: 12px 16px; text-align: left; }
+        .modal-body th { background: #F3F4F6; font-weight: 600; color: #111827; }
+        .modal-body code { background: #F3F4F6; color: #1F2937; padding: 2px 6px; border-radius: 4px; font-size: 0.9rem; font-family: var(--font-mono); }
+        .modal-body pre { background: #1F2937; color: #F3F4F6; padding: 16px; border-radius: 8px; overflow-x: auto; margin: 16px 0; }
+        .modal-body pre code { background: transparent; color: inherit; padding: 0; }
+        .modal-body a { color: #2563EB; text-decoration: none; font-weight: 500; }
+        .modal-body a:hover { text-decoration: underline; }
+
+    </style>
+</head>
+<body>
+    <div class="page">
+        <header class="header">
+            <h1 id="page-title">🚀 常用 Skill 速查手册</h1>
+            <div class="header-meta">
+                <span class="version-info" id="page-subtitle">一屏速查版 (Cheatsheet)</span>
+            </div>
+        </header>
+        
+        <!-- Masonry Grid Container -->
+        <div class="masonry-grid" id="mainGrid"></div>
+    </div>
+
+    <!-- MODAL OVERLAY -->
+    <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true">
+        <div class="modal" role="document">
+            <div class="modal-header">
+                <span class="modal-title" id="modalTitle">标题</span>
+                <button class="modal-close" id="modalClose" aria-label="关闭弹窗">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody" tabindex="-1">
+                内容
+            </div>
+        </div>
+    </div>
+
+    <script id="markdown-content" type="text/markdown">
+# 常用 Skill 速查手册
+
+按使用场景分类，快速找到你需要的 Skill。
+
+---
+
+## 📝 内容创作
+
+| Skill                         | 触发方式                  | 功能                                             | 安装位置                                      |
+| ----------------------------- | ------------------------- | ------------------------------------------------ | --------------------------------------------- |
+| **baoyu-translate**           | `/translate` 或提及"翻译" | 文章翻译（快翻/标准/精翻三模式），支持术语表     | `~/.agents/skills/baoyu-translate/`           |
+| **baoyu-format-markdown**     | 提及"格式化 markdown"     | 自动添加 frontmatter、标题、列表、修复中英文混排 | `~/.agents/skills/baoyu-format-markdown/`     |
+| **baoyu-article-illustrator** | 提及"文章配图"            | 分析文章结构，生成配套插图                       | `~/.agents/skills/baoyu-article-illustrator/` |
+| **baoyu-cover-image**         | 提及"生成封面"            | 文章封面图生成，5维度×10调色板×7渲染风格         | `~/.agents/skills/baoyu-cover-image/`         |
+| **baoyu-slide-deck**          | 提及"幻灯片"或"PPT"       | 生成专业幻灯片图片，16种风格                     | `~/.agents/skills/baoyu-slide-deck/`          |
+
+**关联工作流：**
+
+```
+获取内容 → 翻译 → 格式化 → 配图 → 发布
+```
+
+---
+
+## 🌐 信息获取
+
+| Skill                          | 触发方式              | 功能                                   | 安装位置                                       |
+| ------------------------------ | --------------------- | -------------------------------------- | ---------------------------------------------- |
+| **web-access**                 | 加载 skill            | 所有联网操作（搜索、抓取、登录后操作） | `~/.agents/skills/web-access/`                 |
+| **baoyu-url-to-markdown**      | 提及"URL 转 markdown" | Chrome CDP 抓取任意网页为 Markdown     | `~/.agents/skills/baoyu-url-to-markdown/`      |
+| **baoyu-youtube-transcript**   | 提及"YouTube 字幕"    | 下载字幕/封面，支持多语言、翻译、章节  | `~/.agents/skills/baoyu-youtube-transcript/`   |
+| **baoyu-danger-x-to-markdown** | 提及"X to markdown"   | X/Twitter 推文转 Markdown              | `~/.agents/skills/baoyu-danger-x-to-markdown/` |
+| **ljg-x-download**             | 加载 skill            | 下载 X 帖子中的图片和视频              | `~/.agents/skills/ljg-x-download/`             |
+
+---
+
+## 🎨 视觉设计
+
+| Skill                       | 触发方式                  | 功能                                                          | 安装位置                                    |
+| --------------------------- | ------------------------- | ------------------------------------------------------------- | ------------------------------------------- |
+| **baoyu-image-gen**         | `/image-gen` 或"生成图片" | 底层图片引擎，支持 OpenAI/Google/通义万象/即梦/豆包/Replicate | `~/.agents/skills/baoyu-image-gen/`         |
+| **baoyu-infographic**       | 提及"信息图"              | 21种布局×20种风格的专业信息图                                 | `~/.agents/skills/baoyu-infographic/`       |
+| **baoyu-comic**             | 提及"知识漫画"            | 教育漫画创作，多种画风（清线/日漫/水墨等）                    | `~/.agents/skills/baoyu-comic/`             |
+| **baoyu-xhs-images**        | 提及"小红书图片"          | 小红书风格图文，11种风格×8种布局                              | `~/.agents/skills/baoyu-xhs-images/`        |
+| **baoyu-compress-image**    | 提及"压缩图片"            | 图片压缩为 WebP/PNG                                           | `~/.agents/skills/baoyu-compress-image/`    |
+| **baoyu-danger-gemini-web** | 提及"Gemini 生成"         | 通过 Gemini Web API 生成图片/文本                             | `~/.agents/skills/baoyu-danger-gemini-web/` |
+| **ljg-card**                | 加载 skill                | 内容转 PNG 视觉卡片（长图、信息图、海报）                     | `~/.agents/skills/ljg-card/`                |
+
+---
+
+## 📤 发布与分享
+
+| Skill                      | 触发方式         | 功能                                             | 安装位置                                   |
+| -------------------------- | ---------------- | ------------------------------------------------ | ------------------------------------------ |
+| **baoyu-post-to-wechat**   | 提及"发布公众号" | 发布到微信公众号（文章/贴图）                    | `~/.agents/skills/baoyu-post-to-wechat/`   |
+| **baoyu-post-to-weibo**    | 提及"发微博"     | 发布微博（普通帖/头条文章）                      | `~/.agents/skills/baoyu-post-to-weibo/`    |
+| **baoyu-post-to-x**        | 提及"post to X"  | 发布到 X/Twitter                                 | `~/.agents/skills/baoyu-post-to-x/`        |
+| **baoyu-markdown-to-html** | 提及"md 转 html" | Markdown 转样式化 HTML（微信兼容）               | `~/.agents/skills/baoyu-markdown-to-html/` |
+| **release-skills**         | 提及"release"    | 通用发布工作流（Node/Python/Rust/Claude Plugin） | `~/.agents/skills/release-skills/`         |
+
+---
+
+## 🚀 开发工作流
+
+| Skill                     | 触发方式                 | 功能                                     | 安装位置                                  |
+| ------------------------- | ------------------------ | ---------------------------------------- | ----------------------------------------- |
+| **browse**                | `/browse`                | 无头浏览器 QA 测试、截图、断言           | `~/.claude/skills/browse/`                |
+| **review**                | `/review`                | PR 代码审查，检查 SQL 安全、LLM 信任边界 | `~/.claude/skills/review/`                |
+| **codex**                 | `/codex`                 | OpenAI Codex 包装器（审查/挑战/咨询）    | `~/.claude/skills/codex/`                 |
+| **qa**                    | `/qa`                    | 系统化 QA 测试并修复 bug                 | `~/.claude/skills/qa/`                    |
+| **qa-only**               | `/qa-only`               | 仅报告的 QA 测试                         | `~/.claude/skills/qa-only/`               |
+| **ship**                  | `/ship`                  | Ship 工作流：合并→测试→审查→版本→提交→PR | `~/.claude/skills/ship/`                  |
+| **design-review**         | `/design-review`         | 设计审计+修复，发现视觉不一致            | `~/.claude/skills/design-review/`         |
+| **plan-design-review**    | `/plan-design-review`    | 设计计划审查，交互式评分                 | `~/.claude/skills/plan-design-review/`    |
+| **plan-eng-review**       | `/plan-eng-review`       | 架构计划审查，锁定执行方案               | `~/.claude/skills/plan-eng-review/`       |
+| **plan-ceo-review**       | `/plan-ceo-review`       | CEO 视角范围审查，寻找 10 星产品         | `~/.claude/skills/plan-ceo-review/`       |
+| **office-hours**          | `/office-hours`          | YC 风格产品头脑风暴                      | `~/.claude/skills/office-hours/`          |
+| **retro**                 | `/retro`                 | 每周工程回顾，分析提交历史               | `~/.claude/skills/retro/`                 |
+| **document-release**      | `/document-release`      | 发布后文档同步更新                       | `~/.claude/skills/document-release/`      |
+| **setup-browser-cookies** | `/setup-browser-cookies` | 从真实浏览器导入 cookies                 | `~/.claude/skills/setup-browser-cookies/` |
+
+---
+
+## 🔒 安全与工具
+
+| Skill           | 触发方式       | 功能                                    | 安装位置                        |
+| --------------- | -------------- | --------------------------------------- | ------------------------------- |
+| **careful**     | `/careful`     | 破坏性命令警告（rm -rf、force-push 等） | `~/.claude/skills/careful/`     |
+| **guard**       | `/guard`       | 完整安全模式：警告+目录限制             | `~/.claude/skills/guard/`       |
+| **freeze**      | `/freeze`      | 限制编辑到特定目录                      | `~/.claude/skills/freeze/`      |
+| **unfreeze**    | `/unfreeze`    | 解除目录限制                            | `~/.claude/skills/unfreeze/`    |
+| **investigate** | `/investigate` | 系统化调试与根因调查                    | `~/.claude/skills/investigate/` |
+| **pua**         | 提及"不要摆烂" | 任务失败时穷尽一切方案                  | `~/.agents/skills/pua/`         |
+
+---
+
+## 📊 分析与研究
+
+| Skill                               | 触发方式           | 功能                          | 安装位置                                            |
+| ----------------------------------- | ------------------ | ----------------------------- | --------------------------------------------------- |
+| **ljg-xray-paper**                  | 提及"paper x-ray"  | 论文分析，提取问题-视角-结果  | `~/.agents/skills/ljg-xray-paper/`                  |
+| **ljg-learn**                       | 加载 skill         | 概念解剖，8个维度切分概念     | `~/.agents/skills/ljg-learn/`                       |
+| **ljg-plain**                       | 加载 skill         | 白话引擎，改写到12岁能懂      | `~/.agents/skills/ljg-plain/`                       |
+| **ljg-rank**                        | 加载 skill         | 降秩引擎，找现象背后的生成器  | `~/.agents/skills/ljg-rank/`                        |
+| **ljg-word**                        | 加载 skill         | 英语单词深度拆解              | `~/.agents/skills/ljg-word/`                        |
+| **ljg-writes**                      | 加载 skill         | 写作引擎，在写中想透观点      | `~/.agents/skills/ljg-writes/`                      |
+| **ljg-roundtable**                  | 加载 skill         | 圆桌讨论，结构化多人辩证      | `~/.agents/skills/ljg-roundtable/`                  |
+| **ljg-travel**                      | 加载 skill         | 旅行研究，生成文化研究文档    | `~/.agents/skills/ljg-travel/`                      |
+| **tangzhan-skill-opencodeinsights** | 提及"分析 session" | OpenCode session 历史洞察报告 | `~/.agents/skills/tangzhan-skill-opencodeinsights/` |
+
+---
+
+## 🧩 IDE 扩展类
+
+### GitLens (Trae)
+
+| Skill           | 用途                   |
+| --------------- | ---------------------- |
+| add-command     | 创建新的 VS Code 命令  |
+| add-icon        | 添加新图标到字体       |
+| add-ai-provider | 添加 AI 提供商集成     |
+| analyze         | 深度设计和实现分析     |
+| add-webview     | 创建新 webview         |
+| add-test        | 生成单元/E2E 测试      |
+| audit-commits   | 审计提交找问题         |
+| commit          | 创建规范 git 提交      |
+| review          | GitLens 标准代码审查   |
+| investigate     | bug 结构化调查         |
+| create-issue    | 从未提交更改创建 issue |
+
+### Python Envs (VS Code)
+
+| Skill                    | 用途                 |
+| ------------------------ | -------------------- |
+| cross-platform-paths     | 跨平台路径处理模式   |
+| debug-failing-test       | 迭代日志调试失败测试 |
+| generate-snapshot        | 代码库健康快照       |
+| run-e2e-tests            | 运行 E2E 测试        |
+| python-manager-discovery | 环境管理器发现模式   |
+| run-integration-tests    | 运行集成测试         |
+| run-pre-commit-checks    | 预提交检查           |
+| settings-precedence      | 设置优先级规则       |
+| run-smoke-tests          | 冒烟测试             |
+
+---
+
+## 📚 工作流组合
+
+### 论文阅读 + 卡片制作
+
+```
+ljg-paper → ljg-card
+```
+
+### 单词学习 + 卡片
+
+```
+ljg-word → ljg-card -i
+```
+
+### 城市旅行研究
+
+```
+ljg-travel → ljg-card
+```
+
+### 内容创作完整流程
+
+```
+获取内容 (url-to-markdown / youtube-transcript)
+    ↓
+翻译 (translate)
+    ↓
+格式化 (format-markdown)
+    ↓
+配图 (article-illustrator / cover-image)
+    ↓
+发布 (post-to-wechat / post-to-weibo / post-to-x)
+```
+
+### 代码发布流程
+
+```
+plan-eng-review → code → review → qa → ship → document-release
+```
+
+---
+
+## 🔗 Skill 资源
+
+| 名称                   | 链接                                                         | 说明                                            |
+| ---------------------- | ------------------------------------------------------------ | ----------------------------------------------- |
+| Anthropic 官方         | [GitHub](https://github.com/anthropics/skills)               | 12个官方 Skill，含 skill-creator、Office 三件套 |
+| skills.sh              | [官网](https://skills.sh/)                                   | Vercel 官方 Skill 超市，有 Trending 榜单        |
+| skillsmp               | [官网](https://skillsmp.com/zh)                              | 收录 8w+ Skill，数量最多                        |
+| Superpowers            | [GitHub](https://github.com/obra/superpowers)                | 资深开发者最佳实践                              |
+| Coze 技能商店          | [官网](https://www.coze.cn/skills)                           | 字节跳动出品，偏生产力                          |
+| everything-claude-code | [GitHub](https://github.com/affaan-m/everything-claude-code) | Claude 大赛冠军配置                             |
+| MiniMax Skills         | [GitHub](https://github.com/MiniMax-AI/skills)               | 前端、全栈、Android、iOS、着色器                |
+| Figma 官方             | [社区](https://www.figma.com/community/skills)               | 设计系统相关                                    |
+| AI Search Hub          | [GitHub](https://github.com/minsight-ai-info/AI-Search-Hub)  | 一次提问全域搜索                                |
+| 李继刚 skills          | [GitHub](https://github.com/lijigang/ljg-skills)             | 卡片、论文、学习、写作等                        |
+| 宝玉 skills            | [GitHub](https://github.com/JimLiu/baoyu-skills)             | 翻译、配图、发布等                              |
+| gstack                 | [GitHub](https://github.com/garrytan/gstack)                 | 开发工作流技能集                                |
+    </script>
+
+    <script>
+        const mdText = document.getElementById('markdown-content').textContent;
+        const tokens = marked.lexer(mdText);
+        const mainGrid = document.getElementById('mainGrid');
+        
+        // Modal state
+        const modalDataMap = new Map();
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalBody = document.getElementById('modalBody');
+        const modalCloseBtn = document.getElementById('modalClose');
+        let previouslyFocusedElement = null;
+
+        let currentSection = null;
+        let currentSectionContent = null;
+        let themeIndex = 0;
+
+        // Parse markdown tokens and build Masonry cards
+        for (let i = 0; i < tokens.length; i++) {
+            const token = tokens[i];
+            
+            if (token.type === 'heading' && token.depth === 2) {
+                // Create Card Section
+                currentSection = document.createElement('section');
+                currentSection.className = 'section';
+                // Rotate themes
+                currentSection.style.borderTop = `4px solid var(--theme-${themeIndex % 10}-header)`;
+                
+                const header = document.createElement('div');
+                header.className = 'section-header';
+                header.textContent = token.text;
+                header.style.backgroundColor = `var(--theme-${themeIndex % 10}-bg)`;
+                header.style.color = `var(--theme-${themeIndex % 10}-header)`;
+                
+                currentSectionContent = document.createElement('div');
+                currentSectionContent.className = 'section-content';
+                
+                currentSection.appendChild(header);
+                currentSection.appendChild(currentSectionContent);
+                mainGrid.appendChild(currentSection);
+                
+                themeIndex++;
+            } 
+            else if (token.type === 'heading' && token.depth === 3 && currentSectionContent) {
+                // Subheader inside card
+                const subheader = document.createElement('div');
+                subheader.className = 'sub-header';
+                subheader.textContent = token.text;
+                currentSectionContent.appendChild(subheader);
+            }
+            else if (token.type === 'table' && currentSectionContent) {
+                // Render table rows as extremely compact left-right items
+                token.rows.forEach((row, rowIndex) => {
+                    const rowDiv = document.createElement('div');
+                    rowDiv.className = 'row';
+                    
+                    const nameCell = row[0].tokens[0] && row[0].tokens[0].type === 'strong' 
+                        ? row[0].tokens[0].text : row[0].text;
+                    const descText = row.length > 1 ? row[1].text : '';
+                    
+                    const btn = document.createElement('button');
+                    btn.className = 'key clickable';
+                    // Render inline code properly if there are inline code in the name
+                    btn.innerHTML = marked.parseInline(nameCell);
+                    
+                    const descSpan = document.createElement('span');
+                    descSpan.className = 'desc';
+                    descSpan.innerHTML = marked.parseInline(descText);
+                    
+                    // Generate full HTML for modal
+                    let modalHtml = '<table><thead><tr>';
+                    token.header.forEach(h => modalHtml += `<th>${marked.parseInline(h.text)}</th>`);
+                    modalHtml += '</tr></thead><tbody><tr>';
+                    row.forEach(cell => modalHtml += `<td>${marked.parseInline(cell.text)}</td>`);
+                    modalHtml += '</tr></tbody></table>';
+                    
+                    const modalId = `modal_${themeIndex}_${rowIndex}`;
+                    modalDataMap.set(modalId, {
+                        title: nameCell.replace(/<[^>]+>/g, ''), // Strip tags for title
+                        content: modalHtml
+                    });
+                    
+                    btn.onclick = () => openModal(modalId, btn);
+                    
+                    rowDiv.appendChild(btn);
+                    rowDiv.appendChild(descSpan);
+                    currentSectionContent.appendChild(rowDiv);
+                });
+            }
+            else if (currentSectionContent && token.type !== 'space' && token.type !== 'hr') {
+                if (token.type === 'code') {
+                    const rowDiv = document.createElement('div');
+                    rowDiv.className = 'row';
+                    
+                    const btn = document.createElement('button');
+                    btn.className = 'key clickable';
+                    btn.textContent = "查看工作流代码";
+                    
+                    const modalId = `modal_code_${themeIndex}_${i}`;
+                    modalDataMap.set(modalId, {
+                        title: '工作流详情',
+                        content: `<pre><code>${token.text.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>`
+                    });
+                    btn.onclick = () => openModal(modalId, btn);
+                    
+                    rowDiv.appendChild(btn);
+                    currentSectionContent.appendChild(rowDiv);
+                } else if (token.type === 'paragraph') {
+                    const p = document.createElement('p');
+                    p.innerHTML = marked.parseInline(token.text);
+                    currentSectionContent.appendChild(p);
+                }
+            }
+        }
+
+        // Modal Logic
+        function openModal(id, triggerElement) {
+            const data = modalDataMap.get(id);
+            if (!data) return;
+            
+            previouslyFocusedElement = triggerElement;
+            modalTitle.textContent = data.title;
+            modalBody.innerHTML = data.content;
+            
+            modalOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            // Set focus to the modal body for accessibility
+            setTimeout(() => modalBody.focus(), 50);
+        }
+
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+            
+            if (previouslyFocusedElement) {
+                previouslyFocusedElement.focus();
+            }
+        }
+
+        modalCloseBtn.onclick = closeModal;
+        modalOverlay.onclick = (e) => {
+            if (e.target === modalOverlay) closeModal();
+        };
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
