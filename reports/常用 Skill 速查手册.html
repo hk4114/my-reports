@@ -46,10 +46,133 @@
         .header {
             display: flex; justify-content: space-between; align-items: flex-end;
             margin-bottom: 24px; padding-bottom: 16px; border-bottom: 2px solid #D1D5DB;
+            gap: 20px;
+            flex-wrap: wrap;
         }
-        .header h1 { font-size: 2.25rem; font-weight: 800; color: #111827; letter-spacing: -0.025em; }
+        .header-content {
+            display: flex; flex-direction: column; gap: 4px;
+        }
+        .header h1 { font-size: 2.25rem; font-weight: 800; color: #111827; letter-spacing: -0.025em; line-height: 1.1; }
         .header-meta { font-size: 0.95rem; color: #6B7280; font-weight: 500; }
         
+        /* === SEARCH === */
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            max-width: 380px;
+            margin-bottom: 4px;
+        }
+        .search-input {
+            width: 100%;
+            padding: 10px 40px 10px 38px;
+            border: 1px solid #E5E7EB;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            color: #1F2937;
+            background: #fff;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            outline: none;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            font-family: var(--font-sans);
+        }
+        .search-input::placeholder {
+            color: #9CA3AF;
+        }
+        .search-input:focus {
+            border-color: #3B82F6;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+            background: #fff;
+        }
+        .search-input:hover:not(:focus) {
+            border-color: #D1D5DB;
+        }
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            color: #9CA3AF;
+            pointer-events: none;
+            transition: color 0.2s;
+        }
+        .search-input:focus ~ .search-icon {
+            color: #3B82F6;
+        }
+        .search-shortcut {
+            position: absolute;
+            right: 10px;
+            display: flex;
+            align-items: center;
+            pointer-events: none;
+        }
+        .search-shortcut kbd {
+            background: #F3F4F6;
+            border: 1px solid #E5E7EB;
+            border-radius: 4px;
+            padding: 2px 6px;
+            font-size: 0.75rem;
+            color: #6B7280;
+            font-family: var(--font-mono);
+            font-weight: 600;
+            box-shadow: 0 1px 1px rgba(0,0,0,0.05);
+        }
+
+        /* HIGHLIGHTING */
+        mark {
+            background-color: rgba(253, 224, 71, 0.6); /* yellow-300 with opacity */
+            color: inherit;
+            border-radius: 2px;
+            padding: 0 2px;
+            margin: 0 -2px;
+            font-weight: 600;
+            box-shadow: 0 1px 1px rgba(253, 224, 71, 0.4);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Empty state */
+        .empty-state {
+            display: none;
+            column-span: all;
+            text-align: center;
+            padding: 80px 20px;
+            color: #6B7280;
+            animation: fadeIn 0.3s ease;
+        }
+        .empty-state.active {
+            display: block;
+        }
+        .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            opacity: 0.8;
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+        }
+        .empty-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Responsive Search */
+        @media (max-width: 640px) {
+            .header { align-items: flex-start; }
+            .search-container { max-width: 100%; margin-top: 12px; }
+        }
+
         /* === MASONRY GRID === */
         .masonry-grid {
             column-count: 1;
@@ -199,9 +322,18 @@
 <body>
     <div class="page">
         <header class="header">
-            <h1 id="page-title">🚀 常用 Skill 速查手册</h1>
-            <div class="header-meta">
-                <span class="version-info" id="page-subtitle">一屏速查版 (Cheatsheet)</span>
+            <div class="header-content">
+                <h1 id="page-title">🚀 常用 Skill 速查手册</h1>
+                <div class="header-meta">
+                    <span class="version-info" id="page-subtitle">一屏速查版 (Cheatsheet)</span>
+                </div>
+            </div>
+            <div class="search-container">
+                <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input type="text" id="searchInput" class="search-input" placeholder="Search skills, actions, docs..." aria-label="Search skills" autocomplete="off" spellcheck="false" />
+                <div class="search-shortcut">
+                    <kbd>/</kbd>
+                </div>
             </div>
         </header>
         
@@ -446,6 +578,22 @@ plan-eng-review → code → review → qa → ship → document-release
         let currentSectionContent = null;
         let themeIndex = 0;
 
+        // Utility: Highlight HTML safely
+        function highlightHTML(html, query) {
+            if (!query) return html;
+            // Escape regex characters
+            const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const regex = new RegExp(`(${escapedQuery})`, 'gi');
+            
+            const parts = html.split(/(<[^>]+>)/);
+            for (let i = 0; i < parts.length; i++) {
+                if (i % 2 === 0) {
+                    parts[i] = parts[i].replace(regex, '<mark>$1</mark>');
+                }
+            }
+            return parts.join('');
+        }
+
         // Parse markdown tokens and build Masonry cards
         for (let i = 0; i < tokens.length; i++) {
             const token = tokens[i];
@@ -459,7 +607,8 @@ plan-eng-review → code → review → qa → ship → document-release
                 
                 const header = document.createElement('div');
                 header.className = 'section-header';
-                header.textContent = token.text;
+                header.innerHTML = marked.parseInline(token.text);
+                header.dataset.originalHtml = header.innerHTML;
                 header.style.backgroundColor = `var(--theme-${themeIndex % 10}-bg)`;
                 header.style.color = `var(--theme-${themeIndex % 10}-header)`;
                 
@@ -476,7 +625,8 @@ plan-eng-review → code → review → qa → ship → document-release
                 // Subheader inside card
                 const subheader = document.createElement('div');
                 subheader.className = 'sub-header';
-                subheader.textContent = token.text;
+                subheader.innerHTML = marked.parseInline(token.text);
+                subheader.dataset.originalHtml = subheader.innerHTML;
                 currentSectionContent.appendChild(subheader);
             }
             else if (token.type === 'table' && currentSectionContent) {
@@ -491,12 +641,13 @@ plan-eng-review → code → review → qa → ship → document-release
                     
                     const btn = document.createElement('button');
                     btn.className = 'key clickable';
-                    // Render inline code properly if there are inline code in the name
                     btn.innerHTML = marked.parseInline(nameCell);
+                    btn.dataset.originalHtml = btn.innerHTML;
                     
                     const descSpan = document.createElement('span');
                     descSpan.className = 'desc';
                     descSpan.innerHTML = marked.parseInline(descText);
+                    descSpan.dataset.originalHtml = descSpan.innerHTML;
                     
                     // Generate full HTML for modal
                     let modalHtml = '<table><thead><tr>';
@@ -526,6 +677,7 @@ plan-eng-review → code → review → qa → ship → document-release
                     const btn = document.createElement('button');
                     btn.className = 'key clickable';
                     btn.textContent = "查看工作流代码";
+                    btn.dataset.originalHtml = btn.textContent;
                     
                     const modalId = `modal_code_${themeIndex}_${i}`;
                     modalDataMap.set(modalId, {
@@ -539,10 +691,132 @@ plan-eng-review → code → review → qa → ship → document-release
                 } else if (token.type === 'paragraph') {
                     const p = document.createElement('p');
                     p.innerHTML = marked.parseInline(token.text);
+                    p.dataset.originalHtml = p.innerHTML;
                     currentSectionContent.appendChild(p);
                 }
             }
         }
+
+        // Setup Empty State
+        const emptyState = document.createElement('div');
+        emptyState.className = 'empty-state';
+        emptyState.innerHTML = `
+            <div class="empty-icon">😵‍💫</div>
+            <div class="empty-title">未找到匹配的 Skill</div>
+            <p>请尝试更换关键词，或缩短搜索词</p>
+        `;
+        mainGrid.appendChild(emptyState);
+
+        // Search Logic
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            let hasVisibleCards = false;
+
+            const sections = document.querySelectorAll('.section');
+            
+            sections.forEach(section => {
+                let hasVisibleContent = false;
+                
+                const sectionHeader = section.querySelector('.section-header');
+                const sectionTitle = sectionHeader.textContent.toLowerCase();
+                const sectionMatches = sectionTitle.includes(query);
+                
+                sectionHeader.innerHTML = highlightHTML(sectionHeader.dataset.originalHtml, query);
+                
+                const contentItems = section.querySelectorAll('.row, p, .sub-header');
+                
+                contentItems.forEach(item => {
+                    if (item.classList.contains('sub-header')) {
+                        item.innerHTML = highlightHTML(item.dataset.originalHtml, query);
+                        return; // Handle sub-headers visibility below
+                    }
+                    
+                    const text = item.textContent.toLowerCase();
+                    const itemMatches = text.includes(query);
+                    
+                    if (sectionMatches || query === '' || itemMatches) {
+                        item.classList.remove('hidden');
+                        hasVisibleContent = true;
+                        
+                        // Apply highlights to all original children
+                        const highlightableChildren = item.querySelectorAll('[data-original-html]');
+                        if (highlightableChildren.length > 0) {
+                            highlightableChildren.forEach(child => {
+                                child.innerHTML = highlightHTML(child.dataset.originalHtml, query);
+                            });
+                        } else if (item.dataset.originalHtml) {
+                            item.innerHTML = highlightHTML(item.dataset.originalHtml, query);
+                        }
+                    } else {
+                        item.classList.add('hidden');
+                    }
+                });
+
+                // Handle sub-headers visibility dynamically
+                let currentSubHeader = null;
+                let currentSubHeaderHasVisibleRows = false;
+                
+                contentItems.forEach(item => {
+                    if (item.classList.contains('sub-header')) {
+                        if (currentSubHeader) {
+                            currentSubHeader.classList.toggle('hidden', !currentSubHeaderHasVisibleRows);
+                        }
+                        currentSubHeader = item;
+                        currentSubHeaderHasVisibleRows = false;
+                    } else if (!item.classList.contains('hidden')) {
+                        currentSubHeaderHasVisibleRows = true;
+                    }
+                });
+                
+                if (currentSubHeader) {
+                    currentSubHeader.classList.toggle('hidden', !currentSubHeaderHasVisibleRows);
+                }
+
+                if (hasVisibleContent || sectionMatches) {
+                    section.classList.remove('hidden');
+                    hasVisibleCards = true;
+                    
+                    // Unhide all items inside if the section header itself matched
+                    if (sectionMatches && query !== '') {
+                        contentItems.forEach(item => {
+                            item.classList.remove('hidden');
+                            const highlightableChildren = item.querySelectorAll('[data-original-html]');
+                            if (highlightableChildren.length > 0) {
+                                highlightableChildren.forEach(child => {
+                                    child.innerHTML = highlightHTML(child.dataset.originalHtml, query);
+                                });
+                            } else if (item.dataset.originalHtml) {
+                                item.innerHTML = highlightHTML(item.dataset.originalHtml, query);
+                            }
+                        });
+                    }
+                } else {
+                    section.classList.add('hidden');
+                }
+            });
+
+            emptyState.classList.toggle('active', !hasVisibleCards && query !== '');
+        });
+
+        // Keyboard Shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === '/' && document.activeElement !== searchInput && !modalOverlay.classList.contains('active')) {
+                e.preventDefault();
+                searchInput.focus();
+            } else if (e.key === 'Escape') {
+                if (modalOverlay.classList.contains('active')) {
+                    closeModal();
+                } else if (document.activeElement === searchInput) {
+                    if (searchInput.value) {
+                        searchInput.value = '';
+                        searchInput.dispatchEvent(new Event('input'));
+                    } else {
+                        searchInput.blur();
+                    }
+                }
+            }
+        });
 
         // Modal Logic
         function openModal(id, triggerElement) {
