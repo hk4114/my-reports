@@ -370,6 +370,11 @@
 | **baoyu-article-illustrator** | 提及"文章配图"            | 分析文章结构，生成配套插图                       | `~/.agents/skills/baoyu-article-illustrator/` |
 | **baoyu-cover-image**         | 提及"生成封面"            | 文章封面图生成，5维度×10调色板×7渲染风格         | `~/.agents/skills/baoyu-cover-image/`         |
 | **baoyu-slide-deck**          | 提及"幻灯片"或"PPT"       | 生成专业幻灯片图片，16种风格                     | `~/.agents/skills/baoyu-slide-deck/`          |
+| **skill-creator**             | 提及"创建技能"            | 创建/修改/优化 Skill，运行 evals 测试            | `~/.agents/skills/skill-creator/`             |
+| **skill-creator-v2**          | 提及"创建技能 v2"         | Skill 创建和优化 v2 版本                         | `~/.agents/skills/skill-creator-v2/`          |
+| **mcp-builder**               | 提及"MCP"或"MCP服务器"    | 构建 MCP 服务器，集成外部 API                    | `~/.agents/skills/mcp-builder/`               |
+| **doc-coauthoring**           | 提及"协作文档"            | 文档协作撰写工作流（提案、规范、决策文档）       | `~/.agents/skills/doc-coauthoring/`           |
+| **internal-comms**            | 提及"内部沟通"            | 撰写内部沟通材料（状态报告、领导汇报、FAQ）      | `~/.agents/skills/internal-comms/`            |
 
 **关联工作流：**
 
@@ -383,11 +388,13 @@
 
 | Skill                          | 触发方式              | 功能                                   | 安装位置                                       |
 | ------------------------------ | --------------------- | -------------------------------------- | ---------------------------------------------- |
+| **gstack**                     | 加载 skill            | 无头浏览器 QA 测试和网站试用           | `~/.claude/skills/gstack/`                     |
 | **web-access**                 | 加载 skill            | 所有联网操作（搜索、抓取、登录后操作） | `~/.agents/skills/web-access/`                 |
 | **baoyu-url-to-markdown**      | 提及"URL 转 markdown" | Chrome CDP 抓取任意网页为 Markdown     | `~/.agents/skills/baoyu-url-to-markdown/`      |
 | **baoyu-youtube-transcript**   | 提及"YouTube 字幕"    | 下载字幕/封面，支持多语言、翻译、章节  | `~/.agents/skills/baoyu-youtube-transcript/`   |
 | **baoyu-danger-x-to-markdown** | 提及"X to markdown"   | X/Twitter 推文转 Markdown              | `~/.agents/skills/baoyu-danger-x-to-markdown/` |
 | **ljg-x-download**             | 加载 skill            | 下载 X 帖子中的图片和视频              | `~/.agents/skills/ljg-x-download/`             |
+| **baoyu-danger-gemini-web**    | 提及"Gemini 生成"     | 通过 Gemini Web API 生成图片/文本      | `~/.agents/skills/baoyu-danger-gemini-web/`    |
 
 ---
 
@@ -402,6 +409,10 @@
 | **baoyu-compress-image**    | 提及"压缩图片"            | 图片压缩为 WebP/PNG                                           | `~/.agents/skills/baoyu-compress-image/`    |
 | **baoyu-danger-gemini-web** | 提及"Gemini 生成"         | 通过 Gemini Web API 生成图片/文本                             | `~/.agents/skills/baoyu-danger-gemini-web/` |
 | **ljg-card**                | 加载 skill                | 内容转 PNG 视觉卡片（长图、信息图、海报）                     | `~/.agents/skills/ljg-card/`                |
+| **canvas-design-v2**        | 提及"视觉艺术"            | 创建视觉艺术作品（海报、艺术品、设计作品），输出 PNG/PDF      | `~/.agents/skills/canvas-design-v2/`         |
+| **theme-factory**           | 提及"主题"或"theme"       | 为产物应用样式主题（10种预设主题）                            | `~/.agents/skills/theme-factory/`            |
+| **web-artifacts-builder**   | 提及"复杂产物"            | 创建多组件 HTML 产物（React+Tailwind+状态管理）               | `~/.agents/skills/web-artifacts-builder/`    |
+| **web-artifacts-builder-v2**| 提及"复杂产物 v2"         | 复杂 HTML 组件构建 v2 版本                                    | `~/.agents/skills/web-artifacts-builder-v2/` |
 
 ---
 
@@ -435,6 +446,12 @@
 | **retro**                 | `/retro`                 | 每周工程回顾，分析提交历史               | `~/.claude/skills/retro/`                 |
 | **document-release**      | `/document-release`      | 发布后文档同步更新                       | `~/.claude/skills/document-release/`      |
 | **setup-browser-cookies** | `/setup-browser-cookies` | 从真实浏览器导入 cookies                 | `~/.claude/skills/setup-browser-cookies/` |
+| **autoplan**              | `/autoplan`              | 自动审查流水线（CEO+设计+工程）          | `~/.claude/skills/autoplan/`              |
+| **benchmark**             | `/benchmark`             | 性能基准测试（Lighthouse/Web Vitals）    | `~/.claude/skills/benchmark/`             |
+| **canary**                | `/canary`                | 金丝雀发布监控                           | `~/.claude/skills/canary/`                |
+| **land-and-deploy**       | `/land-and-deploy`       | 合并 PR 并部署验证                       | `~/.claude/skills/land-and-deploy/`       |
+| **setup-deploy**          | `/setup-deploy`          | 配置部署设置                             | `~/.claude/skills/setup-deploy/`          |
+| **careful**               | `/careful`               | 破坏性命令警告（rm -rf、force-push 等）  | `~/.claude/skills/careful/`               |
 
 ---
 
@@ -442,7 +459,7 @@
 
 | Skill           | 触发方式       | 功能                                    | 安装位置                        |
 | --------------- | -------------- | --------------------------------------- | ------------------------------- |
-| **careful**     | `/careful`     | 破坏性命令警告（rm -rf、force-push 等） | `~/.claude/skills/careful/`     |
+| **cso**         | `/cso`         | 安全审计（secrets/供应链/CI-CD/LLM）   | `~/.claude/skills/cso/`         |
 | **guard**       | `/guard`       | 完整安全模式：警告+目录限制             | `~/.claude/skills/guard/`       |
 | **freeze**      | `/freeze`      | 限制编辑到特定目录                      | `~/.claude/skills/freeze/`      |
 | **unfreeze**    | `/unfreeze`    | 解除目录限制                            | `~/.claude/skills/unfreeze/`    |
@@ -455,49 +472,57 @@
 
 | Skill                               | 触发方式           | 功能                          | 安装位置                                            |
 | ----------------------------------- | ------------------ | ----------------------------- | --------------------------------------------------- |
-| **ljg-xray-paper**                  | 提及"paper x-ray"  | 论文分析，提取问题-视角-结果  | `~/.agents/skills/ljg-xray-paper/`                  |
+| **ljg-paper**                       | 提及"读论文"      | 论文阅读，提取核心观点        | `~/.agents/skills/ljg-paper/`                       |
+| **ljg-xray-paper**                  | 提及"paper x-ray" | 论文分析，提取问题-视角-结果  | `~/.agents/skills/ljg-xray-paper/`                  |
 | **ljg-learn**                       | 加载 skill         | 概念解剖，8个维度切分概念     | `~/.agents/skills/ljg-learn/`                       |
 | **ljg-plain**                       | 加载 skill         | 白话引擎，改写到12岁能懂      | `~/.agents/skills/ljg-plain/`                       |
 | **ljg-rank**                        | 加载 skill         | 降秩引擎，找现象背后的生成器  | `~/.agents/skills/ljg-rank/`                        |
 | **ljg-word**                        | 加载 skill         | 英语单词深度拆解              | `~/.agents/skills/ljg-word/`                        |
 | **ljg-writes**                      | 加载 skill         | 写作引擎，在写中想透观点      | `~/.agents/skills/ljg-writes/`                      |
 | **ljg-roundtable**                  | 加载 skill         | 圆桌讨论，结构化多人辩证      | `~/.agents/skills/ljg-roundtable/`                  |
+| **ljg-skill-map**                   | 提及"技能地图"    | Skill 地图查看                | `~/.agents/skills/ljg-skill-map/`                   |
+| **ljg-invest**                      | 提及"投资分析"    | 投资分析报告（秩序创造机器）  | `~/.agents/skills/ljg-invest/`                      |
 | **ljg-travel**                      | 加载 skill         | 旅行研究，生成文化研究文档    | `~/.agents/skills/ljg-travel/`                      |
-| **tangzhan-skill-opencodeinsights** | 提及"分析 session" | OpenCode session 历史洞察报告 | `~/.agents/skills/tangzhan-skill-opencodeinsights/` |
+| **tangzhan-skill-opencodeinsights** | 提及"分析 session"| OpenCode session 历史洞察报告 | `~/.agents/skills/tangzhan-skill-opencodeinsights/` |
 
 ---
 
-## 🧩 IDE 扩展类
+## 🎨 设计与系统
 
-### GitLens (Trae)
+| Skill                   | 触发方式       | 功能                                   | 安装位置                                        |
+| ----------------------- | -------------- | -------------------------------------- | ----------------------------------------------- |
+| **design-consultation** | 提及"设计系统"| 从零创建完整设计系统（DESIGN.md）      | `~/.claude/skills/design-consultation/`         |
+| **design-review**       | 提及"设计审查"| 设计 QA 审查，发现视觉不一致           | `~/.claude/skills/design-review/`               |
 
-| Skill           | 用途                   |
-| --------------- | ---------------------- |
-| add-command     | 创建新的 VS Code 命令  |
-| add-icon        | 添加新图标到字体       |
-| add-ai-provider | 添加 AI 提供商集成     |
-| analyze         | 深度设计和实现分析     |
-| add-webview     | 创建新 webview         |
-| add-test        | 生成单元/E2E 测试      |
-| audit-commits   | 审计提交找问题         |
-| commit          | 创建规范 git 提交      |
-| review          | GitLens 标准代码审查   |
-| investigate     | bug 结构化调查         |
-| create-issue    | 从未提交更改创建 issue |
+---
 
-### Python Envs (VS Code)
+## 💻 开发技术栈
 
-| Skill                    | 用途                 |
-| ------------------------ | -------------------- |
-| cross-platform-paths     | 跨平台路径处理模式   |
-| debug-failing-test       | 迭代日志调试失败测试 |
-| generate-snapshot        | 代码库健康快照       |
-| run-e2e-tests            | 运行 E2E 测试        |
-| python-manager-discovery | 环境管理器发现模式   |
-| run-integration-tests    | 运行集成测试         |
-| run-pre-commit-checks    | 预提交检查           |
-| settings-precedence      | 设置优先级规则       |
-| run-smoke-tests          | 冒烟测试             |
+| Skill                         | 触发方式           | 功能                                   | 安装位置                                            |
+| ----------------------------- | ------------------ | -------------------------------------- | --------------------------------------------------- |
+| **vercel-react-best-practices**| 提及"React 优化"  | React/Next.js 性能优化最佳实践         | `~/.agents/skills/vercel-react-best-practices/`     |
+| **vercel-composition-patterns**| 提及"React 组合"  | React 组合模式（解决布尔prop泛滥）     | `~/.agents/skills/vercel-composition-patterns/`     |
+| **webapp-testing**            | 提及"Web 测试"    | 本地 Web 应用 Playwright 测试          | `~/.agents/skills/webapp-testing/`                  |
+| **android-native-dev**        | 提及"Android 开发"| Android 原生开发（Kotlin/Compose）     | `~/.agents/skills/android-native-dev/`              |
+| **ios-application-dev**       | 提及"iOS 开发"    | iOS 应用开发（UIKit/SwiftUI）          | `~/.agents/skills/ios-application-dev/`             |
+| **flutter-dev**               | 提及"Flutter"     | Flutter 跨平台开发                     | `~/.agents/skills/flutter-dev/`                     |
+| **react-native-dev**          | 提及"React Native"| React Native 移动开发                  | `~/.agents/skills/react-native-dev/`                |
+| **frontend-dev**              | 提及"前端开发"    | 前端开发工作流                         | `~/.agents/skills/frontend-dev/`                    |
+| **fullstack-dev**             | 提及"全栈开发"    | 全栈应用开发（Node/Python/Go后端）     | `~/.agents/skills/fullstack-dev/`                   |
+| **shader-dev**                | 提及"着色器"      | GLSL 着色器开发（光线步进/SDF/流体）   | `~/.agents/skills/shader-dev/`                      |
+| **vision-analysis**           | 提及"视觉分析"    | 图像分析与计算机视觉                   | `~/.agents/skills/vision-analysis/`                 |
+| **gif-sticker-maker**         | 提及"GIF 贴纸"    | GIF 动画贴纸制作                       | `~/.agents/skills/gif-sticker-maker/`               |
+
+---
+
+## 📄 文档处理
+
+| Skill | 触发方式   | 功能                                | 安装位置                               |
+| ----- | ---------- | ----------------------------------- | -------------------------------------- |
+| **pdf**   | 提及".pdf"| PDF 处理（读取/提取/合并/创建/OCR） | `~/.agents/skills/pdf/`                |
+| **docx**  | 提及"Word"| Word 文档处理                       | `~/.agents/skills/docx/`               |
+| **xlsx**  | 提及"Excel"| 电子表格处理                       | `~/.agents/skills/xlsx/`               |
+| **pptx**  | 提及"PPT" | PowerPoint 处理                     | `~/.agents/skills/pptx/`               |
 
 ---
 
@@ -559,6 +584,7 @@ plan-eng-review → code → review → qa → ship → document-release
 | 李继刚 skills          | [GitHub](https://github.com/lijigang/ljg-skills)             | 卡片、论文、学习、写作等                        |
 | 宝玉 skills            | [GitHub](https://github.com/JimLiu/baoyu-skills)             | 翻译、配图、发布等                              |
 | gstack                 | [GitHub](https://github.com/garrytan/gstack)                 | 开发工作流技能集                                |
+| vercel-labs            | [GitHub](https://github.com/vercel-labs/agent-skills)        | Vercel React/Next.js 最佳实践                   |
     </script>
 
     <script>
