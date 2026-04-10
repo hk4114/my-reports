@@ -8,19 +8,73 @@ if (!fs.existsSync(reportsDir)) {
   fs.mkdirSync(reportsDir);
 }
 
-// 降序排列，确保最新生成的报告在最上面 (假设你按时间命名)
-const files = fs
-  .readdirSync(reportsDir)
-  .filter((f) => f.endsWith(".html"))
-  .sort((a, b) => b.localeCompare(a));
+const titleAliases = {
+  case: "2026-3投资战略备忘录",
+};
 
-// 检查是否存在 case/ 目录
-const caseDir = path.join(reportsDir, "case");
-const hasCase = fs.existsSync(caseDir) && fs.statSync(caseDir).isDirectory();
+const excludedDirs = new Set(["assets", "shared", "lib"]);
 
-// 注入极简 CSS，避免纯文本瞎眼
-const html = `
-<!DOCTYPE html>
+function readTitleFromIndexHtml(dirPath) {
+  try {
+    const html = fs.readFileSync(path.join(dirPath, "index.html"), "utf8");
+    const match = html.match(/<title>([^<]*)<\/title>/i);
+    return match ? match[1].trim() : null;
+  } catch {
+    return null;
+  }
+}
+
+const entries = [];
+const items = fs.readdirSync(reportsDir);
+
+for (const name of items) {
+  if (name.startsWith(".") || name.startsWith("_")) continue;
+
+  const itemPath = path.join(reportsDir, name);
+  const stat = fs.statSync(itemPath);
+
+  if (stat.isFile() && name.endsWith(".html")) {
+    entries.push({
+      type: "file",
+      href: `./reports/${encodeURIComponent(name)}`,
+      title: name.replace(/\.html$/i, ""),
+      sortKey: name,
+    });
+  } else if (stat.isDirectory() && !excludedDirs.has(name)) {
+    if (!fs.existsSync(path.join(itemPath, "index.html"))) continue;
+
+    const title =
+      titleAliases[name] || readTitleFromIndexHtml(itemPath) || name;
+
+    entries.push({
+      type: "dir",
+      href: `./reports/${encodeURIComponent(name)}/`,
+      title,
+      sortKey: name,
+    });
+  }
+}
+
+entries.sort((a, b) => {
+  if (a.type === b.type) {
+    if (a.type === "dir") {
+      return a.title.localeCompare(b.title, "zh-CN");
+    }
+    return b.sortKey.localeCompare(a.sortKey);
+  }
+  return a.type === "dir" ? -1 : 1;
+});
+
+const totalCount = entries.length;
+
+const linksHtml = entries
+  .map((e) => `<a href="${e.href}" target="_blank">${e.title}</a>`)
+  .join("\n    ");
+
+const emptyHtml =
+  '<p>暂无报告，请在 reports 目录下添加 HTML 文件。</p>';
+
+const html = `<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8">
@@ -36,22 +90,11 @@ const html = `
 <body>
   <h1>Data Reports</h1>
   <div class="report-list">
-    ${
-      files.length === 0 && !hasCase
-        ? "<p>暂无报告，请在 reports 目录下添加 HTML 文件。</p>"
-        : [
-            hasCase ? '<a href="/reports/case/" target="_blank">2026-3投资战略备忘录</a>' : '',
-            ...files.map(
-              (f) =>
-                `<a href="./reports/${encodeURIComponent(f)}" target="_blank">${f.replace(".html", "")}</a>`,
-            )
-          ].filter(Boolean).join("\n")
-    }
+    ${entries.length === 0 ? emptyHtml : linksHtml}
   </div>
 </body>
 </html>
 `;
 
 fs.writeFileSync(path.join(__dirname, "index.html"), html);
-const totalCount = files.length + (hasCase ? 1 : 0);
 console.log(`[Success] 索引已生成，共挂载 ${totalCount} 份报告。`);
