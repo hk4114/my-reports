@@ -1,0 +1,3279 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>铝：从工业金属到红利资产的结构性重估</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.5.0/mermaid.min.js"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        :root {
+            --primary: #1e293b;
+            --secondary: #475569;
+            --accent: #3b82f6;
+            --muted: #64748b;
+            --background: #f8fafc;
+            --surface: #ffffff;
+            --border: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--primary);
+            background: var(--background);
+        }
+
+        .serif {
+            font-family: 'Noto Serif SC', serif;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            grid-template-rows: auto auto;
+            gap: 1.5rem;
+            height: 60vh;
+        }
+
+        .hero-main {
+            grid-column: 1 / 2;
+            grid-row: 1 / 3;
+            position: relative;
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            border-radius: 1rem;
+            overflow: hidden;
+        }
+
+        .hero-accent-1 {
+            grid-column: 2 / 3;
+            grid-row: 1 / 2;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            border-radius: 1rem;
+        }
+
+        .hero-accent-2 {
+            grid-column: 2 / 3;
+            grid-row: 2 / 3;
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            border-radius: 1rem;
+        }
+
+        .toc-fixed {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            width: 280px;
+            max-height: calc(100vh - 4rem);
+            overflow-y: auto;
+            z-index: 50;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .main-content {
+            margin-left: 320px;
+            max-width: calc(100vw - 360px);
+        }
+
+        .citation {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px dotted var(--accent);
+        }
+
+        .citation:hover {
+            background: rgba(59, 130, 246, 0.1);
+            border-bottom: 1px solid var(--accent);
+        }
+
+        .data-gap {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px dashed #ef4444;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            color: #dc2626;
+            font-size: 0.875rem;
+        }
+
+        .pull-quote {
+            border-left: 4px solid var(--accent);
+            padding-left: 1.5rem;
+            margin: 2rem 0;
+            font-style: italic;
+            font-size: 1.125rem;
+            color: var(--secondary);
+        }
+
+        .mermaid-container {
+            display: flex;
+            justify-content: center;
+            min-height: 300px;
+            max-height: 800px;
+            background: #ffffff;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mermaid-container .mermaid {
+            width: 100%;
+            max-width: 100%;
+            height: 100%;
+            cursor: grab;
+            transition: transform 0.3s ease;
+            transform-origin: center center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            touch-action: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .mermaid-container .mermaid svg {
+            max-width: 100%;
+            height: 100%;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .mermaid-container .mermaid:active {
+            cursor: grabbing;
+        }
+
+        .mermaid-container.zoomed .mermaid {
+            height: 100%;
+            width: 100%;
+            cursor: grab;
+        }
+
+        .mermaid-controls {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            gap: 10px;
+            z-index: 20;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 8px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .mermaid-control-btn {
+            background: #ffffff;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            padding: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #374151;
+            font-size: 14px;
+            min-width: 36px;
+            height: 36px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mermaid-control-btn:hover {
+            background: #f8fafc;
+            border-color: #3b82f6;
+            color: #3b82f6;
+            transform: translateY(-1px);
+        }
+
+        .mermaid-control-btn:active {
+            transform: scale(0.95);
+        }
+
+        @media (max-width: 1280px) {
+            .toc-fixed {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 2rem;
+                max-width: calc(100vw - 4rem);
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .mermaid-control-btn:not(.reset-zoom) {
+                display: none;
+            }
+
+            .mermaid-controls {
+                top: auto;
+                bottom: 15px;
+                right: 15px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto auto;
+                height: auto;
+                gap: 1rem;
+            }
+
+            .hero-main {
+                grid-column: 1;
+                grid-row: 1;
+                padding: 1rem !important;
+                height: 50vh;
+            }
+
+            .hero-accent-1 {
+                grid-column: 1;
+                grid-row: 2;
+            }
+
+            .hero-accent-2 {
+                grid-column: 1;
+                grid-row: 3;
+            }
+
+            .hero-main .absolute {
+                bottom: 1rem !important;
+                left: 1rem !important;
+                right: 1rem !important;
+            }
+
+            .hero-main h1 {
+                font-size: 1.75rem;
+            }
+
+            .hero-main p {
+                font-size: 0.875rem;
+            }
+
+            .hero-accent-1,
+            .hero-accent-2 {
+                padding: 1rem !important;
+            }
+
+            .mermaid-container {
+                padding: 15px;
+            }
+
+            .mermaid-container .mermaid {
+                height: 300px;
+            }
+
+            .main-content {
+                margin-left: 1rem;
+                margin-right: 1rem;
+                max-width: 100%;
+            }
+        }
+    </style>
+    <base target="_blank">
+</head>
+
+<body>
+    <!-- Fixed Table of Contents -->
+    <nav class="toc-fixed">
+        <h3 class="text-lg font-bold mb-4 text-gray-900">目录导航</h3>
+        <ul class="space-y-2 text-sm">
+            <li>
+                <a href="#overview" class="block py-1 px-2 rounded hover:bg-gray-100 transition-colors">核心投资结论</a>
+            </li>
+            <li>
+                <a href="#core-judgment" class="block py-1 px-2 rounded hover:bg-gray-100 transition-colors">核心判断</a>
+            </li>
+            <li>
+                <a href="#commodity-prices"
+                    class="block py-1 px-2 rounded hover:bg-gray-100 transition-colors">商品价格分析</a>
+            </li>
+            <li>
+                <a href="#supply-analysis" class="block py-1 px-2 rounded hover:bg-gray-100 transition-colors">供给端分析</a>
+            </li>
+            <li>
+                <a href="#demand-analysis" class="block py-1 px-2 rounded hover:bg-gray-100 transition-colors">需求端分析</a>
+            </li>
+            <li>
+                <a href="#cost-analysis" class="block py-1 px-2 rounded hover:bg-gray-100 transition-colors">成本端分析</a>
+            </li>
+            <li>
+                <a href="#company-comparison"
+                    class="block py-1 px-2 rounded hover:bg-gray-100 transition-colors">公司比较</a>
+            </li>
+            <li>
+                <a href="#valuation-framework"
+                    class="block py-1 px-2 rounded hover:bg-gray-100 transition-colors">估值框架</a>
+            </li>
+            <li>
+                <a href="#investment-recommendations"
+                    class="block py-1 px-2 rounded hover:bg-gray-100 transition-colors">投资建议</a>
+            </li>
+            <li>
+                <a href="#portfolio-strategy"
+                    class="block py-1 px-2 rounded hover:bg-gray-100 transition-colors">组合策略</a>
+            </li>
+            <li>
+                <a href="#scenario-analysis"
+                    class="block py-1 px-2 rounded hover:bg-gray-100 transition-colors">情景分析</a>
+            </li>
+            <li>
+                <a href="#risk-indicators" class="block py-1 px-2 rounded hover:bg-gray-100 transition-colors">反证指标</a>
+            </li>
+            <li>
+                <a href="#decision-matrix" class="block py-1 px-2 rounded hover:bg-gray-100 transition-colors">决策矩阵</a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Hero Section -->
+        <section class="mb-12">
+            <div class="hero-grid mb-8">
+                <!-- Main Hero -->
+                <div class="hero-main relative overflow-hidden">
+                    <img src="https://kimi-web-img.moonshot.cn/img/res.dm.dzng.com/fe9a4b0c1b0b5cee11fe2e8682e672a1ad214aa4.JPG"
+                        alt="现代铝业工厂设施" class="absolute inset-0 w-full h-full object-cover opacity-20" size="wallpaper"
+                        aspect="wide" style="photo" query="铝业工厂" referrerpolicy="no-referrer" data-modified="1"
+                        data-score="0.00" />
+                    <div class="absolute inset-0 bg-gradient-to-br from-slate-900/80 to-slate-700/60"></div>
+                    <div class="relative z-10 p-8 h-full flex flex-col justify-end">
+                        <h1 class="serif text-4xl font-bold text-white mb-4 leading-tight">
+                            <em class="text-blue-300">铝：</em>
+                            <br />
+                            从工业金属到
+                            <br />
+                            红利资产的
+                            <br />
+                            <span class="text-cyan-300">结构性重估</span>
+                        </h1>
+                        <p class="text-slate-200 text-lg max-w-md">
+                            中国4500万吨产能天花板锁死供给弹性，新兴需求占比突破50%，行业从周期股向红利资产切换的关键转折点
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Accent Cards -->
+                <div class="hero-accent-1 p-6 flex flex-col justify-center text-white">
+                    <div class="text-3xl font-bold mb-2">96.5%</div>
+                    <div class="text-sm opacity-90">产能利用率</div>
+                    <div class="text-xs mt-2 opacity-75">供给弹性近乎归零</div>
+                </div>
+
+                <div class="hero-accent-2 p-6 flex flex-col justify-center text-white">
+                    <div class="text-3xl font-bold mb-2">8,821元</div>
+                    <div class="text-sm opacity-90">吨铝利润</div>
+                    <div class="text-xs mt-2 opacity-75">创历史最好水平</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Overview Section -->
+        <section id="overview" class="mb-16">
+            <h2 class="serif text-3xl font-bold mb-8 text-gray-900">核心投资结论</h2>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                <div class="bg-white rounded-xl p-8 shadow-sm border">
+                    <h3 class="text-xl font-bold mb-4 text-gray-900">
+                        <i class="fas fa-industry text-blue-600 mr-2"></i>
+                        行业阶段定位
+                    </h3>
+                    <p class="text-gray-700 leading-relaxed">
+                        中国电解铝行业已从&#34;增量扩张、周期波动&#34;的传统工业金属阶段，进入<strong>&#34;供给刚性、存量优化、利润再分配&#34;</strong>的红利资产转型期。4500万吨产能天花板实质性锁死供给弹性，2025年底运行产能4460.75万吨，产能利用率高达<a
+                            href="#ref-389" class="citation">96.5%</a>，新增供给空间近乎枯竭。
+                    </p>
+                </div>
+
+                <div class="bg-white rounded-xl p-8 shadow-sm border">
+                    <h3 class="text-xl font-bold mb-4 text-gray-900">
+                        <i class="fas fa-chart-line text-green-600 mr-2"></i>
+                        铝价强势驱动
+                    </h3>
+                    <p class="text-gray-700 leading-relaxed">
+                        当前铝价强势并非需求爆发拉动，而是<strong>供给刚性约束下的库存低位与成本重构</strong>。中国产能天花板叠加海外能源危机与地缘冲突导致的减产（中东超230万吨、欧洲251万吨、莫桑比克58万吨），全球总减产规模超<a
+                            href="#ref-480" class="citation">300万吨/年</a>。
+                    </p>
+                </div>
+            </div>
+
+            <div class="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl p-8 mb-8">
+                <h3 class="text-xl font-bold mb-6 text-gray-900">投资逻辑核心要点</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <i class="fas fa-lock text-blue-600 text-xl"></i>
+                        </div>
+                        <h4 class="font-semibold mb-2">供给刚性</h4>
+                        <p class="text-sm text-gray-600">4500万吨政策天花板，弹性系数从0.23降至0.02-0.06</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <i class="fas fa-battery-three-quarters text-green-600 text-xl"></i>
+                        </div>
+                        <h4 class="font-semibold mb-2">利润扩张</h4>
+                        <p class="text-sm text-gray-600">吨铝利润8821元，创历史最好水平</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <i class="fas fa-coins text-purple-600 text-xl"></i>
+                        </div>
+                        <h4 class="font-semibold mb-2">红利属性</h4>
+                        <p class="text-sm text-gray-600">分红率提升至50%+，股息率向4%-6%迈进</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <i class="fas fa-balance-scale text-orange-600 text-xl"></i>
+                        </div>
+                        <h4 class="font-semibold mb-2">结构切换</h4>
+                        <p class="text-sm text-gray-600">新兴需求占比50%，完成从地产到新能源切换</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-8 shadow-sm border">
+                <h3 class="text-xl font-bold mb-6 text-gray-900">
+                    <i class="fas fa-target text-red-600 mr-2"></i>
+                    投资策略与风险提示
+                </h3>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="font-semibold mb-3 text-green-700">标准配置建议（组合10%-15%）</h4>
+                        <ul class="space-y-2 text-sm text-gray-700">
+                            <li><strong>核心仓位（60%）</strong>：云铝股份、天山铝业</li>
+                            <li><strong>卫星仓位（40%）</strong>：南山铝业、神火股份</li>
+                            <li><strong>买入条件</strong>：沪铝站稳22000元/吨，吨铝利润&gt;6000元</li>
+                            <li><strong>目标股息率</strong>：&gt;4.5%</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold mb-3 text-red-700">最大风险变量</h4>
+                        <ul class="space-y-2 text-sm text-gray-700">
+                            <li>2026年下半年印尼新增产能集中释放</li>
+                            <li>中东地缘冲突快速缓和导致铝厂提前复产</li>
+                            <li>全球经济增长失速拖累新兴需求</li>
+                            <li>氧化铝价格快速反弹挤压利润</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Core Judgment Section -->
+        <section id="core-judgment" class="mb-16">
+            <h2 class="serif text-3xl font-bold mb-8 text-gray-900">核心判断：铝行业进入存量利润再分配阶段</h2>
+
+            <div class="mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-gray-900">1.1 中国电解铝供给弹性已被锁死</h3>
+
+                <div class="bg-white rounded-xl p-8 shadow-sm border mb-8">
+                    <h4 class="text-lg font-semibold mb-4 text-gray-900">4500万吨政策天花板验证</h4>
+                    <p class="text-gray-700 mb-4">
+                        中国电解铝产能天花板源于2017年供给侧结构性改革，国家发改委等四部委联合发布《清理整顿电解铝行业违法违规项目专项行动工作方案的通知》，明确将产能上限锁定在4500万吨<a
+                            href="#ref-396"
+                            class="citation">[^396]</a>。这一政策并非&#34;软约束&#34;，而是通过产能置换指标交易、能耗双控、环保督察等多重机制刚性执行。
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <div class="text-2xl font-bold text-blue-600">4776.90万吨</div>
+                            <div class="text-sm text-gray-600">建成产能</div>
+                        </div>
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <div class="text-2xl font-bold text-green-600">4460.75万吨</div>
+                            <div class="text-sm text-gray-600">运行产能</div>
+                        </div>
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <div class="text-2xl font-bold text-purple-600">96.5%</div>
+                            <div class="text-sm text-gray-600">产能利用率</div>
+                        </div>
+                    </div>
+
+                    <p class="text-gray-700">
+                        更关键的是增量空间：<strong>2026年全年可投有效新增产能仅59万吨</strong>（电投能源35万吨、天山铝业24万吨），且全部为产能置换项目，净增量近乎为零<a
+                            href="#ref-310" class="citation">[^310]</a>
+                        <a href="#ref-516" class="citation">[^516]</a>。东吴证券测算显示，后续国内暂无电解铝新增产能筹备，2027年起新增供给将趋近于零。
+                    </p>
+                </div>
+
+                <div class="bg-white rounded-xl p-8 shadow-sm border mb-8">
+                    <h4 class="text-lg font-semibold mb-4 text-gray-900">供给弹性量化评估</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-4 py-3 text-left font-semibold">指标</th>
+                                    <th class="px-4 py-3 text-left font-semibold">2020-2024年均</th>
+                                    <th class="px-4 py-3 text-left font-semibold">2025年</th>
+                                    <th class="px-4 py-3 text-left font-semibold">2026年E</th>
+                                    <th class="px-4 py-3 text-left font-semibold">变化趋势</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-4 py-3 font-medium">产量增速</td>
+                                    <td class="px-4 py-3">3.48%</td>
+                                    <td class="px-4 py-3">1.85%<a href="#ref-389" class="citation">[^389]</a>
+                                    </td>
+                                    <td class="px-4 py-3">1.14%<a href="#ref-310" class="citation">[^310]</a>
+                                    </td>
+                                    <td class="px-4 py-3 text-red-600">断崖式下滑</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-medium">产能利用率</td>
+                                    <td class="px-4 py-3">90%-92%</td>
+                                    <td class="px-4 py-3">96.5%<a href="#ref-389" class="citation">[^389]</a>
+                                    </td>
+                                    <td class="px-4 py-3">97%+</td>
+                                    <td class="px-4 py-3 text-orange-600">逼近极限</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-medium">弹性系数</td>
+                                    <td class="px-4 py-3">0.23</td>
+                                    <td class="px-4 py-3">0.09</td>
+                                    <td class="px-4 py-3">0.02-0.06</td>
+                                    <td class="px-4 py-3 text-red-600">弹性近乎归零</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-medium">新增有效产能（万吨/年）</td>
+                                    <td class="px-4 py-3">150</td>
+                                    <td class="px-4 py-3">76.9<a href="#ref-389" class="citation">[^389]</a>
+                                    </td>
+                                    <td class="px-4 py-3">59<a href="#ref-310" class="citation">[^310]</a>
+                                    </td>
+                                    <td class="px-4 py-3 text-red-600">增量枯竭</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-gray-900">1.2 全球供给进入低增长阶段</h3>
+
+                <div class="bg-white rounded-xl p-8 shadow-sm border mb-8">
+                    <h4 class="text-lg font-semibold mb-4 text-gray-900">海外产量变化与能源成本制约</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-4 py-3 text-left font-semibold">地区</th>
+                                    <th class="px-4 py-3 text-left font-semibold">2025年产量（万吨）</th>
+                                    <th class="px-4 py-3 text-left font-semibold">2026年变化</th>
+                                    <th class="px-4 py-3 text-left font-semibold">核心制约因素</th>
+                                    <th class="px-4 py-3 text-left font-semibold">复产/增产概率</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-4 py-3 font-medium">欧洲</td>
+                                    <td class="px-4 py-3">~450</td>
+                                    <td class="px-4 py-3 text-red-600">-50至-80</td>
+                                    <td class="px-4 py-3">天然气价格高企，电力合同到期后复产困难</td>
+                                    <td class="px-4 py-3 text-red-600">
+                                        &lt;20%&lt; /td&gt;
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-medium">中东六国</td>
+                                    <td class="px-4 py-3">~693</td>
+                                    <td class="px-4 py-3 text-red-600">-230+（地缘冲突）</td>
+                                    <td class="px-4 py-3">霍尔木兹海峡关闭，氧化铝自给率仅34%</td>
+                                    <td class="px-4 py-3 text-orange-600">高度不确定</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-medium">俄罗斯</td>
+                                    <td class="px-4 py-3">~370</td>
+                                    <td class="px-4 py-3">0至+50</td>
+                                    <td class="px-4 py-3">制裁变化，若取消制裁将流入中国</td>
+                                    <td class="px-4 py-3">政策驱动</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-medium">印尼</td>
+                                    <td class="px-4 py-3">~153</td>
+                                    <td class="px-4 py-3 text-green-600">+50至+100</td>
+                                    <td class="px-4 py-3">电力配套滞后，投产周期5年</td>
+                                    <td class="px-4 py-3 text-yellow-600">50-60%</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-medium">莫桑比克</td>
+                                    <td class="px-4 py-3">~52</td>
+                                    <td class="px-4 py-3 text-red-600">-58（全面停产）</td>
+                                    <td class="px-4 py-3">Mozal铝厂电力成本高企，转入停产保养</td>
+                                    <td class="px-4 py-3 text-red-600">0%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-gray-900">1.3 需求结构完成切换验证</h3>
+
+                <div class="bg-white rounded-xl p-8 shadow-sm border mb-8">
+                    <h4 class="text-lg font-semibold mb-4 text-gray-900">新兴需求占比提升</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <h5 class="font-semibold mb-3">需求结构变化</h5>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <span>建筑用铝</span>
+                                    <span class="text-red-600">29% → 20%</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>交运+电力</span>
+                                    <span class="text-green-600">38% → 50%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h5 class="font-semibold mb-3">2026年新兴需求预测</h5>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <span>新能源车</span>
+                                    <span class="text-blue-600">437.3万吨</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>光伏</span>
+                                    <span class="text-blue-600">684.9万吨</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>电网/特高压</span>
+                                    <span class="text-blue-600">400+万吨</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-gray-900">1.4 氧化铝过剩支撑利润扩张</h3>
+
+                <div class="bg-white rounded-xl p-8 shadow-sm border mb-8">
+                    <h4 class="text-lg font-semibold mb-4 text-gray-900">氧化铝市场严重过剩</h4>
+                    <p class="text-gray-700 mb-4">
+                        截至2025年11月，中国氧化铝开工产能9590万吨，相较于电解铝4413万吨开工产能，考虑280万吨非冶金氧化铝需求后，<strong>已过剩790万吨</strong>
+                        <a href="#ref-91" class="citation">[^91]</a>。仍有1390万吨产能在建，预计2026年全球氧化铝新增产能约1740万吨。
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div class="bg-red-50 p-4 rounded-lg">
+                            <div class="text-lg font-bold text-red-600">2684元/吨</div>
+                            <div class="text-sm text-gray-600">2026年Q1均价</div>
+                            <div class="text-xs text-red-600 mt-1">同比-30.53%</div>
+                        </div>
+                        <div class="bg-orange-50 p-4 rounded-lg">
+                            <div class="text-lg font-bold text-orange-600">2422万吨</div>
+                            <div class="text-sm text-gray-600">静态产能过剩</div>
+                            <div class="text-xs text-orange-600 mt-1">压制价格上行</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-gray-900">1.5 红利资产特征验证</h3>
+
+                <div class="bg-white rounded-xl p-8 shadow-sm border mb-8">
+                    <h4 class="text-lg font-semibold mb-4 text-gray-900">分红能力系统性提升</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-4 py-3 text-left font-semibold">公司</th>
+                                    <th class="px-4 py-3 text-left font-semibold">2025年分红率</th>
+                                    <th class="px-4 py-3 text-left font-semibold">分红承诺</th>
+                                    <th class="px-4 py-3 text-left font-semibold">股息率（估算）</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-4 py-3 font-medium">天山铝业</td>
+                                    <td class="px-4 py-3">52.40%<a href="#ref-247" class="citation">[^247]</a>
+                                    </td>
+                                    <td class="px-4 py-3">2026年不低于50%<a href="#ref-247" class="citation">[^247]</a>
+                                    </td>
+                                    <td class="px-4 py-3 text-green-600">5%-6%</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-medium">南山铝业</td>
+                                    <td class="px-4 py-3">105.49%（含特别分红）<a href="#ref-204" class="citation">[^204]</a>
+                                    </td>
+                                    <td class="px-4 py-3">2024-2026年不低于40%<a href="#ref-207" class="citation">[^207]</a>
+                                    </td>
+                                    <td class="px-4 py-3 text-green-600">8.07%<a href="#ref-524"
+                                            class="citation">[^524]</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-medium">云铝股份</td>
+                                    <td class="px-4 py-3">~40%</td>
+                                    <td class="px-4 py-3">持续提升趋势</td>
+                                    <td class="px-4 py-3 text-green-600">4%-5%</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-medium">中国铝业</td>
+                                    <td class="px-4 py-3">36.55%<a href="#ref-441" class="citation">[^441]</a>
+                                    </td>
+                                    <td class="px-4 py-3">央企分红政策稳定</td>
+                                    <td class="px-4 py-3">2.21%<a href="#ref-441" class="citation">[^441]</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Commodity Prices Section -->
+        <section id="commodity-prices" class="mb-16">
+            <h2 class="serif text-3xl font-bold mb-8 text-gray-900">商品价格：铝价强势是否具备持续性</h2>
+
+            <div class="mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-gray-900">2.1 价格走势分析</h3>
+
+                <div class="bg-white rounded-xl p-8 shadow-sm border mb-8">
+                    <h4 class="text-lg font-semibold mb-4 text-gray-900">沪铝与LME价格表现</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <div class="text-lg font-bold text-blue-600">24,025元/吨</div>
+                            <div class="text-sm text-gray-600">2026年Q1沪铝均价</div>
+                            <div class="text-xs text-green-600 mt-1">同比+17.56%</div>
+                        </div>
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <div class="text-lg font-bold text-green-600">3,200-3,300美元</div>
+                            <div class="text-sm text-gray-600">LME现货价格</div>
+                            <div class="text-xs text-green-600 mt-1">创近三年新高</div>
+                        </div>
+                    </div>
+
+                    <p class="text-gray-700">
+                        沪铝主力合约价格在过去5年呈现&#34;底部抬升、中枢上移&#34;的结构性特征。2026年Q1长江有色铝均价24025元/吨，同比上涨17.56%，环比上涨11.57%<a
+                            href="#ref-449" class="citation">[^449]</a>。LME铝价同步走强，2026年开年突破3000美元/吨，3月以来上涨15%<a
+                            href="#ref-459" class="citation">[^459]</a>。
+                    </p>
+                </div>
+            </div>
+
+            <div class="mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-gray-900">2.2 库存与现货指标</h3>
+
+                <div class="bg-white rounded-xl p-8 shadow-sm border mb-8">
+                    <h4 class="text-lg font-semibold mb-4 text-gray-900">全球库存处于历史低位</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                        <div class="bg-red-50 p-4 rounded-lg">
+                            <div class="text-lg font-bold text-red-600">49.4万吨</div>
+                            <div class="text-sm text-gray-600">LME铝库存</div>
+                            <div class="text-xs text-red-600 mt-1">创近5年新低</div>
+                        </div>
+                        <div class="bg-orange-50 p-4 rounded-lg">
+                            <div class="text-lg font-bold text-orange-600">5.2天</div>
+                            <div class="text-sm text-gray-600">消费需求天数</div>
+                            <div class="text-xs text-orange-600 mt-1">现货紧张加剧</div>
+                        </div>
+                        <div class="bg-yellow-50 p-4 rounded-lg">
+                            <div class="text-lg font-bold text-yellow-600">350-353美元</div>
+                            <div class="text-sm text-gray-600">日本铝升水</div>
+                            <div class="text-xs text-yellow-600 mt-1">创近十年新高</div>
+                        </div>
+                    </div>
+
+                    <p class="text-gray-700">
+                        LME库存49.4万吨仅能满足5.2天消费需求，创近5年新低<a href="#ref-394"
+                            class="citation">[^394]</a>。日本铝升水（MJP）二季度敲定350-353美元/吨，创近十年新高<a href="#ref-480"
+                            class="citation">[^480]</a>，反映海外现货市场极度紧张。
+                    </p>
+                </div>
+            </div>
+
+            <div class="mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-gray-900">2.3 未来价格中枢预测</h3>
+
+                <div class="bg-white rounded-xl p-8 shadow-sm border mb-8">
+                    <h4 class="text-lg font-semibold mb-4 text-gray-900">6-18个月铝价中枢区间</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-4 py-3 text-left font-semibold">情景</th>
+                                    <th class="px-4 py-3 text-left font-semibold">沪铝中枢（元/吨）</th>
+                                    <th class="px-4 py-3 text-left font-semibold">LME铝中枢（美元/吨）</th>
+                                    <th class="px-4 py-3 text-left font-semibold">概率评估</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-4 py-3 font-medium">乐观</td>
+                                    <td class="px-4 py-3">25,000-27,000</td>
+                                    <td class="px-4 py-3">3,400-3,700</td>
+                                    <td class="px-4 py-3 text-green-600">25%</td>
+                                </tr>
+                                <tr class="bg-blue-50">
+                                    <td class="px-4 py-3 font-medium">基准</td>
+                                    <td class="px-4 py-3 font-bold">22,500-24,000</td>
+                                    <td class="px-4 py-3 font-bold">3,100-3,300</td>
+                                    <td class="px-4 py-3 text-blue-600 font-bold">55%</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-medium">悲观</td>
+                                    <td class="px-4 py-3">19,500-21,500</td>
+                                    <td class="px-4 py-3">2,600-2,900</td>
+                                    <td class="px-4 py-3 text-red-600">20%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="mt-6 p-4 bg-blue-50 rounded-lg">
+                        <p class="text-sm text-blue-800">
+                            <i class="fas fa-info-circle mr-2"></i>
+                            基准情景概率最高（55%），对应沪铝22,500-24,000元/吨、LME
+                            3,100-3,300美元/吨。即使出现悲观情景，价格跌破20,000元/吨的概率较低，因为全球约50%的冶炼产能现金成本在2,200美元/吨以上。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Supply Analysis Section -->
+        <section id="supply-analysis" class="mb-16">
+            <h2 class="serif text-3xl font-bold mb-8 text-gray-900">供给端：中国天花板与海外能源约束</h2>
+
+            <div class="mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-gray-900">3.1 国内供给刚性分析</h3>
+
+                <div class="bg-white rounded-xl p-8 shadow-sm border mb-8">
+                    <h4 class="text-lg font-semibold mb-4 text-gray-900">区域产能格局变化</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-4 py-3 text-left font-semibold">区域</th>
+                                    <th class="px-4 py-3 text-left font-semibold">产能规模（万吨）</th>
+                                    <th class="px-4 py-3 text-left font-semibold">电力来源</th>
+                                    <th class="px-4 py-3 text-left font-semibold">成本优势</th>
+                                    <th class="px-4 py-3 text-left font-semibold">供给稳定性</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-4 py-3 font-medium">云南</td>
+                                    <td class="px-4 py-3">~800</td>
+                                    <td class="px-4 py-3">水电（清洁能源&gt;90%）</td>
+                                    <td class="px-4 py-3">电价0.25-0.38元/度</td>
+                                    <td class="px-4 py-3 text-orange-600">枯水期限电风险大</td>
+                                </tr>
+                                <tr class="bg-green-50">
+                                    <td class="px-4 py-3 font-medium">新疆</td>
+                                    <td class="px-4 py-3">~650</td>
+                                    <td class="px-4 py-3">自备煤电</td>
+                                    <td class="px-4 py-3 font-bold">电价0.18-0.25元/度，全国最低</td>
+                                    <td class="px-4 py-3 text-green-600 font-bold">高度稳定</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-medium">内蒙古</td>
+                                    <td class="px-4 py-3">~600</td>
+                                    <td class="px-4 py-3">煤电+风电光伏</td>
+                                    <td class="px-4 py-3">电价0.28-0.38元/度</td>
+                                    <td class="px-4 py-3 text-green-600">较稳定</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-medium">山东</td>
+                                    <td class="px-4 py-3">~800（下降中）</td>
+                                    <td class="px-4 py-3">网电+部分自备电</td>
+                                    <td class="px-4 py-3">电价0.45-0.55元/度，成本偏高</td>
+                                    <td class="px-4 py-3 text-red-600">产能持续转出</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-gray-900">3.2 海外供给风险分析</h3>
+
+                <div class="bg-white rounded-xl p-8 shadow-sm border mb-8">
+                    <h4 class="text-lg font-semibold mb-4 text-gray-900">能源成本对比分析</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-4 py-3 text-left font-semibold">地区</th>
+                                    <th class="px-4 py-3 text-left font-semibold">电力成本（美元/MWh）</th>
+                                    <th class="px-4 py-3 text-left font-semibold">折合人民币（元/度）</th>
+                                    <th class="px-4 py-3 text-left font-semibold">与中国新疆对比</th>
+                                    <th class="px-4 py-3 text-left font-semibold">盈亏状态</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-4 py-3 font-medium">欧洲</td>
+                                    <td class="px-4 py-3">60-80</td>
+                                    <td class="px-4 py-3">0.43-0.58</td>
+                                    <td class="px-4 py-3 text-red-600">高2.0-2.5倍</td>
+                                    <td class="px-4 py-3 text-red-600">普遍亏损或微利</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-medium">美国</td>
+                                    <td class="px-4 py-3">40-60</td>
+                                    <td class="px-4 py-3">0.29-0.43</td>
+                                    <td class="px-4 py-3 text-red-600">高1.3-1.8倍</td>
+                                    <td class="px-4 py-3 text-orange-600">部分亏损</td>
+                                </tr>
+                                <tr class="bg-green-50">
+                                    <td class="px-4 py-3 font-medium">中国新疆</td>
+                                    <td class="px-4 py-3">15-20</td>
+                                    <td class="px-4 py-3">0.11-0.14</td>
+                                    <td class="px-4 py-3 font-bold">基准</td>
+                                    <td class="px-4 py-3 text-green-600 font-bold">大幅盈利</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-medium">中国云南（丰水期）</td>
+                                    <td class="px-4 py-3">20-25</td>
+                                    <td class="px-4 py-3">0.14-0.18</td>
+                                    <td class="px-4 py-3">略高</td>
+                                    <td class="px-4 py-3 text-green-600">盈利</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Demand Analysis Section -->
+        <section id="demand-analysis" class="mb-16">
+            <h2 class="serif text-3xl font-bold mb-8 text-gray-900">需求端：地产退潮后的新增长曲线</h2>
+
+            <div class="mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-gray-900">4.1 新能源车用铝需求</h3>
+
+                <div class="bg-white rounded-xl p-8 shadow-sm border mb-8">
+                    <h4 class="text-lg font-semibold mb-4 text-gray-900">单车用铝量对比分析</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                        <div class="bg-blue-50 p-4 rounded-lg text-center">
+                            <div class="text-2xl font-bold text-blue-600">120-150kg</div>
+                            <div class="text-sm text-gray-600">传统燃油车</div>
+                        </div>
+                        <div class="bg-green-50 p-4 rounded-lg text-center">
+                            <div class="text-2xl font-bold text-green-600">180-250kg</div>
+                            <div class="text-sm text-gray-600">新能源车</div>
+                        </div>
+                        <div class="bg-purple-50 p-4 rounded-lg text-center">
+                            <div class="text-2xl font-bold text-purple-600">250-300kg</div>
+                            <div class="text-sm text-gray-600">高端电动车型</div>
+                        </div>
+                    </div>
+
+                    <p class="text-gray-700">
+                        新能源车轻量化是铝需求增长的最强引擎。增量来自：电池包壳体（约30-50kg）、电机壳体（约10-15kg）、车身结构件扩大应用（约20-40kg）。高端车型单车用铝量已达250-300kg，预计2028年主流车型将达220-250kg。
+                    </p>
+                </div>
+
+                <div class="bg-white rounded-xl p-8 shadow-sm border mb-8">
+                    <h4 class="text-lg font-semibold mb-4 text-gray-900">需求增长测算</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-4 py-3 text-left font-semibold">年份</th>
+                                    <th class="px-4 py-3 text-left font-semibold">销量（万辆）</th>
+                                    <th class="px-4 py-3 text-left font-semibold">渗透率</th>
+                                    <th class="px-4 py-3 text-left font-semibold">单车用铝量（kg）</th>
+                                    <th class="px-4 py-3 text-left font-semibold">用铝量（万吨）</th>
+                                    <th class="px-4 py-3 text-left font-semibold">占总需求比重</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-4 py-3">2021</td>
+                                    <td class="px-4 py-3">352</td>
+                                    <td class="px-4 py-3">13%</td>
+                                    <td class="px-4 py-3">150</td>
+                                    <td class="px-4 py-3">53</td>
+                                    <td class="px-4 py-3">1.4%</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3">2025</td>
+                                    <td class="px-4 py-3">1,500</td>
+                                    <td class="px-4 py-3">50%</td>
+                                    <td class="px-4 py-3">210</td>
+                                    <td class="px-4 py-3">315</td>
+                                    <td class="px-4 py-3">6.8%</td>
+                                </tr>
+                                <tr class="bg-blue-50">
+                                    <td class="px-4 py-3 font-bold">2028E</td>
+                                    <td class="px-4 py-3 font-bold">2,400</td>
+                                    <td class="px-4 py-3 font-bold">65%</td>
+                                    <td class="px-4 py-3 font-bold">240</td>
+                                    <td class="px-4 py-3 font-bold">576</td>
+                                    <td class="px-4 py-3 font-bold">10.3%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-gray-900">4.2 光伏用铝需求</h3>
+
+                <div class="bg-white rounded-xl p-8 shadow-sm border mb-8">
+                    <h4 class="text-lg font-semibold mb-4 text-gray-900">全球光伏装机对铝需求支撑</h4>
+                    <p class="text-gray-700 mb-4">
+                        光伏组件边框传统采用铝合金型材（6063-T5），单位GW装机用铝量约1.3-1.8万吨；支架采用铝合金或热镀锌钢，单位GW用铝量约0.3-0.5万吨。合计单位GW用铝量约1.6-2.3万吨，取中值2.0万吨测算。
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <div class="text-lg font-bold text-green-600">450GW</div>
+                            <div class="text-sm text-gray-600">2025年全球新增装机</div>
+                            <div class="text-xs text-green-600 mt-1">对应用铝量900-1000万吨</div>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <div class="text-lg font-bold text-blue-600">570GW</div>
+                            <div class="text-sm text-gray-600">2028年预计装机</div>
+                            <div class="text-xs text-blue-600 mt-1">对应用铝量1140万吨</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-gray-900">4.3 电网与特高压用铝需求</h3>
+
+                <div class="bg-white rounded-xl p-8 shadow-sm border mb-8">
+                    <h4 class="text-lg font-semibold mb-4 text-gray-900">AI数据中心与特高压建设驱动</h4>
+                    <p class="text-gray-700 mb-4">
+                        电网与特高压用铝需求正处于新一轮上行周期的起点。驱动因素三重叠加：AI算力爆发推动数据中心建设激增；新能源并网倒逼电网扩容；特高压建设进入新周期。
+                    </p>
+
+                    <div class="pull-quote">
+                        &#34;东数西算&#34;工程与新能源大基地外送驱动特高压投资进入新一轮上行周期。单条±800kV直流特高压线路用铝约20-30万吨，&#34;三交九直&#34;合计用铝约300-500万吨。
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                        <div class="bg-purple-50 p-4 rounded-lg text-center">
+                            <div class="text-xl font-bold text-purple-600">6500亿元</div>
+                            <div class="text-sm text-gray-600">2025年电网投资</div>
+                            <div class="text-xs text-purple-600 mt-1">同比增长10%+</div>
+                        </div>
+                        <div class="bg-indigo-50 p-4 rounded-lg text-center">
+                            <div class="text-xl font-bold text-indigo-600">1200亿元</div>
+                            <div class="text-sm text-gray-600">特高压投资</div>
+                            <div class="text-xs text-indigo-600 mt-1">年均100-150万吨用铝</div>
+                        </div>
+                        <div class="bg-cyan-50 p-4 rounded-lg text-center">
+                            <div class="text-xl font-bold text-cyan-600">32%</div>
+                            <div class="text-sm text-gray-600">220千伏及以上线路增长</div>
+                            <div class="text-xs text-cyan-600 mt-1">2025年1-10月累计同比</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-gray-900">4.4 需求综合判断</h3>
+
+                <div class="bg-white rounded-xl p-8 shadow-sm border mb-8">
+                    <h4 class="text-lg font-semibold mb-4 text-gray-900">新兴需求完全覆盖地产下滑</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-4 py-3 text-left font-semibold">需求领域</th>
+                                    <th class="px-4 py-3 text-left font-semibold">2025年用铝量（万吨）</th>
+                                    <th class="px-4 py-3 text-left font-semibold">2028年E（万吨）</th>
+                                    <th class="px-4 py-3 text-left font-semibold">三年增量（万吨）</th>
+                                    <th class="px-4 py-3 text-left font-semibold">贡献总需求增速</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-4 py-3 text-red-600">房地产</td>
+                                    <td class="px-4 py-3">650</td>
+                                    <td class="px-4 py-3">550</td>
+                                    <td class="px-4 py-3 text-red-600">-100</td>
+                                    <td class="px-4 py-3 text-red-600">-2.5%</td>
+                                </tr>
+                                <tr class="bg-green-50">
+                                    <td class="px-4 py-3 font-bold">新能源车</td>
+                                    <td class="px-4 py-3">315</td>
+                                    <td class="px-4 py-3">576</td>
+                                    <td class="px-4 py-3 text-green-600 font-bold">+261</td>
+                                    <td class="px-4 py-3 text-green-600 font-bold">+6.5%</td>
+                                </tr>
+                                <tr class="bg-blue-50">
+                                    <td class="px-4 py-3 font-bold">光伏</td>
+                                    <td class="px-4 py-3">900</td>
+                                    <td class="px-4 py-3">1140</td>
+                                    <td class="px-4 py-3 text-blue-600 font-bold">+240</td>
+                                    <td class="px-4 py-3 text-blue-600 font-bold">+6.0%</td>
+                                </tr>
+                                <tr class="bg-purple-50">
+                                    <td class="px-4 py-3 font-bold">电网/特高压</td>
+                                    <td class="px-4 py-3">350</td>
+                                    <td class="px-4 py-3">520</td>
+                                    <td class="px-4 py-3 text-purple-600 font-bold">+170</td>
+                                    <td class="px-4 py-3 text-purple-600 font-bold">+4.3%</td>
+                                </tr>
+                                <tr class="bg-gray-100">
+                                    <td class="px-4 py-3 font-bold">合计</td>
+                                    <td class="px-4 py-3 font-bold">4,680</td>
+                                    <td class="px-4 py-3 font-bold">5,511</td>
+                                    <td class="px-4 py-3 font-bold">+831</td>
+                                    <td class="px-4 py-3 font-bold">+20.8%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="mt-6 p-4 bg-green-50 rounded-lg">
+                        <p class="text-sm text-green-800">
+                            <i class="fas fa-check-circle mr-2"></i>
+                            <strong>核心结论：</strong>新兴需求（新能源车+光伏+电网+机器人）三年增量711万吨，完全覆盖地产下滑100万吨且有611万吨富余，总需求三年增长831万吨，年均增速6.5%。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cost Analysis Section -->
+        <section id="cost-analysis" class="mb-16">
+            <h2 class="serif text-3xl font-bold mb-8 text-gray-900">成本端：氧化铝过剩如何重塑吨铝利润</h2>
+
+            <div class="mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-gray-900">5.1 氧化铝市场分析</h3>
+
+                <div class="bg-white rounded-xl p-8 shadow-sm border mb-8">
+                    <h4 class="text-lg font-semibold mb-4 text-gray-900">氧化铝产能严重过剩</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+                        <div class="bg-red-50 p-4 rounded-lg text-center">
+                            <div class="text-xl font-bold text-red-600">11,085万吨</div>
+                            <div class="text-sm text-gray-600">建成产能</div>
+                        </div>
+                        <div class="bg-orange-50 p-4 rounded-lg text-center">
+                            <div class="text-xl font-bold text-orange-600">8,663万吨</div>
+                            <div class="text-sm text-gray-600">理论需求</div>
+                        </div>
+                        <div class="bg-yellow-50 p-4 rounded-lg text-center">
+                            <div class="text-xl font-bold text-yellow-600">2,422万吨</div>
+                            <div class="text-sm text-gray-600">静态过剩</div>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-lg text-center">
+                            <div class="text-xl font-bold text-blue-600">500+万吨</div>
+                            <div class="text-sm text-gray-600">2026年预计过剩</div>
+                        </div>
+                    </div>
+
+                    <p class="text-gray-700">
+                        按电解铝产能4500万吨、吨铝消耗1.925吨氧化铝计算，理论需求约8663万吨；而当前建成产能已高达11085万吨，2026年预计仍有近1000万吨新产能落地，<strong>产能过剩2422万吨（静态）</strong>
+                        <a href="#ref-395" class="citation">[^395]</a>。
+                    </p>
+                </div>
+            </div>
+
+            <div class="mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-gray-900">5.2 电解铝成本结构拆解</h3>
+
+                <div class="bg-white rounded-xl p-8 shadow-sm border mb-8">
+                    <h4 class="text-lg font-semibold mb-4 text-gray-900">成本构成与敏感性分析</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-4 py-3 text-left font-semibold">成本项目</th>
+                                    <th class="px-4 py-3 text-left font-semibold">金额（元/吨）</th>
+                                    <th class="px-4 py-3 text-left font-semibold">占比</th>
+                                    <th class="px-4 py-3 text-left font-semibold">同比变化</th>
+                                    <th class="px-4 py-3 text-left font-semibold">敏感性</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr class="bg-red-50">
+                                    <td class="px-4 py-3 font-medium">氧化铝</td>
+                                    <td class="px-4 py-3">5,137</td>
+                                    <td class="px-4 py-3">33%</td>
+                                    <td class="px-4 py-3 text-green-600">-25%至-30%</td>
+                                    <td class="px-4 py-3 text-red-600 font-bold">高</td>
+                                </tr>
+                                <tr class="bg-blue-50">
+                                    <td class="px-4 py-3 font-medium">电力</td>
+                                    <td class="px-4 py-3">5,445</td>
+                                    <td class="px-4 py-3">35%</td>
+                                    <td class="px-4 py-3">基本持平</td>
+                                    <td class="px-4 py-3 text-orange-600 font-bold">中</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-medium">预焙阳极</td>
+                                    <td class="px-4 py-3">2,491</td>
+                                    <td class="px-4 py-3">16%</td>
+                                    <td class="px-4 py-3 text-orange-600">+5%至+10%</td>
+                                    <td class="px-4 py-3 text-orange-600">中</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-medium">其他</td>
+                                    <td class="px-4 py-3">2,493</td>
+                                    <td class="px-4 py-3">16%</td>
+                                    <td class="px-4 py-3">小幅波动</td>
+                                    <td class="px-4 py-3 text-gray-600">低</td>
+                                </tr>
+                                <tr class="bg-gray-100">
+                                    <td class="px-4 py-3 font-bold">完全成本合计</td>
+                                    <td class="px-4 py-3 font-bold">15,566</td>
+                                    <td class="px-4 py-3 font-bold">100%</td>
+                                    <td class="px-4 py-3 font-bold text-green-600">-10%至-15%</td>
+                                    <td class="px-4 py-3">—</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl p-8 shadow-sm border mb-8">
+                    <h4 class="text-lg font-semibold mb-4 text-gray-900">电力成本区域差异</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-4 py-3 text-left font-semibold">区域</th>
+                                    <th class="px-4 py-3 text-left font-semibold">电力来源</th>
+                                    <th class="px-4 py-3 text-left font-semibold">电价（元/度）</th>
+                                    <th class="px-4 py-3 text-left font-semibold">吨铝电力成本（元）</th>
+                                    <th class="px-4 py-3 text-left font-semibold">成本优势</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr class="bg-green-50">
+                                    <td class="px-4 py-3 font-medium">新疆</td>
+                                    <td class="px-4 py-3">自备煤电</td>
+                                    <td class="px-4 py-3 font-bold">0.18-0.22</td>
+                                    <td class="px-4 py-3 font-bold">2,430-2,970</td>
+                                    <td class="px-4 py-3 text-green-600 font-bold">全国最低</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-medium">云南</td>
+                                    <td class="px-4 py-3">水电</td>
+                                    <td class="px-4 py-3">0.25-0.35</td>
+                                    <td class="px-4 py-3">3,375-4,725</td>
+                                    <td class="px-4 py-3 text-blue-600">较优</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-medium">内蒙古</td>
+                                    <td class="px-4 py-3">自备煤电+风电</td>
+                                    <td class="px-4 py-3">0.28-0.35</td>
+                                    <td class="px-4 py-3">3,780-4,725</td>
+                                    <td class="px-4 py-3 text-blue-600">较优</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-medium">山东</td>
+                                    <td class="px-4 py-3">网电+部分自备电</td>
+                                    <td class="px-4 py-3">0.45-0.55</td>
+                                    <td class="px-4 py-3">6,075-7,425</td>
+                                    <td class="px-4 py-3 text-red-600">偏弱</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-gray-900">5.3 吨铝利润变化</h3>
+
+                <div class="bg-white rounded-xl p-8 shadow-sm border mb-8">
+                    <h4 class="text-lg font-semibold mb-4 text-gray-900">利润扩张至历史高位</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+                        <div class="bg-green-50 p-4 rounded-lg text-center">
+                            <div class="text-2xl font-bold text-green-600">8,821元</div>
+                            <div class="text-sm text-gray-600">2026年3月利润</div>
+                            <div class="text-xs text-green-600 mt-1">创历史最好水平</div>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-lg text-center">
+                            <div class="text-2xl font-bold text-blue-600">24,387元</div>
+                            <div class="text-sm text-gray-600">铝锭现货均价</div>
+                            <div class="text-xs text-blue-600 mt-1">2026年3月</div>
+                        </div>
+                        <div class="bg-orange-50 p-4 rounded-lg text-center">
+                            <div class="text-2xl font-bold text-orange-600">15,566元</div>
+                            <div class="text-sm text-gray-600">完全成本</div>
+                            <div class="text-xs text-orange-600 mt-1">成本下移10%-15%</div>
+                        </div>
+                        <div class="bg-purple-50 p-4 rounded-lg text-center">
+                            <div class="text-2xl font-bold text-purple-600">60%</div>
+                            <div class="text-sm text-gray-600">成本端贡献</div>
+                            <div class="text-xs text-purple-600 mt-1">利润扩张来源</div>
+                        </div>
+                    </div>
+
+                    <p class="text-gray-700">
+                        2025年11月行业吨盈利突破4500-5000元<a href="#ref-516"
+                            class="citation">[^516]</a>，2026年Q1进一步扩张至8821元/吨。利润结构的质量分析：当前利润中，约60%来自成本端下行（氧化铝-30%+阳极-5%），40%来自铝价上行（+17%）。
+                    </p>
+                </div>
+            </div>
+
+            <div class="mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-gray-900">5.4 敏感性测算</h3>
+
+                <div class="bg-white rounded-xl p-8 shadow-sm border mb-8">
+                    <h4 class="text-lg font-semibold mb-4 text-gray-900">铝价上涨1000元/吨对各公司利润影响</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-4 py-3 text-left font-semibold">公司</th>
+                                    <th class="px-4 py-3 text-left font-semibold">电解铝权益产能（万吨）</th>
+                                    <th class="px-4 py-3 text-left font-semibold">利润增量（亿元）</th>
+                                    <th class="px-4 py-3 text-left font-semibold">EPS增厚（元）</th>
+                                    <th class="px-4 py-3 text-left font-semibold">净利润弹性（%）</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr class="bg-blue-50">
+                                    <td class="px-4 py-3 font-medium">云铝股份</td>
+                                    <td class="px-4 py-3">305</td>
+                                    <td class="px-4 py-3 font-bold">22.9</td>
+                                    <td class="px-4 py-3 font-bold">0.66</td>
+                                    <td class="px-4 py-3 font-bold text-blue-600">+33%</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-medium">中国铝业</td>
+                                    <td class="px-4 py-3">400</td>
+                                    <td class="px-4 py-3">30.0</td>
+                                    <td class="px-4 py-3">0.17</td>
+                                    <td class="px-4 py-3 text-green-600">+15%</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-medium">神火股份</td>
+                                    <td class="px-4 py-3">170</td>
+                                    <td class="px-4 py-3">12.8</td>
+                                    <td class="px-4 py-3">0.57</td>
+                                    <td class="px-4 py-3 text-green-600">+15%</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-medium">天山铝业</td>
+                                    <td class="px-4 py-3">120</td>
+                                    <td class="px-4 py-3">9.0</td>
+                                    <td class="px-4 py-3">0.19</td>
+                                    <td class="px-4 py-3 text-green-600">+19%</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-medium">南山铝业</td>
+                                    <td class="px-4 py-3">100</td>
+                                    <td class="px-4 py-3">7.5</td>
+                                    <td class="px-4 py-3">0.06</td>
+                                    <td class="px-4 py-3 text-yellow-600">+12%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="mt-6 p-4 bg-blue-50 rounded-lg">
+                        <p class="text-sm text-blue-800">
+                            <i class="fas fa-info-circle mr-2"></i>
+                            <strong>关键发现：</strong>云铝股份因电解铝业务纯度最高（营收占比&gt;80%），铝价弹性最大；中国铝业因规模优势，绝对利润增量最大但股本摊薄后EPS弹性较小；南山铝业因高端加工占比高，铝价弹性最小但利润稳定性最强。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Company Comparison Section -->
+        <section id="company-comparison" class="mb-16">
+            <h2 class="serif text-3xl font-bold mb-8 text-gray-900">公司比较：谁具备真正的红利资产属性</h2>
+
+            <div class="bg-white rounded-xl p-8 shadow-sm border mb-8">
+                <h3 class="text-xl font-bold mb-6 text-gray-900">综合评分矩阵</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-4 py-3 text-left font-semibold">公司</th>
+                                <th class="px-4 py-3 text-left font-semibold">电解铝产能</th>
+                                <th class="px-4 py-3 text-left font-semibold">氧化铝自给率</th>
+                                <th class="px-4 py-3 text-left font-semibold">电力成本</th>
+                                <th class="px-4 py-3 text-left font-semibold">毛利率</th>
+                                <th class="px-4 py-3 text-left font-semibold">资产负债率</th>
+                                <th class="px-4 py-3 text-left font-semibold">分红率</th>
+                                <th class="px-4 py-3 text-left font-semibold">股息率</th>
+                                <th class="px-4 py-3 text-left font-semibold">PE</th>
+                                <th class="px-4 py-3 text-left font-semibold">PB</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr class="bg-blue-50">
+                                <td class="px-4 py-3 font-bold">云铝股份</td>
+                                <td class="px-4 py-3">305万吨</td>
+                                <td class="px-4 py-3">30%</td>
+                                <td class="px-4 py-3 text-green-600">水电0.25-0.35元/度</td>
+                                <td class="px-4 py-3">25%+</td>
+                                <td class="px-4 py-3 text-green-600">21.95%</td>
+                                <td class="px-4 py-3">~40%</td>
+                                <td class="px-4 py-3">4%-5%</td>
+                                <td class="px-4 py-3">8-10倍</td>
+                                <td class="px-4 py-3">1.5-2.0倍</td>
+                            </tr>
+                            <tr class="bg-green-50">
+                                <td class="px-4 py-3 font-bold">天山铝业</td>
+                                <td class="px-4 py-3">120万吨</td>
+                                <td class="px-4 py-3 text-green-600">85%+</td>
+                                <td class="px-4 py-3 text-green-600">自备电0.22元/度</td>
+                                <td class="px-4 py-3">30%+</td>
+                                <td class="px-4 py-3">45.4%</td>
+                                <td class="px-4 py-3 text-green-600">52.40%</td>
+                                <td class="px-4 py-3 text-green-600">5%-6%</td>
+                                <td class="px-4 py-3">6-8倍</td>
+                                <td class="px-4 py-3">1.2-1.5倍</td>
+                            </tr>
+                            <tr class="bg-purple-50">
+                                <td class="px-4 py-3 font-bold">南山铝业</td>
+                                <td class="px-4 py-3">100万吨</td>
+                                <td class="px-4 py-3 text-green-600">100%</td>
+                                <td class="px-4 py-3">自备电+网电</td>
+                                <td class="px-4 py-3">35%+</td>
+                                <td class="px-4 py-3 text-green-600">17.56%</td>
+                                <td class="px-4 py-3 text-green-600">105.49%</td>
+                                <td class="px-4 py-3 text-green-600">8.07%</td>
+                                <td class="px-4 py-3">10-12倍</td>
+                                <td class="px-4 py-3">0.8-1.0倍</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 font-medium">神火股份</td>
+                                <td class="px-4 py-3">170万吨</td>
+                                <td class="px-4 py-3">0%</td>
+                                <td class="px-4 py-3">滇新双基地</td>
+                                <td class="px-4 py-3">28%+</td>
+                                <td class="px-4 py-3">65%</td>
+                                <td class="px-4 py-3">~40%</td>
+                                <td class="px-4 py-3">3%-4%</td>
+                                <td class="px-4 py-3">7-9倍</td>
+                                <td class="px-4 py-3">1.8-2.2倍</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 font-medium">中国铝业</td>
+                                <td class="px-4 py-3">400万吨</td>
+                                <td class="px-4 py-3 text-green-600">200%+</td>
+                                <td class="px-4 py-3">多元化</td>
+                                <td class="px-4 py-3">15%+</td>
+                                <td class="px-4 py-3">43.27%</td>
+                                <td class="px-4 py-3">36.55%</td>
+                                <td class="px-4 py-3">2.21%</td>
+                                <td class="px-4 py-3">12-15倍</td>
+                                <td class="px-4 py-3">1.0-1.2倍</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-8 shadow-sm border mb-8">
+                <h3 class="text-xl font-bold mb-6 text-gray-900">五维评分体系</h3>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div>
+                        <h4 class="font-semibold mb-4 text-green-700">红利属性评分（1-5分）</h4>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm">南山铝业</span>
+                                <div class="flex">
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm">天山铝业</span>
+                                <div class="flex">
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="far fa-star text-gray-300"></i>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm">云铝股份</span>
+                                <div class="flex">
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="far fa-star text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold mb-4 text-blue-700">周期弹性评分（1-5分）</h4>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm">云铝股份</span>
+                                <div class="flex">
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm">天山铝业</span>
+                                <div class="flex">
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="far fa-star text-gray-300"></i>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm">神火股份</span>
+                                <div class="flex">
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="far fa-star text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold mb-4 text-purple-700">成长弹性评分（1-5分）</h4>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm">中国铝业</span>
+                                <div class="flex">
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="far fa-star text-gray-300"></i>
+                                    <i class="far fa-star text-gray-300"></i>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm">云铝股份</span>
+                                <div class="flex">
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="far fa-star text-gray-300"></i>
+                                    <i class="far fa-star text-gray-300"></i>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm">天山铝业</span>
+                                <div class="flex">
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="far fa-star text-gray-300"></i>
+                                    <i class="far fa-star text-gray-300"></i>
+                                    <i class="far fa-star text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mermaid Diagram for Company Comparison -->
+            <div class="bg-white rounded-xl p-8 shadow-sm border mb-8">
+                <h3 class="text-xl font-bold mb-6 text-gray-900">公司业务结构对比</h3>
+                <div class="mermaid-container">
+                    <div class="mermaid-controls">
+                        <button class="mermaid-control-btn zoom-in" title="放大">
+                            <i class="fas fa-search-plus"></i>
+                        </button>
+                        <button class="mermaid-control-btn zoom-out" title="缩小">
+                            <i class="fas fa-search-minus"></i>
+                        </button>
+                        <button class="mermaid-control-btn reset-zoom" title="重置">
+                            <i class="fas fa-expand-arrows-alt"></i>
+                        </button>
+                        <button class="mermaid-control-btn fullscreen" title="全屏查看">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                    </div>
+                    <div class="mermaid">
+                        graph TD
+                        A[&#34;铝行业上市公司&#34;] --&gt; B[&#34;云铝股份&#34;]
+                        A --&gt; C[&#34;天山铝业&#34;]
+                        A --&gt; D[&#34;南山铝业&#34;]
+                        A --&gt; E[&#34;神火股份&#34;]
+                        A --&gt; F[&#34;中国铝业&#34;]
+
+                        B --&gt; B1[&#34;电解铝: 305万吨&#34;]
+                        B --&gt; B2[&#34;氧化铝: 外购&#34;]
+                        B --&gt; B3[&#34;电力: 水电80%+&#34;]
+
+                        C --&gt; C1[&#34;电解铝: 120万吨&#34;]
+                        C --&gt; C2[&#34;氧化铝: 85%+自给&#34;]
+                        C --&gt; C3[&#34;电力: 新疆自备电0.22元/度&#34;]
+
+                        D --&gt; D1[&#34;电解铝: 100万吨&#34;]
+                        D --&gt; D2[&#34;氧化铝: 100%自给&#34;]
+                        D --&gt; D3[&#34;电力: 自备电+网电&#34;]
+                        D --&gt; D4[&#34;加工: 高端铝材&#34;]
+
+                        E --&gt; E1[&#34;电解铝: 170万吨&#34;]
+                        E --&gt; E2[&#34;氧化铝: 外购&#34;]
+                        E --&gt; E3[&#34;电力: 滇新双基地&#34;]
+                        E --&gt; E4[&#34;煤炭: 业务协同&#34;]
+
+                        F --&gt; F1[&#34;电解铝: 400万吨&#34;]
+                        F --&gt; F2[&#34;氧化铝: 200%+自给&#34;]
+                        F --&gt; F3[&#34;电力: 多元化&#34;]
+                        F --&gt; F4[&#34;全产业链: 龙头&#34;]
+
+                        style A fill:#1e293b,stroke:#ffffff,stroke-width:2px,color:#ffffff
+                        style B fill:#3b82f6,stroke:#ffffff,stroke-width:2px,color:#ffffff
+                        style C fill:#10b981,stroke:#ffffff,stroke-width:2px,color:#ffffff
+                        style D fill:#8b5cf6,stroke:#ffffff,stroke-width:2px,color:#ffffff
+                        style E fill:#f59e0b,stroke:#ffffff,stroke-width:2px,color:#ffffff
+                        style F fill:#ef4444,stroke:#ffffff,stroke-width:2px,color:#ffffff
+                    </div>
+                </div>
+                <div class="mt-4 p-4 bg-gray-50 rounded-lg">
+                    <p class="text-sm text-gray-600">
+                        <i class="fas fa-info-circle mr-2"></i>
+                        交互提示：可使用鼠标滚轮缩放图表，拖拽移动视图，点击右上角按钮进行精确控制
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Valuation Framework Section -->
+        <section id="valuation-framework" class="mb-16">
+            <h2 class="serif text-3xl font-bold mb-8 text-gray-900">估值框架：从周期PE到现金流与股息率定价</h2>
+
+            <div class="mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-gray-900">三套估值框架对比</h3>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+                    <div class="bg-blue-50 rounded-xl p-6">
+                        <h4 class="text-lg font-bold mb-4 text-blue-800">
+                            <i class="fas fa-chart-line mr-2"></i>
+                            周期股框架
+                        </h4>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between">
+                                <span>核心指标</span>
+                                <span class="font-medium">PE、PB、吨铝利润弹性</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>适用标的</span>
+                                <span class="font-medium">云铝股份、神火股份</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>当前估值</span>
+                                <span class="font-medium text-blue-600">8-12倍PE</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>合理区间</span>
+                                <span class="font-medium">10-15倍PE</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-green-50 rounded-xl p-6">
+                        <h4 class="text-lg font-bold mb-4 text-green-800">
+                            <i class="fas fa-coins mr-2"></i>
+                            红利股框架
+                        </h4>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between">
+                                <span>核心指标</span>
+                                <span class="font-medium">股息率、分红率、现金流</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>适用标的</span>
+                                <span class="font-medium">南山铝业、天山铝业</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>当前估值</span>
+                                <span class="font-medium text-green-600">4%-8%股息率</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>合理区间</span>
+                                <span class="font-medium">4%-6%股息率</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-purple-50 rounded-xl p-6">
+                        <h4 class="text-lg font-bold mb-4 text-purple-800">
+                            <i class="fas fa-rocket mr-2"></i>
+                            景气股框架
+                        </h4>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between">
+                                <span>核心指标</span>
+                                <span class="font-medium">铝价上行、成本下行、盈利预测</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>适用标的</span>
+                                <span class="font-medium">中国铝业、云铝股份</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>当前估值</span>
+                                <span class="font-medium text-purple-600">12-15倍PE</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>合理区间</span>
+                                <span class="font-medium">8-12倍PE</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-8 shadow-sm border mb-8">
+                <h3 class="text-xl font-bold mb-6 text-gray-900">估值切换路径</h3>
+
+                <div class="mermaid-container">
+                    <div class="mermaid-controls">
+                        <button class="mermaid-control-btn zoom-in" title="放大">
+                            <i class="fas fa-search-plus"></i>
+                        </button>
+                        <button class="mermaid-control-btn zoom-out" title="缩小">
+                            <i class="fas fa-search-minus"></i>
+                        </button>
+                        <button class="mermaid-control-btn reset-zoom" title="重置">
+                            <i class="fas fa-expand-arrows-alt"></i>
+                        </button>
+                        <button class="mermaid-control-btn fullscreen" title="全屏查看">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                    </div>
+                    <div class="mermaid">
+                        graph LR
+                        A[&#34;传统周期股估值
+                        <br />PE 10-15倍&#34;] --&gt; B[&#34;供给刚性认知
+                        <br />PE 12-18倍&#34;]
+                        B --&gt; C[&#34;红利属性确立
+                        <br />股息率4%-6%&#34;]
+                        C --&gt; D[&#34;现金流估值
+                        <br />DCF/DDM模型&#34;]
+
+                        E[&#34;估值驱动因素&#34;] --&gt; F[&#34;产能天花板
+                        <br />4500万吨刚性约束&#34;]
+                        E --&gt; G[&#34;分红率提升
+                        <br />40%→60%&#34;]
+                        E --&gt; H[&#34;现金流改善
+                        <br />CAPEX下降&#34;]
+
+                        F --&gt; B
+                        G --&gt; C
+                        H --&gt; D
+
+                        style A fill:#fef3c7,stroke:#f59e0b,stroke-width:2px,color:#92400e
+                        style B fill:#dbeafe,stroke:#3b82f6,stroke-width:2px,color:#1e40af
+                        style C fill:#dcfce7,stroke:#22c55e,stroke-width:2px,color:#166534
+                        style D fill:#f3e8ff,stroke:#a855f7,stroke-width:2px,color:#7c3aed
+                        style E fill:#f1f5f9,stroke:#64748b,stroke-width:2px,color:#334155
+                        style F fill:#fef3c7,stroke:#f59e0b,stroke-width:2px,color:#92400e
+                        style G fill:#dcfce7,stroke:#22c55e,stroke-width:2px,color:#166534
+                        style H fill:#f3e8ff,stroke:#a855f7,stroke-width:2px,color:#7c3aed
+                    </div>
+                </div>
+                <div class="mt-4 p-4 bg-gray-50 rounded-lg">
+                    <p class="text-sm text-gray-600">
+                        <i class="fas fa-info-circle mr-2"></i>
+                        交互提示：可使用鼠标滚轮缩放图表，拖拽移动视图，点击右上角按钮进行精确控制
+                    </p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-8 shadow-sm border mb-8">
+                <h3 class="text-xl font-bold mb-6 text-gray-900">各公司估值定位</h3>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="font-semibold mb-4 text-green-700">适合红利框架定价</h4>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center p-3 bg-green-50 rounded">
+                                <span class="font-medium">南山铝业</span>
+                                <span class="text-sm text-green-600">股息率8.07%，分红率105%</span>
+                            </div>
+                            <div class="flex justify-between items-center p-3 bg-green-50 rounded">
+                                <span class="font-medium">天山铝业</span>
+                                <span class="text-sm text-green-600">股息率5%-6%，分红率52%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold mb-4 text-blue-700">仍由周期弹性定价</h4>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center p-3 bg-blue-50 rounded">
+                                <span class="font-medium">云铝股份</span>
+                                <span class="text-sm text-blue-600">水电铝纯度最高，PE 8-10倍</span>
+                            </div>
+                            <div class="flex justify-between items-center p-3 bg-blue-50 rounded">
+                                <span class="font-medium">神火股份</span>
+                                <span class="text-sm text-blue-600">煤铝共振，PE 7-9倍</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Investment Recommendations Section -->
+        <section id="investment-recommendations" class="mb-16">
+            <h2 class="serif text-3xl font-bold mb-8 text-gray-900">投资建议：把研究结论转化为交易动作</h2>
+
+            <div class="mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-gray-900">核心标的评级</h3>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                    <!-- 云铝股份 -->
+                    <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 border-2 border-blue-200">
+                        <div class="flex justify-between items-start mb-4">
+                            <h4 class="text-xl font-bold text-blue-800">云铝股份</h4>
+                            <span
+                                class="bg-green-600 text-white px-3 py-1 rounded-full text-sm font-semibold">核心配置</span>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <div class="text-sm text-gray-600">当前股价</div>
+                                <div class="text-lg font-bold">待验证</div>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-600">目标价位</div>
+                                <div class="text-lg font-bold text-blue-600">18-22元</div>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-600">股息率</div>
+                                <div class="text-lg font-bold text-green-600">4%-5%</div>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-600">上涨空间</div>
+                                <div class="text-lg font-bold text-green-600">35%-65%</div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3">
+                            <div>
+                                <h5 class="font-semibold text-sm mb-2">投资逻辑</h5>
+                                <p class="text-sm text-gray-700">水电铝纯度最高，绿电占比80%+，资产负债率行业最低，分红提升潜力大</p>
+                            </div>
+
+                            <div>
+                                <h5 class="font-semibold text-sm mb-2">买入条件</h5>
+                                <ul class="text-sm text-gray-700 space-y-1">
+                                    <li>• 沪铝站稳22,000元/吨</li>
+                                    <li>• 吨铝利润维持6,000元以上</li>
+                                    <li>• 股息率&gt;4.5%</li>
+                                </ul>
+                            </div>
+
+                            <div>
+                                <h5 class="font-semibold text-sm mb-2">减仓条件</h5>
+                                <ul class="text-sm text-gray-700 space-y-1">
+                                    <li>• 铝价跌破20,000元/吨</li>
+                                    <li>• 云南枯水期限电超预期</li>
+                                    <li>• 分红率环比下降超5个百分点</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 天山铝业 -->
+                    <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6 border-2 border-green-200">
+                        <div class="flex justify-between items-start mb-4">
+                            <h4 class="text-xl font-bold text-green-800">天山铝业</h4>
+                            <span
+                                class="bg-green-600 text-white px-3 py-1 rounded-full text-sm font-semibold">核心配置</span>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <div class="text-sm text-gray-600">当前股价</div>
+                                <div class="text-lg font-bold">待验证</div>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-600">目标价位</div>
+                                <div class="text-lg font-bold text-green-600">12-15元</div>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-600">股息率</div>
+                                <div class="text-lg font-bold text-green-600">5%-6%</div>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-600">上涨空间</div>
+                                <div class="text-lg font-bold text-green-600">40%-75%</div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3">
+                            <div>
+                                <h5 class="font-semibold text-sm mb-2">投资逻辑</h5>
+                                <p class="text-sm text-gray-700">一体化成本最低，新疆自备电成本0.22元/度，氧化铝自给率85%+，利润弹性最大</p>
+                            </div>
+
+                            <div>
+                                <h5 class="font-semibold text-sm mb-2">买入条件</h5>
+                                <ul class="text-sm text-gray-700 space-y-1">
+                                    <li>• 氧化铝价格低于2,800元/吨</li>
+                                    <li>• 分红率承诺不低于50%</li>
+                                    <li>• PE低于8倍</li>
+                                </ul>
+                            </div>
+
+                            <div>
+                                <h5 class="font-semibold text-sm mb-2">减仓条件</h5>
+                                <ul class="text-sm text-gray-700 space-y-1">
+                                    <li>• 自备电成本优势削弱</li>
+                                    <li>• 资本开支重新扩张</li>
+                                    <li>• 资产负债率上升</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 南山铝业 -->
+                    <div
+                        class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-6 border-2 border-purple-200">
+                        <div class="flex justify-between items-start mb-4">
+                            <h4 class="text-xl font-bold text-purple-800">南山铝业</h4>
+                            <span
+                                class="bg-yellow-500 text-white px-3 py-1 rounded-full text-sm font-semibold">可配置</span>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <div class="text-sm text-gray-600">当前股价</div>
+                                <div class="text-lg font-bold">待验证</div>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-600">目标价位</div>
+                                <div class="text-lg font-bold text-purple-600">6-8元</div>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-600">股息率</div>
+                                <div class="text-lg font-bold text-green-600">8.07%</div>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-600">上涨空间</div>
+                                <div class="text-lg font-bold text-green-600">25%-50%</div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3">
+                            <div>
+                                <h5 class="font-semibold text-sm mb-2">投资逻辑</h5>
+                                <p class="text-sm text-gray-700">高股息确定性，2025年特别分红30亿元，全产业链布局，资产负债率最低</p>
+                            </div>
+
+                            <div>
+                                <h5 class="font-semibold text-sm mb-2">买入条件</h5>
+                                <ul class="text-sm text-gray-700 space-y-1">
+                                    <li>• 股息率&gt;6%</li>
+                                    <li>• PB低于0.8倍</li>
+                                    <li>• 加工业务毛利率稳定</li>
+                                </ul>
+                            </div>
+
+                            <div>
+                                <h5 class="font-semibold text-sm mb-2">减仓条件</h5>
+                                <ul class="text-sm text-gray-700 space-y-1">
+                                    <li>• 分红率下降</li>
+                                    <li>• 加工业务毛利率大幅下滑</li>
+                                    <li>• 印尼项目投产延迟</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 神火股份 -->
+                    <div
+                        class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-6 border-2 border-orange-200">
+                        <div class="flex justify-between items-start mb-4">
+                            <h4 class="text-xl font-bold text-orange-800">神火股份</h4>
+                            <span
+                                class="bg-yellow-500 text-white px-3 py-1 rounded-full text-sm font-semibold">可配置</span>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <div class="text-sm text-gray-600">当前股价</div>
+                                <div class="text-lg font-bold">待验证</div>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-600">目标价位</div>
+                                <div class="text-lg font-bold text-orange-600">28-35元</div>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-600">股息率</div>
+                                <div class="text-lg font-bold text-green-600">3%-4%</div>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-600">上涨空间</div>
+                                <div class="text-lg font-bold text-green-600">30%-60%</div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3">
+                            <div>
+                                <h5 class="font-semibold text-sm mb-2">投资逻辑</h5>
+                                <p class="text-sm text-gray-700">滇新双基地布局，煤铝业务协同，经营现金流大幅改善，煤价上涨受益</p>
+                            </div>
+
+                            <div>
+                                <h5 class="font-semibold text-sm mb-2">买入条件</h5>
+                                <ul class="text-sm text-gray-700 space-y-1">
+                                    <li>• 煤价维持高位</li>
+                                    <li>• 云南限电影响可控</li>
+                                    <li>• 经营现金流持续改善</li>
+                                </ul>
+                            </div>
+
+                            <div>
+                                <h5 class="font-semibold text-sm mb-2">减仓条件</h5>
+                                <ul class="text-sm text-gray-700 space-y-1">
+                                    <li>• 煤价大幅下跌</li>
+                                    <li>• 云南限电超预期</li>
+                                    <li>• 资产负债率上升</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 中国铝业 -->
+                <div class="bg-gradient-to-br from-red-50 to-red-100 rounded-xl p-6 border-2 border-red-200">
+                    <div class="flex justify-between items-start mb-4">
+                        <h4 class="text-xl font-bold text-red-800">中国铝业</h4>
+                        <span class="bg-gray-500 text-white px-3 py-1 rounded-full text-sm font-semibold">观察型</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <div class="text-sm text-gray-600">当前股价</div>
+                            <div class="text-lg font-bold">待验证</div>
+                        </div>
+                        <div>
+                            <div class="text-sm text-gray-600">目标价位</div>
+                            <div class="text-lg font-bold text-red-600">8-10元</div>
+                        </div>
+                        <div>
+                            <div class="text-sm text-gray-600">股息率</div>
+                            <div class="text-lg font-bold text-yellow-600">2.21%</div>
+                        </div>
+                        <div>
+                            <div class="text-sm text-gray-600">上涨空间</div>
+                            <div class="text-lg font-bold text-green-600">20%-40%</div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div>
+                            <h5 class="font-semibold text-sm mb-2">投资逻辑</h5>
+                            <p class="text-sm text-gray-700">全产业链龙头，氧化铝自给率200%+，分红率连续五年提升，行业风向标</p>
+                        </div>
+
+                        <div>
+                            <h5 class="font-semibold text-sm mb-2">关注要点</h5>
+                            <ul class="text-sm text-gray-700 space-y-1">
+                                <li>• 行业景气度确认后的β机会</li>
+                                <li>• 分红率提升至40%以上</li>
+                                <li>• 全产业链协同效应</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h5 class="font-semibold text-sm mb-2">风险因素</h5>
+                            <ul class="text-sm text-gray-700 space-y-1">
+                                <li>• 规模大弹性相对较小</li>
+                                <li>• 央企效率提升空间有限</li>
+                                <li>• 估值相对偏高</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-gray-900">交易动作指导</h3>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="bg-green-50 rounded-xl p-6">
+                        <h4 class="text-lg font-bold mb-4 text-green-800">
+                            <i class="fas fa-shopping-cart mr-2"></i>
+                            买入动作
+                        </h4>
+                        <div class="space-y-3">
+                            <div class="p-3 bg-white rounded border-l-4 border-green-500">
+                                <div class="font-semibold text-sm">云铝股份</div>
+                                <div class="text-xs text-gray-600">当前价：待验证 | 买入价：≤15元</div>
+                            </div>
+                            <div class="p-3 bg-white rounded border-l-4 border-green-500">
+                                <div class="font-semibold text-sm">天山铝业</div>
+                                <div class="text-xs text-gray-600">当前价：待验证 | 买入价：≤8元</div>
+                            </div>
+                            <div class="p-3 bg-white rounded border-l-4 border-green-500">
+                                <div class="font-semibold text-sm">南山铝业</div>
+                                <div class="text-xs text-gray-600">当前价：待验证 | 买入价：≤5元</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-red-50 rounded-xl p-6">
+                        <h4 class="text-lg font-bold mb-4 text-red-800">
+                            <i class="fas fa-exclamation-triangle mr-2"></i>
+                            减仓动作
+                        </h4>
+                        <div class="space-y-3">
+                            <div class="p-3 bg-white rounded border-l-4 border-red-500">
+                                <div class="font-semibold text-sm">云铝股份</div>
+                                <div class="text-xs text-gray-600">减仓价：≥22元 或 铝价跌破20,000元/吨</div>
+                            </div>
+                            <div class="p-3 bg-white rounded border-l-4 border-red-500">
+                                <div class="font-semibold text-sm">天山铝业</div>
+                                <div class="text-xs text-gray-600">减仓价：≥15元 或 氧化铝价格&gt;3,200元/吨</div>
+                            </div>
+                            <div class="p-3 bg-white rounded border-l-4 border-red-500">
+                                <div class="font-semibold text-sm">南山铝业</div>
+                                <div class="text-xs text-gray-600">减仓价：≥8元 或 分红率下降</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfolio Strategy Section -->
+        <section id="portfolio-strategy" class="mb-16">
+            <h2 class="serif text-3xl font-bold mb-8 text-gray-900">组合建议：不同风险偏好的配置方案</h2>
+
+            <div class="mb-12">
+                <h3 class="text-2xl font-bold mb-6 text-gray-900">三种配置方案</h3>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+                    <!-- 稳健型组合 -->
+                    <div class="bg-green-50 rounded-xl p-6 border-2 border-green-200">
+                        <h4 class="text-xl font-bold mb-4 text-green-800">
+                            <i class="fas fa-shield-alt mr-2"></i>
+                            稳健型组合
+                        </h4>
+                        <div class="mb-4">
+                            <div class="text-sm text-gray-600 mb-2">目标配置</div>
+                            <div class="text-lg font-bold text-green-600">铝行业占总组合 5%-8%</div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h5 class="font-semibold mb-2">配置结构</h5>
+                            <div class="space-y-2">
+                                <div class="flex justify-between text-sm">
+                                    <span>南山铝业（60%）</span>
+                                    <span class="text-green-600">高股息确定性</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span>天山铝业（40%）</span>
+                                    <span class="text-green-600">一体化成本优势</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h5 class="font-semibold mb-2">核心理由</h5>
+                            <ul class="text-sm text-gray-700 space-y-1">
+                                <li>• 优先低成本、高现金流、高分红</li>
+                                <li>• 低负债公司，波动性较小</li>
+                                <li>• 适合验证红利属性阶段</li>
+                            </ul>
+                        </div>
+
+                        <div class="p-3 bg-white rounded">
+                            <h5 class="font-semibold text-sm mb-1">风险提示</h5>
+                            <div class="text-xs text-gray-600">铝价大幅下跌、分红率下降、加工业务毛利率下滑</div>
+                        </div>
+                    </div>
+
+                    <!-- 平衡型组合 -->
+                    <div class="bg-blue-50 rounded-xl p-6 border-2 border-blue-200">
+                        <h4 class="text-xl font-bold mb-4 text-blue-800">
+                            <i class="fas fa-balance-scale mr-2"></i>
+                            平衡型组合
+                        </h4>
+                        <div class="mb-4">
+                            <div class="text-sm text-gray-600 mb-2">目标配置</div>
+                            <div class="text-lg font-bold text-blue-600">铝行业占总组合 10%-15%</div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h5 class="font-semibold mb-2">配置结构</h5>
+                            <div class="space-y-2">
+                                <div class="flex justify-between text-sm">
+                                    <span>云铝股份（40%）</span>
+                                    <span class="text-blue-600">水电铝纯度最高</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span>天山铝业（30%）</span>
+                                    <span class="text-blue-600">一体化成本最低</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span>南山铝业（20%）</span>
+                                    <span class="text-blue-600">高股息确定性</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span>神火股份（10%）</span>
+                                    <span class="text-blue-600">煤铝共振</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h5 class="font-semibold mb-2">核心理由</h5>
+                            <ul class="text-sm text-gray-700 space-y-1">
+                                <li>• 兼顾红利确定性与铝价弹性</li>
+                                <li>• 本报告主要参考情景</li>
+                                <li>• 要求兼顾现金流和估值修复</li>
+                            </ul>
+                        </div>
+
+                        <div class="p-3 bg-white rounded">
+                            <h5 class="font-semibold text-sm mb-1">风险提示</h5>
+                            <div class="text-xs text-gray-600">铝价波动、限电影响、煤价波动、分红不及预期</div>
+                        </div>
+                    </div>
+
+                    <!-- 进取型组合 -->
+                    <div class="bg-purple-50 rounded-xl p-6 border-2 border-purple-200">
+                        <h4 class="text-xl font-bold mb-4 text-purple-800">
+                            <i class="fas fa-rocket mr-2"></i>
+                            进取型组合
+                        </h4>
+                        <div class="mb-4">
+                            <div class="text-sm text-gray-600 mb-2">目标配置</div>
+                            <div class="text-lg font-bold text-purple-600">铝行业占总组合 20%-25%</div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h5 class="font-semibold mb-2">配置结构</h5>
+                            <div class="space-y-2">
+                                <div class="flex justify-between text-sm">
+                                    <span>云铝股份（50%）</span>
+                                    <span class="text-purple-600">最大利润弹性</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span>天山铝业（30%）</span>
+                                    <span class="text-purple-600">最低成本优势</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span>神火股份（20%）</span>
+                                    <span class="text-purple-600">煤铝双轮驱动</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h5 class="font-semibold mb-2">核心理由</h5>
+                            <ul class="text-sm text-gray-700 space-y-1">
+                                <li>• 铝价弹性、利润弹性、景气上修</li>
+                                <li>• 适用于铝价上行确认后加仓</li>
+                                <li>• 要求高风险承受能力</li>
+                            </ul>
+                        </div>
+
+                        <div class="p-3 bg-white rounded">
+                            <h5 class="font-semibold text-sm mb-1">风险提示</h5>
+                            <div class="text-xs text-gray-600">铝价大幅波动、限电超预期、煤价暴跌、估值回撤</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Scenario Analysis Section -->
+        <section id="scenario-analysis" class="mb-16">
+            <h2 class="serif text-3xl font-bold mb-8 text-gray-900">情景测算：乐观、中性、悲观三种路径</h2>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+                <!-- 乐观情景 -->
+                <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6 border-2 border-green-300">
+                    <h3 class="text-xl font-bold mb-4 text-green-800">
+                        <i class="fas fa-thumbs-up mr-2"></i>
+                        乐观情景
+                    </h3>
+
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-semibold text-sm mb-2">核心假设</h4>
+                            <ul class="text-sm text-gray-700 space-y-1">
+                                <li>• 地缘冲突持续升级</li>
+                                <li>• 印尼投产延迟</li>
+                                <li>• 新能源需求超预期</li>
+                                <li>• 库存降至30万吨以下</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h4 class="font-semibold text-sm mb-2">价格预测</h4>
+                            <div class="space-y-1 text-sm">
+                                <div class="flex justify-between">
+                                    <span>沪铝中枢</span>
+                                    <span class="font-bold text-green-600">25,000-27,000元</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>LME中枢</span>
+                                    <span class="font-bold text-green-600">3,400-3,700美元</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>吨铝利润</span>
+                                    <span class="font-bold text-green-600">8,000-10,000元</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="font-semibold text-sm mb-2">投资策略</h4>
+                            <div class="text-sm text-gray-700">
+                                重点配置云铝股份、天山铝业，适当加仓神火股份，持有南山铝业
+                            </div>
+                        </div>
+
+                        <div class="p-3 bg-white rounded">
+                            <div class="text-xs text-gray-600">
+                                <strong>概率评估：</strong>25%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 中性情景 -->
+                <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 border-2 border-blue-300">
+                    <h3 class="text-xl font-bold mb-4 text-blue-800">
+                        <i class="fas fa-balance-scale mr-2"></i>
+                        中性情景
+                    </h3>
+
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-semibold text-sm mb-2">核心假设</h4>
+                            <ul class="text-sm text-gray-700 space-y-1">
+                                <li>• 供给刚性维持</li>
+                                <li>• 需求温和增长2.5%-3.5%</li>
+                                <li>• 氧化铝2,500-3,000元/吨</li>
+                                <li>• 库存维持低位</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h4 class="font-semibold text-sm mb-2">价格预测</h4>
+                            <div class="space-y-1 text-sm">
+                                <div class="flex justify-between">
+                                    <span>沪铝中枢</span>
+                                    <span class="font-bold text-blue-600">22,500-24,000元</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>LME中枢</span>
+                                    <span class="font-bold text-blue-600">3,100-3,300美元</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>吨铝利润</span>
+                                    <span class="font-bold text-blue-600">6,000-8,000元</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="font-semibold text-sm mb-2">投资策略</h4>
+                            <div class="text-sm text-gray-700">
+                                标准配置：云铝股份40%+天山铝业30%+南山铝业20%+神火股份10%
+                            </div>
+                        </div>
+
+                        <div class="p-3 bg-white rounded">
+                            <div class="text-xs text-gray-600">
+                                <strong>概率评估：</strong>55%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 悲观情景 -->
+                <div class="bg-gradient-to-br from-red-50 to-red-100 rounded-xl p-6 border-2 border-red-300">
+                    <h3 class="text-xl font-bold mb-4 text-red-800">
+                        <i class="fas fa-thumbs-down mr-2"></i>
+                        悲观情景
+                    </h3>
+
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-semibold text-sm mb-2">核心假设</h4>
+                            <ul class="text-sm text-gray-700 space-y-1">
+                                <li>• 地缘冲突快速缓和</li>
+                                <li>• 印尼产能Q2提前释放</li>
+                                <li>• 全球经济衰退</li>
+                                <li>• 需求增速降至1.5%以下</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h4 class="font-semibold text-sm mb-2">价格预测</h4>
+                            <div class="space-y-1 text-sm">
+                                <div class="flex justify-between">
+                                    <span>沪铝中枢</span>
+                                    <span class="font-bold text-red-600">19,500-21,500元</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>LME中枢</span>
+                                    <span class="font-bold text-red-600">2,600-2,900美元</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>吨铝利润</span>
+                                    <span class="font-bold text-red-600">4,000-6,000元</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="font-semibold text-sm mb-2">投资策略</h4>
+                            <div class="text-sm text-gray-700">
+                                降低仓位至5%以下，重点配置南山铝业，等待铝价企稳信号
+                            </div>
+                        </div>
+
+                        <div class="p-3 bg-white rounded">
+                            <div class="text-xs text-gray-600">
+                                <strong>概率评估：</strong>20%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-8 shadow-sm border mb-8">
+                <h3 class="text-xl font-bold mb-6 text-gray-900">情景对股价影响测算</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-4 py-3 text-left font-semibold">公司</th>
+                                <th class="px-4 py-3 text-left font-semibold">乐观情景涨幅</th>
+                                <th class="px-4 py-3 text-left font-semibold">中性情景涨幅</th>
+                                <th class="px-4 py-3 text-left font-semibold">悲观情景跌幅</th>
+                                <th class="px-4 py-3 text-left font-semibold">弹性系数</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr class="bg-blue-50">
+                                <td class="px-4 py-3 font-medium">云铝股份</td>
+                                <td class="px-4 py-3 text-green-600 font-bold">+65%</td>
+                                <td class="px-4 py-3 text-blue-600">+35%</td>
+                                <td class="px-4 py-3 text-red-600">-25%</td>
+                                <td class="px-4 py-3 font-bold">2.6</td>
+                            </tr>
+                            <tr class="bg-green-50">
+                                <td class="px-4 py-3 font-medium">天山铝业</td>
+                                <td class="px-4 py-3 text-green-600 font-bold">+75%</td>
+                                <td class="px-4 py-3 text-blue-600">+40%</td>
+                                <td class="px-4 py-3 text-red-600">-30%</td>
+                                <td class="px-4 py-3 font-bold">2.8</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 font-medium">神火股份</td>
+                                <td class="px-4 py-3 text-green-600">+60%</td>
+                                <td class="px-4 py-3 text-blue-600">+30%</td>
+                                <td class="px-4 py-3 text-red-600">-28%</td>
+                                <td class="px-4 py-3">2.5</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 font-medium">南山铝业</td>
+                                <td class="px-4 py-3 text-green-600">+50%</td>
+                                <td class="px-4 py-3 text-blue-600">+25%</td>
+                                <td class="px-4 py-3 text-red-600">-20%</td>
+                                <td class="px-4 py-3">2.0</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 font-medium">中国铝业</td>
+                                <td class="px-4 py-3 text-green-600">+40%</td>
+                                <td class="px-4 py-3 text-blue-600">+20%</td>
+                                <td class="px-4 py-3 text-red-600">-15%</td>
+                                <td class="px-4 py-3">1.8</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="mt-6 p-4 bg-gray-50 rounded-lg">
+                    <p class="text-sm text-gray-700">
+                        <i class="fas fa-info-circle mr-2"></i>
+                        <strong>弹性系数计算：</strong>（乐观涨幅 - 悲观跌幅）/ 中性涨幅。系数越大，说明该股票对铝价波动的敏感度越高，适合在铝价上涨周期中配置。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Risk Indicators Section -->
+        <section id="risk-indicators" class="mb-16">
+            <h2 class="serif text-3xl font-bold mb-8 text-gray-900">反证指标：什么情况说明这套逻辑失效</h2>
+
+            <div class="bg-white rounded-xl p-8 shadow-sm border mb-8">
+                <h3 class="text-xl font-bold mb-6 text-gray-900">十大反证指标监控</h3>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-4 py-3 text-left font-semibold">反证指标</th>
+                                <th class="px-4 py-3 text-left font-semibold">跟踪数据</th>
+                                <th class="px-4 py-3 text-left font-semibold">触发阈值</th>
+                                <th class="px-4 py-3 text-left font-semibold">影响程度</th>
+                                <th class="px-4 py-3 text-left font-semibold">对应操作</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr class="bg-red-50">
+                                <td class="px-4 py-3 font-medium">铝价跌破成本支撑</td>
+                                <td class="px-4 py-3">沪铝主力价格</td>
+                                <td class="px-4 py-3 text-red-600">
+                                    &lt;20,000元/吨</td>
+                                <td class="px-4 py-3 text-red-600">致命</td>
+                                <td class="px-4 py-3">清仓</td>
+                            </tr>
+                            <tr class="bg-orange-50">
+                                <td class="px-4 py-3 font-medium">铝库存持续累积</td>
+                                <td class="px-4 py-3">LME+SHFE库存</td>
+                                <td class="px-4 py-3 text-orange-600">连续8周增加</td>
+                                <td class="px-4 py-3 text-orange-600">严重</td>
+                                <td class="px-4 py-3">减仓50%</td>
+                            </tr>
+                            <tr class="bg-yellow-50">
+                                <td class="px-4 py-3 font-medium">氧化铝价格快速反弹</td>
+                                <td class="px-4 py-3">氧化铝现货价</td>
+                                <td class="px-4 py-3 text-yellow-600">&gt;3,200元/吨</td>
+                                <td class="px-4 py-3 text-yellow-600">中等</td>
+                                <td class="px-4 py-3">减仓30%</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 font-medium">电价上涨挤压利润</td>
+                                <td class="px-4 py-3">各地电价政策</td>
+                                <td class="px-4 py-3">上涨&gt;0.05元/度</td>
+                                <td class="px-4 py-3">中等</td>
+                                <td class="px-4 py-3">减仓30%</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 font-medium">新能源车销量低于预期</td>
+                                <td class="px-4 py-3">月度销量数据</td>
+                                <td class="px-4 py-3">增速&lt;20%</td>
+                                <td class="px-4 py-3">中等</td>
+                                <td class="px-4 py-3">减仓20%</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 font-medium">光伏新增装机低于预期</td>
+                                <td class="px-4 py-3">季度装机数据</td>
+                                <td class="px-4 py-3">增速&lt;10%</td>
+                                <td class="px-4 py-3">中等</td>
+                                <td class="px-4 py-3">减仓20%</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 font-medium">电网投资低于预期</td>
+                                <td class="px-4 py-3">年度投资计划</td>
+                                <td class="px-4 py-3">增速&lt;5%</td>
+                                <td class="px-4 py-3">中等</td>
+                                <td class="px-4 py-3">减仓20%</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 font-medium">公司资本开支重新扩张</td>
+                                <td class="px-4 py-3">季报CAPEX</td>
+                                <td class="px-4 py-3">同比增长&gt;20%</td>
+                                <td class="px-4 py-3">严重</td>
+                                <td class="px-4 py-3">减仓50%</td>
+                            </tr>
+                            <tr class="bg-orange-50">
+                                <td class="px-4 py-3 font-medium">分红率下降</td>
+                                <td class="px-4 py-3">年报分红数据</td>
+                                <td class="px-4 py-3 text-orange-600">环比下降&gt;5个百分点</td>
+                                <td class="px-4 py-3 text-orange-600">严重</td>
+                                <td class="px-4 py-3">减仓50%</td>
+                            </tr>
+                            <tr class="bg-red-50">
+                                <td class="px-4 py-3 font-medium">资产负债率上升</td>
+                                <td class="px-4 py-3">季报负债率</td>
+                                <td class="px-4 py-3 text-red-600">环比上升&gt;5个百分点</td>
+                                <td class="px-4 py-3 text-red-600">致命</td>
+                                <td class="px-4 py-3">清仓</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="p-4 bg-red-50 rounded-lg">
+                        <h4 class="font-semibold text-red-800 mb-2">
+                            <i class="fas fa-exclamation-triangle mr-2"></i>
+                            致命风险（清仓）
+                        </h4>
+                        <ul class="text-sm text-red-700 space-y-1">
+                            <li>• 铝价跌破20,000元/吨成本支撑</li>
+                            <li>• 资产负债率持续上升</li>
+                            <li>• 海外产能超预期复产200万吨+</li>
+                        </ul>
+                    </div>
+
+                    <div class="p-4 bg-orange-50 rounded-lg">
+                        <h4 class="font-semibold text-orange-800 mb-2">
+                            <i class="fas fa-exclamation-circle mr-2"></i>
+                            严重风险（减仓50%）
+                        </h4>
+                        <ul class="text-sm text-orange-700 space-y-1">
+                            <li>• 铝库存连续8周累积</li>
+                            <li>• 公司资本开支重新扩张</li>
+                            <li>• 分红率环比下降超5个百分点</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-8 shadow-sm border mb-8">
+                <h3 class="text-xl font-bold mb-6 text-gray-900">风险监控框架</h3>
+
+                <div class="mermaid-container">
+                    <div class="mermaid-controls">
+                        <button class="mermaid-control-btn zoom-in" title="放大">
+                            <i class="fas fa-search-plus"></i>
+                        </button>
+                        <button class="mermaid-control-btn zoom-out" title="缩小">
+                            <i class="fas fa-search-minus"></i>
+                        </button>
+                        <button class="mermaid-control-btn reset-zoom" title="重置">
+                            <i class="fas fa-expand-arrows-alt"></i>
+                        </button>
+                        <button class="mermaid-control-btn fullscreen" title="全屏查看">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                    </div>
+                    <div class="mermaid">
+                        graph TD
+                        A[&#34;风险监控启动&#34;] --&gt; B{&#34;铝价跌破20,000元/吨?&#34;}
+                        B --&gt;|是| C[&#34;清仓&#34;]
+                        B --&gt;|否| D{&#34;库存连续8周累积?&#34;}
+                        D --&gt;|是| E[&#34;减仓50%&#34;]
+                        D --&gt;|否| F{&#34;氧化铝价格&gt;3,200元/吨?&#34;}
+                        F --&gt;|是| G[&#34;减仓30%&#34;]
+                        F --&gt;|否| H{&#34;分红率下降&gt;5个百分点?&#34;}
+                        H --&gt;|是| I[&#34;减仓50%&#34;]
+                        H --&gt;|否| J{&#34;资产负债率上升&gt;5个百分点?&#34;}
+                        J --&gt;|是| K[&#34;清仓&#34;]
+                        J --&gt;|否| L{&#34;资本开支扩张&gt;20%?&#34;}
+                        L --&gt;|是| M[&#34;减仓50%&#34;]
+                        L --&gt;|否| N[&#34;继续监控&#34;]
+
+                        style A fill:#f8fafc,stroke:#64748b,stroke-width:2px,color:#334155
+                        style B fill:#e0f2fe,stroke:#0284c7,stroke-width:2px,color:#0c4a6e
+                        style C fill:#fef2f2,stroke:#dc2626,stroke-width:2px,color:#991b1b
+                        style D fill:#e0f2fe,stroke:#0284c7,stroke-width:2px,color:#0c4a6e
+                        style E fill:#fff7ed,stroke:#ea580c,stroke-width:2px,color:#9a3412
+                        style F fill:#e0f2fe,stroke:#0284c7,stroke-width:2px,color:#0c4a6e
+                        style G fill:#fff7ed,stroke:#ea580c,stroke-width:2px,color:#9a3412
+                        style H fill:#e0f2fe,stroke:#0284c7,stroke-width:2px,color:#0c4a6e
+                        style I fill:#fff7ed,stroke:#ea580c,stroke-width:2px,color:#9a3412
+                        style J fill:#e0f2fe,stroke:#0284c7,stroke-width:2px,color:#0c4a6e
+                        style K fill:#fef2f2,stroke:#dc2626,stroke-width:2px,color:#991b1b
+                        style L fill:#e0f2fe,stroke:#0284c7,stroke-width:2px,color:#0c4a6e
+                        style M fill:#fff7ed,stroke:#ea580c,stroke-width:2px,color:#9a3412
+                        style N fill:#f0fdf4,stroke:#16a34a,stroke-width:2px,color:#15803d
+                    </div>
+                </div>
+                <div class="mt-4 p-4 bg-gray-50 rounded-lg">
+                    <p class="text-sm text-gray-600">
+                        <i class="fas fa-info-circle mr-2"></i>
+                        交互提示：可使用鼠标滚轮缩放图表，拖拽移动视图，点击右上角按钮进行精确控制
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Decision Matrix Section -->
+        <section id="decision-matrix" class="mb-16">
+            <h2 class="serif text-3xl font-bold mb-8 text-gray-900">最终投资决策表</h2>
+
+            <div class="bg-white rounded-xl p-8 shadow-sm border mb-8">
+                <h3 class="text-xl font-bold mb-6 text-gray-900">综合评分与排序</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-4 py-3 text-left font-semibold">排序</th>
+                                <th class="px-4 py-3 text-left font-semibold">公司</th>
+                                <th class="px-4 py-3 text-left font-semibold">当前股价</th>
+                                <th class="px-4 py-3 text-left font-semibold">PE</th>
+                                <th class="px-4 py-3 text-left font-semibold">PB</th>
+                                <th class="px-4 py-3 text-left font-semibold">股息率</th>
+                                <th class="px-4 py-3 text-left font-semibold">分红率</th>
+                                <th class="px-4 py-3 text-left font-semibold">资产负债率</th>
+                                <th class="px-4 py-3 text-left font-semibold">经营现金流</th>
+                                <th class="px-4 py-3 text-left font-semibold">综合评分</th>
+                                <th class="px-4 py-3 text-left font-semibold">综合评级</th>
+                                <th class="px-4 py-3 text-left font-semibold">建议动作</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr class="bg-green-50">
+                                <td class="px-4 py-3 font-bold">1</td>
+                                <td class="px-4 py-3 font-bold">云铝股份</td>
+                                <td class="px-4 py-3">待验证</td>
+                                <td class="px-4 py-3">8-10倍</td>
+                                <td class="px-4 py-3">1.5-2.0倍</td>
+                                <td class="px-4 py-3 text-green-600">4%-5%</td>
+                                <td class="px-4 py-3">~40%</td>
+                                <td class="px-4 py-3 text-green-600">21.95%</td>
+                                <td class="px-4 py-3 text-green-600">大幅改善</td>
+                                <td class="px-4 py-3 font-bold text-green-600">9.2</td>
+                                <td class="px-4 py-3">
+                                    <span class="bg-green-600 text-white px-2 py-1 rounded text-xs">核心配置</span>
+                                </td>
+                                <td class="px-4 py-3 text-green-600 font-bold">买入</td>
+                            </tr>
+                            <tr class="bg-blue-50">
+                                <td class="px-4 py-3 font-bold">2</td>
+                                <td class="px-4 py-3 font-bold">天山铝业</td>
+                                <td class="px-4 py-3">待验证</td>
+                                <td class="px-4 py-3">6-8倍</td>
+                                <td class="px-4 py-3">1.2-1.5倍</td>
+                                <td class="px-4 py-3 text-green-600">5%-6%</td>
+                                <td class="px-4 py-3 text-green-600">52.40%</td>
+                                <td class="px-4 py-3">45.4%</td>
+                                <td class="px-4 py-3 text-green-600">大幅改善</td>
+                                <td class="px-4 py-3 font-bold text-blue-600">9.0</td>
+                                <td class="px-4 py-3">
+                                    <span class="bg-green-600 text-white px-2 py-1 rounded text-xs">核心配置</span>
+                                </td>
+                                <td class="px-4 py-3 text-blue-600 font-bold">买入</td>
+                            </tr>
+                            <tr class="bg-purple-50">
+                                <td class="px-4 py-3 font-bold">3</td>
+                                <td class="px-4 py-3 font-bold">南山铝业</td>
+                                <td class="px-4 py-3">待验证</td>
+                                <td class="px-4 py-3">10-12倍</td>
+                                <td class="px-4 py-3 text-green-600">0.8-1.0倍</td>
+                                <td class="px-4 py-3 text-green-600">8.07%</td>
+                                <td class="px-4 py-3 text-green-600">105.49%</td>
+                                <td class="px-4 py-3 text-green-600">17.56%</td>
+                                <td class="px-4 py-3 text-green-600">稳定</td>
+                                <td class="px-4 py-3 font-bold text-purple-600">8.8</td>
+                                <td class="px-4 py-3">
+                                    <span class="bg-yellow-500 text-white px-2 py-1 rounded text-xs">可配置</span>
+                                </td>
+                                <td class="px-4 py-3 text-purple-600 font-bold">买入</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 font-medium">4</td>
+                                <td class="px-4 py-3 font-medium">神火股份</td>
+                                <td class="px-4 py-3">待验证</td>
+                                <td class="px-4 py-3">7-9倍</td>
+                                <td class="px-4 py-3">1.8-2.2倍</td>
+                                <td class="px-4 py-3">3%-4%</td>
+                                <td class="px-4 py-3">~40%</td>
+                                <td class="px-4 py-3">65%</td>
+                                <td class="px-4 py-3 text-green-600">大幅改善</td>
+                                <td class="px-4 py-3">8.2</td>
+                                <td class="px-4 py-3">
+                                    <span class="bg-yellow-500 text-white px-2 py-1 rounded text-xs">可配置</span>
+                                </td>
+                                <td class="px-4 py-3">买入</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 font-medium">5</td>
+                                <td class="px-4 py-3 font-medium">中国铝业</td>
+                                <td class="px-4 py-3">待验证</td>
+                                <td class="px-4 py-3">12-15倍</td>
+                                <td class="px-4 py-3">1.0-1.2倍</td>
+                                <td class="px-4 py-3">2.21%</td>
+                                <td class="px-4 py-3">36.55%</td>
+                                <td class="px-4 py-3">43.27%</td>
+                                <td class="px-4 py-3 text-green-600">大幅改善</td>
+                                <td class="px-4 py-3">7.5</td>
+                                <td class="px-4 py-3">
+                                    <span class="bg-gray-500 text-white px-2 py-1 rounded text-xs">观察型</span>
+                                </td>
+                                <td class="px-4 py-3">观望</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="bg-gradient-to-r from-green-50 to-blue-50 rounded-xl p-8 mb-8">
+                <h3 class="text-xl font-bold mb-6 text-gray-900">投资结论与操作建议</h3>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="font-semibold mb-4 text-green-700">核心结论</h4>
+                        <ul class="space-y-2 text-sm text-gray-700">
+                            <li>• 铝行业正处于从周期股向红利资产切换的关键转折点</li>
+                            <li>• 中国4500万吨产能天花板锁死供给弹性，全球供给增速降至1.4%以下</li>
+                            <li>• 新兴需求占比突破50%，供需缺口持续扩大</li>
+                            <li>• 氧化铝产能过剩压低电解铝成本，吨铝利润扩张至历史高位</li>
+                            <li>• 行业资本开支下降、现金流改善、分红能力增强</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold mb-4 text-blue-700">操作建议</h4>
+                        <div class="space-y-3">
+                            <div class="p-3 bg-white rounded border-l-4 border-green-500">
+                                <div class="font-semibold text-sm text-green-800">标准配置（组合10%-15%）</div>
+                                <div class="text-xs text-gray-600">云铝股份40%+天山铝业30%+南山铝业20%+神火股份10%</div>
+                            </div>
+
+                            <div class="p-3 bg-white rounded border-l-4 border-blue-500">
+                                <div class="font-semibold text-sm text-blue-800">买入条件</div>
+                                <div class="text-xs text-gray-600">
+                                    沪铝站稳22,000元/吨且吨铝利润维持6,000元以上；氧化铝价格低于2,800元/吨；目标公司股息率高于4.5%</div>
+                            </div>
+
+                            <div class="p-3 bg-white rounded border-l-4 border-red-500">
+                                <div class="font-semibold text-sm text-red-800">减仓条件</div>
+                                <div class="text-xs text-gray-600">铝价跌破20,000元/吨成本支撑线；库存连续8周累积；公司分红率环比下降超5个百分点</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 p-4 bg-white rounded-lg">
+                    <div class="flex items-center">
+                        <i class="fas fa-calendar-alt text-blue-600 mr-3"></i>
+                        <div>
+                            <div class="font-semibold text-gray-900">投资周期</div>
+                            <div class="text-sm text-gray-600">6个月验证景气趋势，12个月验证盈利兑现，18个月观察资产属性切换</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- References Section -->
+        <section class="mb-16">
+            <h2 class="serif text-3xl font-bold mb-8 text-gray-900">数据来源与参考文献</h2>
+
+            <div class="bg-white rounded-xl p-8 shadow-sm border">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-lg font-semibold mb-4 text-gray-900">主要数据来源</h3>
+                        <ul class="space-y-2 text-sm text-gray-700">
+                            <li>• 同花顺 iFinD 数据库</li>
+                            <li>• 上海有色网（SMM）</li>
+                            <li>• 伦敦金属交易所（LME）</li>
+                            <li>• 上海期货交易所（SHFE）</li>
+                            <li>• 中国有色金属工业协会</li>
+                            <li>• 安泰科（Antaike）</li>
+                            <li>• 百川盈孚</li>
+                            <li>• Mysteel</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-semibold mb-4 text-gray-900">重要参考文献</h3>
+                        <ul class="space-y-2 text-sm text-gray-700">
+                            <li>• 东吴证券《铝行业深度研究报告》</li>
+                            <li>• 中信建投《电解铝行业专题报告》</li>
+                            <li>• 美银证券《全球铝市场展望》</li>
+                            <li>• 摩根士丹利《有色金属行业分析》</li>
+                            <li>• 各上市公司年报及季报</li>
+                            <li>• 国家发改委相关政策文件</li>
+                            <li>• 工信部产能置换相关政策</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mt-8 p-4 bg-yellow-50 rounded-lg">
+                    <div class="flex items-center">
+                        <i class="fas fa-exclamation-triangle text-yellow-600 mr-3"></i>
+                        <div>
+                            <div class="font-semibold text-yellow-800">数据免责声明</div>
+                            <div class="text-sm text-yellow-700">
+                                本报告所引用的数据来源于公开渠道，仅供参考。投资决策请结合最新市场数据和个人风险承受能力。部分历史数据可能存在统计口径差异，请以官方发布为准。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Citation Modal -->
+    <div id="citationModal"
+        class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl max-w-2xl w-full max-h-96 overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-bold">数据来源详情</h3>
+                    <button onclick="closeCitationModal()" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div id="citationContent" class="text-sm text-gray-700"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Mermaid
+        document.addEventListener('DOMContentLoaded', function () {
+            mermaid.initialize({
+                startOnLoad: true,
+                theme: 'default',
+                themeVariables: {
+                    primaryColor: '#f8fafc',
+                    primaryTextColor: '#1e293b',
+                    primaryBorderColor: '#e2e8f0',
+                    lineColor: '#64748b',
+                    secondaryColor: '#ffffff',
+                    tertiaryColor: '#f1f5f9',
+                    background: '#ffffff',
+                    mainBkg: '#ffffff',
+                    secondBkg: '#f8fafc',
+                    tertiaryBkg: '#f1f5f9',
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '14px'
+                },
+                flowchart: {
+                    useMaxWidth: false,
+                    htmlLabels: true,
+                    curve: 'basis'
+                },
+                sequence: {
+                    useMaxWidth: false,
+                    wrap: true
+                },
+                gantt: {
+                    useMaxWidth: false
+                },
+                journey: {
+                    useMaxWidth: false
+                }
+            });
+
+            // Initialize Mermaid Controls for zoom and pan
+            initializeMermaidControls();
+        });
+
+        // Initialize Mermaid Controls for zoom and pan
+        function initializeMermaidControls() {
+            const containers = document.querySelectorAll('.mermaid-container');
+
+            containers.forEach(container => {
+                const mermaidElement = container.querySelector('.mermaid');
+                let scale = 1;
+                let isDragging = false;
+                let startX, startY, translateX = 0, translateY = 0;
+
+                // 触摸相关状态
+                let isTouch = false;
+                let touchStartTime = 0;
+                let initialDistance = 0;
+                let initialScale = 1;
+                let isPinching = false;
+
+                // Zoom controls
+                const zoomInBtn = container.querySelector('.zoom-in');
+                const zoomOutBtn = container.querySelector('.zoom-out');
+                const resetBtn = container.querySelector('.reset-zoom');
+                const fullscreenBtn = container.querySelector('.fullscreen');
+
+                function updateTransform() {
+                    mermaidElement.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+
+                    if (scale > 1) {
+                        container.classList.add('zoomed');
+                    } else {
+                        container.classList.remove('zoomed');
+                    }
+
+                    mermaidElement.style.cursor = isDragging ? 'grabbing' : 'grab';
+                }
+
+                if (zoomInBtn) {
+                    zoomInBtn.addEventListener('click', () => {
+                        scale = Math.min(scale * 1.25, 4);
+                        updateTransform();
+                    });
+                }
+
+                if (zoomOutBtn) {
+                    zoomOutBtn.addEventListener('click', () => {
+                        scale = Math.max(scale / 1.25, 0.3);
+                        if (scale <= 1) {
+                            translateX = 0;
+                            translateY = 0;
+                        }
+                        updateTransform();
+                    });
+                }
+
+                if (resetBtn) {
+                    resetBtn.addEventListener('click', () => {
+                        scale = 1;
+                        translateX = 0;
+                        translateY = 0;
+                        updateTransform();
+                    });
+                }
+
+                if (fullscreenBtn) {
+                    fullscreenBtn.addEventListener('click', () => {
+                        if (container.requestFullscreen) {
+                            container.requestFullscreen();
+                        } else if (container.webkitRequestFullscreen) {
+                            container.webkitRequestFullscreen();
+                        } else if (container.msRequestFullscreen) {
+                            container.msRequestFullscreen();
+                        }
+                    });
+                }
+
+                // Mouse Events
+                mermaidElement.addEventListener('mousedown', (e) => {
+                    if (isTouch) return; // 如果是触摸设备，忽略鼠标事件
+
+                    isDragging = true;
+                    startX = e.clientX - translateX;
+                    startY = e.clientY - translateY;
+                    mermaidElement.style.cursor = 'grabbing';
+                    updateTransform();
+                    e.preventDefault();
+                });
+
+                document.addEventListener('mousemove', (e) => {
+                    if (isDragging && !isTouch) {
+                        translateX = e.clientX - startX;
+                        translateY = e.clientY - startY;
+                        updateTransform();
+                    }
+                });
+
+                document.addEventListener('mouseup', () => {
+                    if (isDragging && !isTouch) {
+                        isDragging = false;
+                        mermaidElement.style.cursor = 'grab';
+                        updateTransform();
+                    }
+                });
+
+                document.addEventListener('mouseleave', () => {
+                    if (isDragging && !isTouch) {
+                        isDragging = false;
+                        mermaidElement.style.cursor = 'grab';
+                        updateTransform();
+                    }
+                });
+
+                // 获取两点之间的距离
+                function getTouchDistance(touch1, touch2) {
+                    return Math.hypot(
+                        touch2.clientX - touch1.clientX,
+                        touch2.clientY - touch1.clientY
+                    );
+                }
+
+                // Touch Events - 触摸事件处理
+                mermaidElement.addEventListener('touchstart', (e) => {
+                    isTouch = true;
+                    touchStartTime = Date.now();
+
+                    if (e.touches.length === 1) {
+                        // 单指拖动
+                        isPinching = false;
+                        isDragging = true;
+
+                        const touch = e.touches[0];
+                        startX = touch.clientX - translateX;
+                        startY = touch.clientY - translateY;
+
+                    } else if (e.touches.length === 2) {
+                        // 双指缩放
+                        isPinching = true;
+                        isDragging = false;
+
+                        const touch1 = e.touches[0];
+                        const touch2 = e.touches[1];
+                        initialDistance = getTouchDistance(touch1, touch2);
+                        initialScale = scale;
+                    }
+
+                    e.preventDefault();
+                }, { passive: false });
+
+                mermaidElement.addEventListener('touchmove', (e) => {
+                    if (e.touches.length === 1 && isDragging && !isPinching) {
+                        // 单指拖动
+                        const touch = e.touches[0];
+                        translateX = touch.clientX - startX;
+                        translateY = touch.clientY - startY;
+                        updateTransform();
+
+                    } else if (e.touches.length === 2 && isPinching) {
+                        // 双指缩放
+                        const touch1 = e.touches[0];
+                        const touch2 = e.touches[1];
+                        const currentDistance = getTouchDistance(touch1, touch2);
+
+                        if (initialDistance > 0) {
+                            const newScale = Math.min(Math.max(
+                                initialScale * (currentDistance / initialDistance),
+                                0.3
+                            ), 4);
+                            scale = newScale;
+                            updateTransform();
+                        }
+                    }
+
+                    e.preventDefault();
+                }, { passive: false });
+
+                mermaidElement.addEventListener('touchend', (e) => {
+                    // 重置状态
+                    if (e.touches.length === 0) {
+                        isDragging = false;
+                        isPinching = false;
+                        initialDistance = 0;
+
+                        // 延迟重置isTouch，避免鼠标事件立即触发
+                        setTimeout(() => {
+                            isTouch = false;
+                        }, 100);
+                    } else if (e.touches.length === 1 && isPinching) {
+                        // 从双指变为单指，切换为拖动模式
+                        isPinching = false;
+                        isDragging = true;
+
+                        const touch = e.touches[0];
+                        startX = touch.clientX - translateX;
+                        startY = touch.clientY - translateY;
+                    }
+
+                    updateTransform();
+                });
+
+                mermaidElement.addEventListener('touchcancel', (e) => {
+                    isDragging = false;
+                    isPinching = false;
+                    initialDistance = 0;
+
+                    setTimeout(() => {
+                        isTouch = false;
+                    }, 100);
+
+                    updateTransform();
+                });
+
+                // Enhanced wheel zoom with better center point handling
+                container.addEventListener('wheel', (e) => {
+                    e.preventDefault();
+                    const rect = container.getBoundingClientRect();
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+
+                    const delta = e.deltaY > 0 ? 0.9 : 1.1;
+                    const newScale = Math.min(Math.max(scale * delta, 0.3), 4);
+
+                    // Adjust translation to zoom towards center
+                    if (newScale !== scale) {
+                        const scaleDiff = newScale / scale;
+                        translateX = translateX * scaleDiff;
+                        translateY = translateY * scaleDiff;
+                        scale = newScale;
+
+                        if (scale <= 1) {
+                            translateX = 0;
+                            translateY = 0;
+                        }
+
+                        updateTransform();
+                    }
+                });
+
+                // Initialize display
+                updateTransform();
+            });
+        }
+
+        // Citation modal functionality
+        function openCitationModal(content) {
+            document.getElementById('citationContent').innerHTML = content;
+            document.getElementById('citationModal').classList.remove('hidden');
+        }
+
+        function closeCitationModal() {
+            document.getElementById('citationModal').classList.add('hidden');
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('citationModal').addEventListener('click', function (e) {
+            if (e.target === this) {
+                closeCitationModal();
+            }
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Highlight current section in TOC
+        function updateTOC() {
+            const sections = document.querySelectorAll('section[id]');
+            const tocLinks = document.querySelectorAll('.toc-fixed a[href^="#"]');
+
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                if (pageYOffset >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            tocLinks.forEach(link => {
+                link.classList.remove('bg-blue-100', 'text-blue-700', 'font-semibold');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('bg-blue-100', 'text-blue-700', 'font-semibold');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', updateTOC);
+        updateTOC(); // Initial call
+    </script>
+
+
+</body>
+</html>

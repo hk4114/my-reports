@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>铝：从工业金属到红利资产的结构性转变</title>
+<style>
+  :root {
+    --bg-primary: #0f1115;
+    --bg-secondary: #181b21;
+    --bg-card: #15181e;
+    --text-primary: #e8e8e8;
+    --text-secondary: #9ca3af;
+    --text-muted: #6b7280;
+    --accent-orange: #d97706;
+    --accent-red: #dc2626;
+    --accent-green: #059669;
+    --border: #2a2f3a;
+    --grid-line: #1e232b;
+    --metal-silver: #c0c5ce;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    background: var(--bg-primary);
+    overflow-x: hidden;
+  }
+
+  /* Grid texture overlay */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 80px 80px;
+    opacity: 0.25;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Typography */
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+  }
+
+  h2 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    line-height: 1.3;
+    margin-top: 4rem;
+    margin-bottom: 1.5rem;
+    color: var(--metal-silver);
+    letter-spacing: -0.01em;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+  }
+
+  p {
+    margin-bottom: 1.25rem;
+    color: var(--text-secondary);
+    font-size: 1rem;
+  }
+
+  .lead {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    line-height: 1.8;
+  }
+
+  .caption {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  /* Hero */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 0 60px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent-orange);
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+  }
+
+  .hero h1 {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, var(--text-primary) 0%, var(--metal-silver) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-summary {
+    max-width: 640px;
+    font-size: 1.125rem;
+    line-height: 1.9;
+    color: var(--text-secondary);
+    border-left: 3px solid var(--accent-orange);
+    padding-left: 1.5rem;
+    margin-top: 1rem;
+  }
+
+  .hero-meta {
+    margin-top: 3rem;
+    display: flex;
+    gap: 2rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  .hero-meta span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .hero-meta .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent-green);
+  }
+
+  /* Cards */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin: 4rem 0;
+  }
+
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 1.75rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s ease;
+  }
+
+  .card:hover {
+    border-color: var(--accent-orange);
+  }
+
+  .card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 2px;
+  }
+
+  .card-supply::before { background: var(--accent-red); }
+  .card-demand::before { background: var(--accent-green); }
+  .card-cost::before { background: var(--accent-orange); }
+  .card-asset::before { background: var(--metal-silver); }
+
+  .card-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+  }
+
+  .card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    line-height: 1.4;
+  }
+
+  .card-data {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent-orange);
+    margin-bottom: 0.5rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .card-demand .card-data { color: var(--accent-green); }
+  .card-supply .card-data { color: var(--accent-red); }
+  .card-asset .card-data { color: var(--metal-silver); }
+
+  .card-desc {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  /* Section headers */
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .section-number {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--accent-orange);
+    letter-spacing: 0.1em;
+    border: 1px solid var(--accent-orange);
+    padding: 0.2rem 0.5rem;
+  }
+
+  /* Pull quotes */
+  .pull-quote {
+    background: var(--bg-secondary);
+    border-left: 3px solid var(--accent-orange);
+    padding: 1.5rem 1.75rem;
+    margin: 2.5rem 0;
+    font-size: 1.05rem;
+    color: var(--text-primary);
+    line-height: 1.8;
+  }
+
+  .pull-quote strong {
+    color: var(--accent-orange);
+    font-weight: 600;
+  }
+
+  /* Data highlight inline */
+  .data-highlight {
+    color: var(--accent-orange);
+    font-weight: 600;
+  }
+
+  /* Charts container */
+  .chart-container {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    padding: 2rem;
+    margin: 2.5rem 0;
+    position: relative;
+  }
+
+  .chart-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.05em;
+  }
+
+  .chart-caption {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 1rem;
+    line-height: 1.5;
+  }
+
+  /* SVG Charts */
+  svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Timeline */
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+    margin: 2rem 0;
+  }
+
+  .timeline::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--border);
+  }
+
+  .timeline-item {
+    position: relative;
+    padding-bottom: 2rem;
+  }
+
+  .timeline-item::before {
+    content: "";
+    position: absolute;
+    left: -2rem;
+    top: 0.5rem;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--bg-primary);
+    border: 2px solid var(--accent-orange);
+    margin-left: -3.5px;
+  }
+
+  .timeline-date {
+    font-size: 0.75rem;
+    color: var(--accent-orange);
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    letter-spacing: 0.05em;
+  }
+
+  .timeline-content {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  /* Flow diagram */
+  .flow-diagram {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin: 2rem 0;
+  }
+
+  .flow-node {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 1rem 1.25rem;
+    text-align: center;
+    flex: 1;
+    min-width: 120px;
+  }
+
+  .flow-node-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+  }
+
+  .flow-node-desc {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .flow-arrow {
+    color: var(--accent-orange);
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+
+  /* Table */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.9rem;
+  }
+
+  .data-table th {
+    text-align: left;
+    padding: 0.75rem;
+    border-bottom: 2px solid var(--border);
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .data-table td {
+    padding: 0.75rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-secondary);
+  }
+
+  .data-table tr:hover td {
+    color: var(--text-primary);
+  }
+
+  /* Conclusion */
+  .conclusion {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    padding: 3rem 2.5rem;
+    margin: 4rem 0 6rem;
+    text-align: center;
+  }
+
+  .conclusion-text {
+    font-size: 1.125rem;
+    line-height: 2;
+    color: var(--text-secondary);
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .conclusion-text strong {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  /* Footer */
+  .footer {
+    border-top: 1px solid var(--border);
+    padding: 3rem 0 4rem;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .cards-grid {
+      grid-template-columns: 1fr;
+    }
+    .hero h1 {
+      font-size: 2rem;
+    }
+    .flow-diagram {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .flow-arrow {
+      text-align: center;
+      transform: rotate(90deg);
+    }
+    .container {
+      padding: 0 16px;
+    }
+    .chart-container {
+      padding: 1.25rem;
+    }
+    .conclusion {
+      padding: 2rem 1.5rem;
+    }
+  }
+
+  /* Animations */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+  }
+</style>
+</head>
+<body>
+
+<!-- ========== HERO ========== -->
+<section class="hero container">
+  <div class="hero-label">产业深度研究 · 资产重估逻辑</div>
+  <h1>铝：从工业金属到红利资产的结构性转变</h1>
+  <div class="hero-summary">
+    全球铝市场正经历一场深刻的供需重构。中国电解铝产能触及4500万吨政策天花板且开工率已达90%，海外供给受地缘冲突与能源成本双重压制。新能源车、光伏、电网及商业航天等新兴领域的需求持续扩张。上游氧化铝严重过剩压低了电解铝生产成本，行业利润显著增厚。在存量竞争格局下，电解铝行业的资本属性正从传统周期股向红利资产加速切换。
+  </div>
+  <div class="hero-meta">
+    <span><span class="dot"></span> 结构性转变研究</span>
+    <span>2025-2026年度</span>
+  </div>
+</section>
+
+<!-- ========== 核心结论总览 ========== -->
+<section class="container fade-in">
+  <div class="section-header">
+    <span class="section-number">核心结论</span>
+  </div>
+
+  <div class="cards-grid">
+    <div class="card card-supply">
+      <div class="card-label">供给约束</div>
+      <div class="card-title">中国产能触及天花板，海外供给中断</div>
+      <div class="card-data">4500万吨</div>
+      <div class="card-desc">中国产能逼近政策上限，开工率已达90%。全球第八大铝企阿联酋环球铝业160万吨产能停产，美欧日近20%进口供给中断。</div>
+    </div>
+
+    <div class="card card-demand">
+      <div class="card-label">需求重构</div>
+      <div class="card-title">新能源与电网驱动增量</div>
+      <div class="card-data">900万吨+</div>
+      <div class="card-desc">2030年新能源车渗透率接近80%将带来约900万吨增量，足以完全抵消房地产用铝腰斩。全球光伏年新增500GW需铝超1000万吨。</div>
+    </div>
+
+    <div class="card card-cost">
+      <div class="card-label">成本下移</div>
+      <div class="card-title">氧化铝过剩压低成本，利润扩张</div>
+      <div class="card-data">2600元/吨</div>
+      <div class="card-desc">氧化铝价格从4400余元腰斩至2600元，产能将扩至1.35亿吨。电解铝成本大幅下降而铝价上涨，企业扣非净利润增长50%-110%。</div>
+    </div>
+
+    <div class="card card-asset">
+      <div class="card-label">资产切换</div>
+      <div class="card-title">从周期股向红利资产转变</div>
+      <div class="card-data">52%</div>
+      <div class="card-desc">代表性企业分红比例高达52%。行业停止扩张、资本开支归零、负债率下降、现金流充裕，红利资产特征日益清晰。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 正文分节 ========== -->
+<section class="container">
+
+  <!-- 1. 铝价为何逆势创新高 -->
+  <div class="fade-in">
+    <div class="section-header">
+      <span class="section-number">01</span>
+      <h2>铝价为何逆势创新高</h2>
+    </div>
+
+    <p>2025年2月底美伊冲突爆发以来，全球金属市场普遍承压。黄金最大跌幅达18%，白银下跌26%，铂金下跌22%，铜下跌11%，钢铁、锡、镍、铅等工业金属亦未能幸免。然而铝价却逆势上涨，创下近年来的历史新高。</p>
+
+    <div class="chart-container">
+      <div class="chart-title">冲突以来主要金属价格变动</div>
+      <svg viewBox="0 0 640 280" preserveAspectRatio="xMidYMid meet">
+        <!-- Background grid -->
+        <defs>
+          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#2a2f3a" stroke-width="0.5"/>
+          </pattern>
+        </defs>
+        <rect width="640" height="280" fill="url(#grid)" opacity="0.3"/>
+
+        <!-- Zero line -->
+        <line x1="120" y1="180" x2="600" y2="180" stroke="#4b5563" stroke-width="1" stroke-dasharray="4,4"/>
+        <text x="100" y="184" fill="#6b7280" font-size="11" text-anchor="end">0%</text>
+
+        <!-- Bars -->
+        <!-- Aluminum +15% (estimated based on text saying hit new highs) -->
+        <rect x="130" y="60" width="50" height="120" fill="#d97706" opacity="0.9"/>
+        <text x="155" y="50" fill="#d97706" font-size="13" font-weight="700" text-anchor="middle">铝</text>
+        <text x="155" y="195" fill="#e8e8e8" font-size="12" font-weight="600" text-anchor="middle">逆势上涨</text>
+
+        <!-- Gold -18% -->
+        <rect x="200" y="180" width="50" height="54" fill="#dc2626" opacity="0.7"/>
+        <text x="225" y="250" fill="#9ca3af" font-size="11" text-anchor="middle">-18%</text>
+        <text x="225" y="265" fill="#6b7280" font-size="10" text-anchor="middle">黄金</text>
+
+        <!-- Silver -26% -->
+        <rect x="270" y="180" width="50" height="78" fill="#dc2626" opacity="0.7"/>
+        <text x="295" y="272" fill="#9ca3af" font-size="11" text-anchor="middle">-26%</text>
+        <text x="295" y="287" fill="#6b7280" font-size="10" text-anchor="middle">白银</text>
+
+        <!-- Platinum -22% -->
+        <rect x="340" y="180" width="50" height="66" fill="#dc2626" opacity="0.7"/>
+        <text x="365" y="258" fill="#9ca3af" font-size="11" text-anchor="middle">-22%</text>
+        <text x="365" y="273" fill="#6b7280" font-size="10" text-anchor="middle">铂金</text>
+
+        <!-- Copper -11% -->
+        <rect x="410" y="180" width="50" height="33" fill="#dc2626" opacity="0.7"/>
+        <text x="435" y="225" fill="#9ca3af" font-size="11" text-anchor="middle">-11%</text>
+        <text x="435" y="240" fill="#6b7280" font-size="10" text-anchor="middle">铜</text>
+
+        <!-- Steel etc -->
+        <rect x="480" y="180" width="50" height="25" fill="#dc2626" opacity="0.5"/>
+        <text x="505" y="217" fill="#9ca3af" font-size="11" text-anchor="middle">-10%+</text>
+        <text x="505" y="232" fill="#6b7280" font-size="10" text-anchor="middle">钢铁等</text>
+      </svg>
+      <div class="chart-caption">数据来源：文中引用数据整理 | 2025年2月底美伊冲突爆发以来金属价格变动</div>
+    </div>
+
+    <p>这一反常走势的核心原因在于中东地区能源成本优势与铝产业高耗能特性之间的深度绑定。中东是全球除中国外最大的铝生产基地，供应了美国、欧洲、日本等国家和地区近<span class="data-highlight">20%</span>的铝。战争导致多个铝业巨头生产线遭袭破坏，加之霍尔木兹海峡航运受阻，中东地区铝供给基本中断。</p>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-date">2025年2月底</div>
+        <div class="timeline-content">美伊冲突爆发，全球金属市场承压，唯独铝价逆势走强。</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2025年3月28日</div>
+        <div class="timeline-content">全球第八大铝企阿联酋环球铝业遭伊朗导弹袭击紧急停产，涉及总产能<span class="data-highlight">160万吨</span>。伊朗称该企业为美军供应商。</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2025年3月29日</div>
+        <div class="timeline-content">巴林铝业同样遭袭，涉及产能<span class="data-highlight">100余万吨</span>。伊朗同时摧毁大量电力设施，电力中断对电解铝生产构成致命打击。</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">持续影响</div>
+        <div class="timeline-content">霍尔木兹海峡封闭意味着美欧日约<span class="data-highlight">20%</span>的电解铝进口直接削减。全球铝供给缺口远超中东本身损失规模。</div>
+      </div>
+    </div>
+
+    <p>更严峻的是，冲突推动全球能源成本飙升，除中国以外的海外铝厂无力承受电力成本上涨，纷纷停产减产。电力成本占电解铝成本结构近<span class="data-highlight">40%</span>，为最大成本项。油价和天然气价格短期内翻倍，欧洲各国电价过去一个月普遍上涨<span class="data-highlight">20%至30%</span>，海外铝厂陷入"生产一吨亏损一吨"的困境。</p>
+
+    <p>即便暂时撇开这场冲突带来的短期扰动，铝价本身也已强势运行了整整一年。这背后反映的并非一次性情绪波动，而是供给约束与需求扩张共同推动的结构性变化。</p>
+  </div>
+
+  <!-- 2. 铝为何不是廉价金属 -->
+  <div class="fade-in">
+    <div class="section-header">
+      <span class="section-number">02</span>
+      <h2>铝：高能耗约束下的工业基石</h2>
+    </div>
+
+    <p>铝是地壳中含量最丰富的金属元素，平均含量高达<span class="data-highlight">8%</span>，仅次于氧和硅，约为铜的1000倍。铝土矿平均品位高达<span class="data-highlight">45%</span>，远高于铜矿平均不足0.5%的品位，开采难度极低。</p>
+
+    <div class="pull-quote">
+      决定铝供给的关键<strong>不在采矿，而在冶炼加工</strong>。铝在自然界中并非以纯净金属形态存在，而是以铝、氧、硅、铁等元素混合的铝土矿形式出现，外观更近似红色泥土。
+    </div>
+
+    <p>由于提取极为困难，铝在19世纪一度比黄金更昂贵，被贵族用作餐具，华盛顿纪念碑顶端即由铝制成。直到19世纪末至20世纪初，人类耗费近一个世纪才找到工业化提取铝的方法。</p>
+
+    <p>铝的工业化生产分为两个核心步骤。第一步是从铝土矿中提取氧化铝，第二步是从氧化铝中电解提取铝金属。由于氧原子与铝原子的键合极为稳定，必须将氧化铝置入电解槽，在高温下施加强大电流才能打破两者结合。</p>
+
+    <div class="chart-container">
+      <div class="chart-title">电解铝成本结构</div>
+      <svg viewBox="0 0 600 220" preserveAspectRatio="xMidYMid meet">
+        <!-- Background -->
+        <rect width="600" height="220" fill="#181b21"/>
+
+        <!-- Title labels -->
+        <text x="150" y="30" fill="#e8e8e8" font-size="13" font-weight="600" text-anchor="middle">电力成本</text>
+        <text x="300" y="30" fill="#e8e8e8" font-size="13" font-weight="600" text-anchor="middle">氧化铝</text>
+        <text x="450" y="30" fill="#e8e8e8" font-size="13" font-weight="600" text-anchor="middle">其他费用</text>
+
+        <!-- Bars -->
+        <!-- Power ~40% -->
+        <rect x="75" y="50" width="150" height="120" fill="#d97706" opacity="0.85"/>
+        <text x="150" y="120" fill="#0f1115" font-size="28" font-weight="700" text-anchor="middle">~40%</text>
+        <text x="150" y="145" fill="#0f1115" font-size="11" font-weight="600" text-anchor="middle">最大成本项</text>
+
+        <!-- Alumina ~30%+ -->
+        <rect x="225" y="50" width="150" height="90" fill="#059669" opacity="0.8"/>
+        <text x="300" y="105" fill="#0f1115" font-size="22" font-weight="700" text-anchor="middle">~30%+</text>
+
+        <!-- Others ~30% -->
+        <rect x="375" y="50" width="150" height="90" fill="#6b7280" opacity="0.6"/>
+        <text x="450" y="105" fill="#e8e8e8" font-size="22" font-weight="700" text-anchor="middle">~30%</text>
+
+        <!-- Anode annotation -->
+        <text x="450" y="160" fill="#9ca3af" font-size="10" text-anchor="middle">阳极材料及各项费用</text>
+
+        <!-- Key stat banner -->
+        <rect x="75" y="185" width="450" height="28" fill="#1e232b" stroke="#2a2f3a" stroke-width="1"/>
+        <text x="300" y="203" fill="#c0c5ce" font-size="11" text-anchor="middle" font-weight="600">每吨铝耗电约 14,000 度 — 接近一个小家庭十年的用电量</text>
+      </svg>
+      <div class="chart-caption">数据来源：文中产业分析 | 电力与氧化铝合计占电解铝成本超七成</div>
+    </div>
+
+    <p>平均每生产一吨铝约需消耗<span class="data-highlight">14000度电</span>，接近一个小家庭十年的用电量。正因如此，电解铝厂通常选址于水电大坝附近，而中东地区因石油资源丰富、能源成本较低，也成为重要的铝业基地。</p>
+
+    <p>此外，电解过程中会生成二氧化碳排放，属于典型的高能耗、高碳排放行业，与当前全球环保减碳理念形成冲突，导致其生产受到严格限制。铝的"廉价"资源禀赋与"昂贵"提取成本之间的巨大反差，构成了整个行业供给约束的底层逻辑。</p>
+  </div>
+
+  <!-- 3. 全球供给进入刚性瓶颈 -->
+  <div class="fade-in">
+    <div class="section-header">
+      <span class="section-number">03</span>
+      <h2>全球供给进入刚性瓶颈</h2>
+    </div>
+
+    <p>过去二十年，随着中国经济增长对铝需求的持续增加，中国已跃升为全球最大的铝生产国。全球年铝产量约<span class="data-highlight">7600万吨</span>，中国贡献<span class="data-highlight">4400余万吨</span>，占全球总供给约<span class="data-highlight">60%</span>。排名第二的印度年产量仅420万吨，不足中国的十分之一。</p>
+
+    <div class="chart-container">
+      <div class="chart-title">2025年全球电解铝产量分布</div>
+      <svg viewBox="0 0 640 240" preserveAspectRatio="xMidYMid meet">
+        <!-- China bar -->
+        <rect x="80" y="40" width="400" height="50" fill="#dc2626" opacity="0.85"/>
+        <text x="110" y="70" fill="#e8e8e8" font-size="18" font-weight="700">中国 4,400万吨+</text>
+        <text x="110" y="90" fill="#9ca3af" font-size="11">占全球 ~60%</text>
+
+        <!-- India bar -->
+        <rect x="80" y="110" width="38" height="35" fill="#6b7280" opacity="0.6"/>
+        <text x="125" y="132" fill="#9ca3af" font-size="13" font-weight="600">印度 420万吨</text>
+
+        <!-- Others bar -->
+        <rect x="80" y="165" width="152" height="35" fill="#4b5563" opacity="0.5"/>
+        <text x="240" y="187" fill="#9ca3af" font-size="13" font-weight="600">其他地区 ~2,780万吨</text>
+
+        <!-- Scale -->
+        <line x1="80" y1="220" x2="560" y2="220" stroke="#2a2f3a" stroke-width="1"/>
+        <text x="80" y="235" fill="#6b7280" font-size="10">0</text>
+        <text x="280" y="235" fill="#6b7280" font-size="10">4,000万吨</text>
+        <text x="480" y="235" fill="#6b7280" font-size="10">8,000万吨</text>
+      </svg>
+      <div class="chart-caption">数据来源：文中引用全球产量数据 | 中国产能逼近4500万吨政策天花板</div>
+    </div>
+
+    <p>自2017年起，中国为达成双碳目标，对电解铝产业实施严格产能管控，全国电解铝产能上限设定为<span class="data-highlight">4500万吨</span>。彼时全国年产能约3500万吨，而至2024年产能已接近4400万吨，2025年更逼近政策天花板。未来新增产能已极为有限，主要以淘汰落后产能、置换为更低能耗的绿电项目为主。</p>
+
+    <p>面对产能天花板，通过提高产能利用率增产的空间同样不存在。电解铝生产本身即为24小时连续运转模式，电解槽一旦启动便不可轻易停止，目前全行业开工率已达<span class="data-highlight">90%</span>的高位，处于满负荷运转状态，几乎没有额外余量可挖。从今年开始，中国电解铝产量已很难继续增加，全球60%的电解铝供给实际上进入了<span class="data-highlight">刚性停滞区间</span>。</p>
+
+    <div class="pull-quote">
+      全球范围内具备大规模稳定电力供应且电价平稳低廉的地区，<strong>几乎仅剩中国一地</strong>。
+    </div>
+
+    <p>海外方面，维持现有产量已属不易，更遑论扩张。中东作为全球第二大电解铝生产基地，在冲突中遭受重创。除直接打击铝厂外，伊朗还摧毁大量电力设施，而电力中断对电解铝生产而言是致命打击——电解槽一旦停运，重新启动需要数月时间且成本极高。</p>
+
+    <p>战争的影响远不止区域产量损失。即便没有此次战争扰动，海外电解铝产能也已难以维系——战前全球电力已处于紧平衡状态，AI带来的巨大耗电量推动美国各州电价猛涨，数据中心集中地区电价甚至翻倍。印尼、越南、沙特等国虽有新建电解铝项目，但电网技术配套落后，在能源成本上升的大环境下，产能能否顺利投放、电力供应能否保持稳定、项目能否盈利，均存在重大不确定性。</p>
+
+    <p>2025年全球电解铝产量约7600万吨，消费量约7500万吨，处于紧平衡状态。然而自2026年起，全球铝供应几乎难再有增长，但需求仍在持续扩张，供需格局将日趋紧张。</p>
+  </div>
+
+  <!-- 4. 轻量化与电气化重塑需求 -->
+  <div class="fade-in">
+    <div class="section-header">
+      <span class="section-number">04</span>
+      <h2>轻量化与电气化重塑需求结构</h2>
+    </div>
+
+    <p>铝是一种"万金油"金属，几乎渗透到社会经济的方方面面。铝最突出的特征是轻量化——经过合金化处理后，铝可达到媲美钢铁的强度，重量却仅为铁的三分之一。飞机约<span class="data-highlight">80%</span>结构采用铝合金；汽车为降低能耗越来越多使用铝材；消费电子普遍采用铝合金后盖和机身；食品包装几乎全部采用铝材。</p>
+
+    <p>铝的导电性在工业金属中仅次于铜，而价格仅为铜的四分之一不到。在长途输电领域，钢芯铝绞线已普遍替代铜成为主流方案。</p>
+
+    <div class="chart-container">
+      <div class="chart-title">铝消费结构变化：房地产拖累 vs 新兴产业增量（万吨/年）</div>
+      <svg viewBox="0 0 640 300" preserveAspectRatio="xMidYMid meet">
+        <!-- Background -->
+        <rect width="640" height="300" fill="#181b21"/>
+
+        <!-- Grid lines -->
+        <line x1="60" y1="40" x2="60" y2="250" stroke="#2a2f3a" stroke-width="1"/>
+        <line x1="60" y1="250" x2="600" y2="250" stroke="#2a2f3a" stroke-width="1"/>
+
+        <!-- Y-axis labels -->
+        <text x="55" y="45" fill="#6b7280" font-size="10" text-anchor="end">1500</text>
+        <text x="55" y="100" fill="#6b7280" font-size="10" text-anchor="end">1200</text>
+        <text x="55" y="155" fill="#6b7280" font-size="10" text-anchor="end">900</text>
+        <text x="55" y="210" fill="#6b7280" font-size="10" text-anchor="end">600</text>
+        <text x="55" y="255" fill="#6b7280" font-size="10" text-anchor="end">300</text>
+
+        <!-- Real estate bars -->
+        <!-- 2021 peak ~1300? text says 654 in 2025, down 200+ from 2023, halved from 2021 peak. So 2021 peak ~1300, 2023 ~860, 2025 654 -->
+        <rect x="80" y="55" width="60" height="195" fill="#dc2626" opacity="0.7"/>
+        <text x="110" y="265" fill="#9ca3af" font-size="11" text-anchor="middle">2021</text>
+        <text x="110" y="48" fill="#dc2626" font-size="11" font-weight="600" text-anchor="middle">~1,300</text>
+
+        <rect x="180" y="150" width="60" height="100" fill="#dc2626" opacity="0.6"/>
+        <text x="210" y="265" fill="#9ca3af" font-size="11" text-anchor="middle">2023</text>
+        <text x="210" y="143" fill="#dc2626" font-size="11" font-weight="600" text-anchor="middle">~860</text>
+
+        <rect x="280" y="180" width="60" height="70" fill="#dc2626" opacity="0.5"/>
+        <text x="310" y="265" fill="#9ca3af" font-size="11" text-anchor="middle">2025</text>
+        <text x="310" y="173" fill="#dc2626" font-size="11" font-weight="600" text-anchor="middle">654</text>
+
+        <!-- Label -->
+        <text x="190" y="290" fill="#dc2626" font-size="12" font-weight="600" text-anchor="middle">房地产用铝（持续下滑）</text>
+
+        <!-- New demand bars -->
+        <!-- NEV: 900万吨 potential by 2030 -->
+        <rect x="400" y="80" width="60" height="170" fill="#059669" opacity="0.8"/>
+        <text x="430" y="265" fill="#9ca3af" font-size="11" text-anchor="middle">新能源车</text>
+        <text x="430" y="73" fill="#059669" font-size="11" font-weight="600" text-anchor="middle">~900</text>
+
+        <!-- PV: 1000+万吨/year -->
+        <rect x="480" y="65" width="60" height="185" fill="#059669" opacity="0.7"/>
+        <text x="510" y="265" fill="#9ca3af" font-size="11" text-anchor="middle">光伏</text>
+        <text x="510" y="58" fill="#059669" font-size="11" font-weight="600" text-anchor="middle">1,000+</text>
+
+        <!-- Grid -->
+        <rect x="560" y="110" width="60" height="140" fill="#059669" opacity="0.6"/>
+        <text x="590" y="265" fill="#9ca3af" font-size="11" text-anchor="middle">电网</text>
+        <text x="590" y="103" fill="#059669" font-size="11" font-weight="600" text-anchor="middle">数百万吨</text>
+
+        <!-- Label -->
+        <text x="510" y="290" fill="#059669" font-size="12" font-weight="600" text-anchor="middle">新兴领域用铝增量（年度估算）</text>
+      </svg>
+      <div class="chart-caption">数据来源：文中机构测算与产业推算 | 房地产用铝较2021年高峰期腰斩，新能源与电网增量已完全覆盖并超越</div>
+    </div>
+
+    <p>过去房地产是中国铝消费最大的应用领域，占比高达三成。2025年房地产领域用铝已减少至<span class="data-highlight">654万吨</span>，较2023年下降200余万吨，相较2021年高峰期几乎腰斩。但好消息是，房地产对铝的拖累正在减弱——行业颓势较最初两年已有所放缓，且地产消费基数越来越低，对整体铝行业的影响大不如前。</p>
+
+    <h3>新能源车：单车用铝量提升50%</h3>
+    <p>由于锂电池重量较大，为提高续航必须减轻车身重量，越来越多车身结构和零部件采用铝材。目前一辆新能源车约需使用<span class="data-highlight">225至235公斤铝</span>，较燃油车提升<span class="data-highlight">50%</span>。中国新能源车渗透率刚超过50%，全球其他国家尚不足30%。假设到2030年新能源车渗透率接近80%，中国年销量约3000万辆，单车用铝量增至300公斤，仅新能源车带来的铝需求增量即约<span class="data-highlight">900万吨</span>，足以完全抵消房地产领域的减少。新能源车用铝增量约占整个交通领域增量的<span class="data-highlight">63%</span>。</p>
+
+    <h3>光伏：每年需铝超1000万吨</h3>
+    <p>目前光伏电池边框和支架普遍采用铝型材，在光伏领域渗透率超过<span class="data-highlight">95%</span>。平均每11吉瓦光伏装机容量约需2.57万吨铝，包括0.7万吨铝边框和1.87万吨铝支架。自2025年起，全球每年新增光伏装机容量约<span class="data-highlight">500余吉瓦</span>，即每年需<span class="data-highlight">1000余万吨铝</span>，已超过房地产市场需求。</p>
+
+    <h3>电网：十五五期间铝需求增加数百万吨</h3>
+    <p>AI带来的用电量暴增推动全球电力投资进入超周期。彭博社预测到2035年数据中心电力需求将在十年内增长三倍。中国在2026年初计划投资<span class="data-highlight">4万亿元</span>用于电网建设，较"十四五"增长<span class="data-highlight">40%</span>，规划投产15条特高压直流线路，单条线路长达2000至3000公里。每公里特高压线路约需<span class="data-highlight">55至63吨铝</span>。按平均2000公里估算约需<span class="data-highlight">180万吨铝</span>增量。若加上交流线路、各级配电网、智能化改造及南网投资规划，"十五五"期间铝需求将增加数百万吨。</p>
+
+    <h3>商业航天与机器人：远期增量空间</h3>
+    <p>低轨卫星密集发射期和商业航天领域对铝材料为刚需。中国星网和千帆星座未来各自均有<span class="data-highlight">1万余颗</span>卫星发射计划，2025年12月中国向国际电信联盟一次性提交超<span class="data-highlight">20万颗</span>卫星轨道资源申请。机器人也开始进入量产前夜，特斯拉得州工厂正逐步成型并具备年产<span class="data-highlight">1000万台</span>机器人的能力。若机器人未来像汽车一样大规模普及，铝作为轻量化机身材料将再度打开巨大的增量空间。</p>
+
+    <p>当前全球主要交易所铝库存徘徊在近五年以来的低位，使铝价对供需变化更加敏感，一旦出现断供或需求爆发，铝价可能快速上升。</p>
+  </div>
+
+  <!-- 5. 成本下移重构利润模型 -->
+  <div class="fade-in">
+    <div class="section-header">
+      <span class="section-number">05</span>
+      <h2>成本下移重构利润模型</h2>
+    </div>
+
+    <p>相较于铝大宗商品本身，电解铝生产企业的投资价值更为突出，因为整个行业的利润正在越来越高。电解铝的商业模式本质上是以卖铝价格减去生产成本，铝价越高、成本越低，盈利能力越强。</p>
+
+    <p>电解铝成本结构中，氧化铝和电力为两大核心成本，合计占比超过七成。中国电力成本相对稳定，因此影响成本的最主要因素是氧化铝。而目前氧化铝行业正面临严重的产能过剩。</p>
+
+    <div class="chart-container">
+      <div class="chart-title">氧化铝价格走势：从过剩到腰斩</div>
+      <svg viewBox="0 0 640 200" preserveAspectRatio="xMidYMid meet">
+        <rect width="640" height="200" fill="#181b21"/>
+
+        <!-- Grid -->
+        <line x1="60" y1="30" x2="60" y2="160" stroke="#2a2f3a" stroke-width="1"/>
+        <line x1="60" y1="160" x2="600" y2="160" stroke="#2a2f3a" stroke-width="1"/>
+
+        <!-- Y labels -->
+        <text x="55" y="35" fill="#6b7280" font-size="10" text-anchor="end">5000</text>
+        <text x="55" y="75" fill="#6b7280" font-size="10" text-anchor="end">4000</text>
+        <text x="55" y="115" fill="#6b7280" font-size="10" text-anchor="end">3000</text>
+        <text x="55" y="155" fill="#6b7280" font-size="10" text-anchor="end">2000</text>
+
+        <!-- X labels -->
+        <text x="130" y="180" fill="#6b7280" font-size="11" text-anchor="middle">2024年底</text>
+        <text x="330" y="180" fill="#6b7280" font-size="11" text-anchor="middle">2025年中</text>
+        <text x="530" y="180" fill="#6b7280" font-size="11" text-anchor="middle">2025年底</text>
+
+        <!-- Price line -->
+        <polyline
+          points="130,60 200,70 270,85 330,100 400,115 460,130 530,140"
+          fill="none"
+          stroke="#dc2626"
+          stroke-width="2.5"
+        />
+
+        <!-- Area under line -->
+        <polygon
+          points="130,160 130,60 200,70 270,85 330,100 400,115 460,130 530,140 530,160"
+          fill="#dc2626"
+          opacity="0.15"
+        />
+
+        <!-- Data points -->
+        <circle cx="130" cy="60" r="5" fill="#dc2626"/>
+        <circle cx="330" cy="100" r="5" fill="#dc2626"/>
+        <circle cx="530" cy="140" r="5" fill="#dc2626"/>
+
+        <!-- Labels -->
+        <text x="130" y="48" fill="#dc2626" font-size="12" font-weight="700" text-anchor="middle">~4,400元</text>
+        <text x="530" y="132" fill="#dc2626" font-size="12" font-weight="700" text-anchor="middle">~2,600元</text>
+
+        <!-- Drop arrow -->
+        <path d="M 330 60 L 330 100" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="4,2" marker-end="url(#arrowhead)"/>
+        <defs>
+          <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#dc2626"/>
+          </marker>
+        </defs>
+        <text x="350" y="85" fill="#dc2626" font-size="11" font-weight="600">接近腰斩</text>
+      </svg>
+      <div class="chart-caption">数据来源：文中产业数据 | 氧化铝价格走势示意图，2025年库存飙至历史高位</div>
+    </div>
+
+    <p>每生产一吨电解铝约需消耗<span class="data-highlight">1.93吨</span>氧化铝。按中国4500万吨产能天花板计算，全行业需8685万吨氧化铝，而2025年中国氧化铝产能已达<span class="data-highlight">1.15亿吨</span>。更关键的是，氧化铝产能仍在持续扩张——限产政策主要针对电解铝，并未限制氧化铝。2025至2026年期间，约将有<span class="data-highlight">2000万吨</span>氧化铝新产能投放，预期总产能将达<span class="data-highlight">1.35亿吨</span>，对应电解铝产能约7000万吨，已远超市场实际需求，甚至足以满足全球电解铝产量。</p>
+
+    <p>产能严重过剩导致开工率不足、库存积压、价格疲软。2025年中国氧化铝库存飙至历史高位，价格从2024年底的<span class="data-highlight">4400余元每吨</span>跌至<span class="data-highlight">2600元每吨</span>，接近腰斩。</p>
+
+    <div class="chart-container">
+      <div class="chart-title">代表性电解铝企业盈利表现（2025-2026）</div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>企业</th>
+            <th>报告期</th>
+            <th>核心指标</th>
+            <th>同比变动</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>行业代表性企业</td>
+            <td>2026年Q1</td>
+            <td>扣非净利润</td>
+            <td style="color:#059669;font-weight:600;">+50% ~ +58%</td>
+          </tr>
+          <tr>
+            <td>天山铝业</td>
+            <td>2026年Q1</td>
+            <td>扣非净利润</td>
+            <td style="color:#059669;font-weight:600;">+110%</td>
+          </tr>
+          <tr>
+            <td>云南铝业</td>
+            <td>2025年年报</td>
+            <td>扣非净利润</td>
+            <td style="color:#059669;font-weight:600;">+40.91%</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="chart-caption">数据来源：文中财报引用 | 氧化铝成本下移推动电解铝利润持续增厚</div>
+    </div>
+
+    <p>上游氧化铝的惨淡行情对下游电解铝行业却是利好。自2024年底起，电解铝平均成本大幅下降，而平均铝价持续上涨，行业利润越来越丰厚。由于氧化铝产能严重过剩且新产能仍在持续投放，下游电解铝行业的高利润可能维持较长时间。</p>
+  </div>
+
+  <!-- 6. 红利资产特征 -->
+  <div class="fade-in">
+    <div class="section-header">
+      <span class="section-number">06</span>
+      <h2>红利资产特征日益清晰</h2>
+    </div>
+
+    <p>对资本市场而言，更重大的意义在于电解铝的资产属性正在发生根本性变化，逐渐从周期行业转变为红利资产。由于产能天花板已固定，电解铝行业已成为存量市场。自2021年起，电解铝企业不再投入扩张，新增产能和资本开支水平越来越低。</p>
+
+    <div class="chart-container">
+      <div class="chart-title">周期股 → 红利资产：电解铝企业属性切换逻辑</div>
+      <svg viewBox="0 0 640 320" preserveAspectRatio="xMidYMid meet">
+        <rect width="640" height="320" fill="#181b21"/>
+
+        <!-- Left: Cyclical Stock -->
+        <rect x="40" y="40" width="240" height="240" fill="#1e232b" stroke="#dc2626" stroke-width="1.5" opacity="0.8"/>
+        <text x="160" y="70" fill="#dc2626" font-size="14" font-weight="700" text-anchor="middle">周期股特征（过去）</text>
+
+        <text x="60" y="105" fill="#9ca3af" font-size="11">• 大规模资本开支</text>
+        <text x="60" y="130" fill="#9ca3af" font-size="11">• 产能持续扩张</text>
+        <text x="60" y="155" fill="#9ca3af" font-size="11">• 高负债、融资发债</text>
+        <text x="60" y="180" fill="#9ca3af" font-size="11">• 利润随铝价剧烈波动</text>
+        <text x="60" y="205" fill="#9ca3af" font-size="11">• 折旧摊销费用高企</text>
+        <text x="60" y="230" fill="#9ca3af" font-size="11">• 现金流不稳定</text>
+        <text x="60" y="255" fill="#9ca3af" font-size="11">• 分红比例低</text>
+
+        <!-- Right: Dividend Asset -->
+        <rect x="360" y="40" width="240" height="240" fill="#1e232b" stroke="#059669" stroke-width="1.5" opacity="0.8"/>
+        <text x="480" y="70" fill="#059669" font-size="14" font-weight="700" text-anchor="middle">红利资产特征（当下）</text>
+
+        <text x="380" y="105" fill="#e8e8e8" font-size="11">• 资本开支归零</text>
+        <text x="380" y="130" fill="#e8e8e8" font-size="11">• 产能天花板锁定</text>
+        <text x="380" y="155" fill="#e8e8e8" font-size="11">• 负债率持续下降</text>
+        <text x="380" y="180" fill="#e8e8e8" font-size="11">• 利润稳定增厚</text>
+        <text x="380" y="205" fill="#e8e8e8" font-size="11">• 折旧摊销逐年下降</text>
+        <text x="380" y="230" fill="#e8e8e8" font-size="11">• 现金流充裕</text>
+        <text x="380" y="255" fill="#e8e8e8" font-size="11">• 分红比例大幅提升</text>
+
+        <!-- Arrow -->
+        <path d="M 290 160 L 350 160" stroke="#d97706" stroke-width="2.5" marker-end="url(#arrowhead2)"/>
+        <defs>
+          <marker id="arrowhead2" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#d97706"/>
+          </marker>
+        </defs>
+        <text x="320" y="148" fill="#d97706" font-size="11" font-weight="600" text-anchor="middle">切换</text>
+      </svg>
+      <div class="chart-caption">逻辑推演：产能天花板与存量竞争格局下，行业属性发生根本性迁移</div>
+    </div>
+
+    <p>随着前期投入项目的折旧摊销费用逐年下降，企业整体成本呈下降趋势，利润则越来越厚。同时，由于不再需要融资发债，电解铝企业资产负债率不断下降，债务压力减小，财务费用持续减少，账上现金流却越来越充裕。</p>
+
+    <p>充裕的现金流自然流向股东分红：</p>
+
+    <div class="chart-container">
+      <div class="chart-title">代表性企业分红数据（2025年度）</div>
+      <svg viewBox="0 0 640 200" preserveAspectRatio="xMidYMid meet">
+        <rect width="640" height="200" fill="#181b21"/>
+
+        <!-- Yunnan Aluminum -->
+        <text x="50" y="45" fill="#e8e8e8" font-size="13" font-weight="600">云南铝业</text>
+        <text x="50" y="65" fill="#9ca3af" font-size="11">2025年全年分红 24亿元</text>
+        <text x="50" y="82" fill="#9ca3af" font-size="11">较2024年多出10亿元，是2023年的三倍多</text>
+
+        <!-- Bar -->
+        <rect x="50" y="100" width="400" height="24" fill="#059669" opacity="0.3"/>
+        <rect x="50" y="100" width="160" height="24" fill="#059669" opacity="0.85"/>
+        <text x="58" y="117" fill="#e8e8e8" font-size="12" font-weight="700">净利润的40%用于分红</text>
+
+        <!-- Tianshan -->
+        <text x="50" y="155" fill="#e8e8e8" font-size="13" font-weight="600">天山铝业</text>
+        <text x="50" y="175" fill="#9ca3af" font-size="11">利润48亿元，分红25亿元</text>
+
+        <rect x="50" y="185" width="400" height="24" fill="#059669" opacity="0.3"/>
+        <rect x="50" y="185" width="208" height="24" fill="#059669" opacity="0.85"/>
+        <text x="58" y="202" fill="#e8e8e8" font-size="12" font-weight="700">分红比例高达52%</text>
+      </svg>
+      <div class="chart-caption">数据来源：文中财报引用 | 电解铝企业分红意愿与能力同步提升</div>
+    </div>
+
+    <p>行业不再扩张、竞争格局稳定、企业低负债、利润丰厚、现金流充裕且乐于分红，这正是<span class="data-highlight">红利资产的典型特征</span>。</p>
+
+    <p>在存量时代，电解铝企业未来的竞争不再是规模扩张，而是成本和效率的竞争。目前存量产能正进行"东铝西进""北铝南移"的转移，逐渐向电力成本更低的地区集中。云南作为清洁能源大省，水利发电占比超过<span class="data-highlight">70%</span>，近年电解铝产能持续攀升，2025年已超过<span class="data-highlight">600万吨</span>，成为中国重要的铝产业基地。拥有低成本优势的企业将在存量竞争中占据更有利地位。</p>
+  </div>
+
+  <!-- 7. 结论 -->
+  <div class="fade-in">
+    <div class="section-header">
+      <span class="section-number">07</span>
+      <h2>估值逻辑切换的底层原因</h2>
+    </div>
+
+    <p>铝产业正站在结构性转折的节点上。这不是单一因素驱动的短期事件，而是供给、需求、成本、资本属性四重力量共同作用的结果。</p>
+
+    <div class="pull-quote">
+      <strong>供给端</strong>：中国产能触及政策天花板，开工率已达90%高位，海外产能受地缘冲突和能源成本双重压制，全球铝供给增长陷入长期停滞。<br><br>
+      <strong>需求端</strong>：房地产拖累逐渐减弱，而新能源车、光伏、电网、商业航天和机器人等新兴产业对轻量化和电气化的需求持续扩张。<br><br>
+      <strong>成本端</strong>：上游氧化铝严重过剩压低了电解铝生产成本，行业利润显著增厚，且高利润状态可能维持较长时间。<br><br>
+      <strong>资本属性</strong>：行业从周期股向红利资产加速切换，竞争焦点从规模扩张转向成本效率，企业分红能力和意愿同步提升。
+    </div>
+
+    <p>在供需紧平衡和低库存的背景下，铝市场的长期基本面趋于紧张，行业格局正在经历深刻重塑。电解铝企业的投资逻辑，需要从"博弈铝价周期"转向"持有供给刚性、成本优势与红利回报"的全新框架。</p>
+  </div>
+
+</section>
+
+<!-- ========== 数据可视化总结区 ========== -->
+<section class="container fade-in">
+  <div class="section-header">
+    <span class="section-number">数据全景</span>
+  </div>
+
+  <div class="chart-container">
+    <div class="chart-title">全球电解铝供需平衡推演</div>
+    <svg viewBox="0 0 640 260" preserveAspectRatio="xMidYMid meet">
+      <rect width="640" height="260" fill="#181b21"/>
+
+      <!-- Supply bar 2025 -->
+      <rect x="80" y="60" width="180" height="35" fill="#dc2626" opacity="0.8"/>
+      <text x="170" y="82" fill="#e8e8e8" font-size="13" font-weight="600" text-anchor="middle">供给 7,600万吨</text>
+
+      <!-- Demand bar 2025 -->
+      <rect x="80" y="105" width="177" height="35" fill="#d97706" opacity="0.8"/>
+      <text x="168" y="127" fill="#0f1115" font-size="13" font-weight="600" text-anchor="middle">需求 7,500万吨</text>
+
+      <!-- 2025 label -->
+      <text x="170" y="160" fill="#9ca3af" font-size="12" text-anchor="middle">2025年：紧平衡 +100万吨</text>
+
+      <!-- 2026+ supply (stagnant) -->
+      <rect x="380" y="60" width="180" height="35" fill="#dc2626" opacity="0.5"/>
+      <text x="470" y="82" fill="#9ca3af" font-size="13" font-weight="600" text-anchor="middle">供给 ~7,600万吨（停滞）</text>
+
+      <!-- 2026+ demand (growing) -->
+      <rect x="380" y="105" width="200" height="35" fill="#059669" opacity="0.8"/>
+      <text x="480" y="127" fill="#0f1115" font-size="13" font-weight="600" text-anchor="middle">需求 持续扩张 →</text>
+
+      <!-- Gap indicator -->
+      <path d="M 560 87 L 590 87 L 590 122 L 560 122" fill="none" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="4,2"/>
+      <text x="600" y="110" fill="#dc2626" font-size="11" font-weight="600">缺口扩大</text>
+
+      <text x="470" y="160" fill="#9ca3af" font-size="12" text-anchor="middle">2026年起：供不应求</text>
+
+      <!-- Bottom annotation -->
+      <rect x="80" y="185" width="480" height="50" fill="#1e232b" stroke="#2a2f3a" stroke-width="1"/>
+      <text x="320" y="208" fill="#c0c5ce" font-size="11" text-anchor="middle" font-weight="600">全球铝库存处于近五年低位 → 铝价对供需变化高度敏感</text>
+      <text x="320" y="225" fill="#6b7280" font-size="10" text-anchor="middle">低库存环境下，断供或需求爆发将快速推高铝价</text>
+    </svg>
+    <div class="chart-caption">数据来源：文中供需分析整理 | 2025年紧平衡，2026年起供给刚性停滞而需求持续扩张</div>
+  </div>
+
+  <!-- Key metrics grid -->
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:2rem 0;">
+    <div style="background:var(--bg-card);border:1px solid var(--border);padding:1.25rem;text-align:center;">
+      <div style="font-size:2rem;font-weight:700;color:var(--accent-red);">4500<span style="font-size:1rem;">万吨</span></div>
+      <div style="font-size:0.8rem;color:var(--text-muted);margin-top:0.5rem;">中国产能天花板</div>
+    </div>
+    <div style="background:var(--bg-card);border:1px solid var(--border);padding:1.25rem;text-align:center;">
+      <div style="font-size:2rem;font-weight:700;color:var(--accent-orange);">90<span style="font-size:1rem;">%</span></div>
+      <div style="font-size:0.8rem;color:var(--text-muted);margin-top:0.5rem;">全行业开工率</div>
+    </div>
+    <div style="background:var(--bg-card);border:1px solid var(--border);padding:1.25rem;text-align:center;">
+      <div style="font-size:2rem;font-weight:700;color:var(--accent-green);">1.35<span style="font-size:1rem;">亿吨</span></div>
+      <div style="font-size:0.8rem;color:var(--text-muted);margin-top:0.5rem;">氧化铝过剩产能</div>
+    </div>
+    <div style="background:var(--bg-card);border:1px solid var(--border);padding:1.25rem;text-align:center;">
+      <div style="font-size:2rem;font-weight:700;color:var(--accent-green);">900<span style="font-size:1rem;">万吨</span></div>
+      <div style="font-size:0.8rem;color:var(--text-muted);margin-top:0.5rem;">新能源车2030增量</div>
+    </div>
+    <div style="background:var(--bg-card);border:1px solid var(--border);padding:1.25rem;text-align:center;">
+      <div style="font-size:2rem;font-weight:700;color:var(--accent-green);">1000<span style="font-size:1rem;">万吨+</span></div>
+      <div style="font-size:0.8rem;color:var(--text-muted);margin-top:0.5rem;">光伏年度用铝</div>
+    </div>
+    <div style="background:var(--bg-card);border:1px solid var(--border);padding:1.25rem;text-align:center;">
+      <div style="font-size:2rem;font-weight:700;color:var(--metal-silver);">52<span style="font-size:1rem;">%</span></div>
+      <div style="font-size:0.8rem;color:var(--text-muted);margin-top:0.5rem;">最高分红比例</div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 结尾总结 ========== -->
+<section class="container">
+  <div class="conclusion fade-in">
+    <p class="conclusion-text">
+      这不是短期事件驱动，而是<strong>供给刚性、需求重构、成本下移与资本属性切换</strong>四重力量叠加下的结构性转变。电解铝行业正在从"博弈周期的工业股"进化为"持有壁垒的红利资产"。估值框架需要随之切换：关注的不再是铝价的短期波动，而是产能天花板的不可突破性、成本优势的持续性，以及企业在存量格局中回报股东的能力与意愿。
+    </p>
+  </div>
+</section>
+
+<!-- ========== Footer ========== -->
+<div class="footer container">
+  本报告基于公开产业研究与市场数据整理 | 仅供研究参考
+</div>
+
+<script>
+  // Simple scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
