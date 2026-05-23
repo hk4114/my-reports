@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Codex 标准操作与最佳实践</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div class="app">
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+        Codex 操作手册
+      </div>
+      <div class="sidebar-sub">从安装到熟练的标准路径</div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-group">
+        <div class="nav-group-title">场景导航</div>
+        <button class="nav-item active" data-target="getting-started">🚀 从 0 到 1 入门路线</button>
+        <button class="nav-item" data-target="sop">📋 标准操作 SOP 库</button>
+        <button class="nav-item" data-target="troubleshooting">🔧 问题排查中心</button>
+        <button class="nav-item" data-target="templates">📄 可复制模板库</button>
+        <button class="nav-item" data-target="best-practices">🛡️ 最佳实践与安全边界</button>
+        <button class="nav-item" data-target="decisions">🌲 决策树与对比表</button>
+        <button class="nav-item" data-target="roadmap">📅 7 天练习路线</button>
+      </div>
+      <div class="nav-group">
+        <div class="nav-group-title">快捷操作</div>
+        <div class="nav-item" style="cursor:default;color:var(--text-muted);font-size:12px;">
+          <kbd style="background:var(--bg-hover);padding:2px 6px;border-radius:4px;font-family:var(--font-mono);">Ctrl+K</kbd> 搜索
+        </div>
+        <div class="nav-item" style="cursor:default;color:var(--text-muted);font-size:12px;">
+          <kbd style="background:var(--bg-hover);padding:2px 6px;border-radius:4px;font-family:var(--font-mono);">Esc</kbd> 清空搜索
+        </div>
+      </div>
+    </nav>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Main -->
+  <main class="main">
+    <!-- Header -->
+    <header class="header">
+      <button class="menu-btn" id="menuBtn" aria-label="菜单">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <div class="search-box">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" id="searchInput" placeholder="搜索问题、功能、模板、关键词..." autocomplete="off">
+      </div>
+      <div class="header-meta">按任务组织 · 即搜即用</div>
+    </header>
+
+    <!-- Hero -->
+    <div class="hero">
+      <h1>Codex 新手工作台</h1>
+      <p>不是阅读指南，而是照着就能完成任务的地图。安装、配置、排查、模板、决策，全部按场景重组。</p>
+      <div class="hero-tags">
+        <span class="tag tag-accent">安装登录</span>
+        <span class="tag tag-success">标准 SOP</span>
+        <span class="tag tag-warning">问题排查</span>
+        <span class="tag tag-neutral">复制模板</span>
+        <span class="tag tag-accent">决策对比</span>
+        <span class="tag tag-success">7 天路线</span>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+
+      <!-- ===== A. 从 0 到 1 入门路线 ===== -->
+      <section class="section active" id="getting-started">
+        <h2 class="section-title">从 0 到 1 入门路线</h2>
+        <p class="section-desc">目标：让你从没装过 Codex，到完成第一次有效任务。每一步都有标准操作和常见错误提醒。</p>
+
+        <div class="card expanded">
+          <button class="card-header">
+            <div class="card-icon accent">🚀</div>
+            <div class="card-title">第一步：准备与安装</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <div class="steps">
+              <div class="step">
+                <div class="step-content">
+                  <h4>准备账号</h4>
+                  <p>你需要一个 ChatGPT 账号。免费账号也能用，只是额度较少。部分地区需要代理才能正常访问和下载。</p>
+                  <span class="step-tag warning">部分地区需代理</span>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-content">
+                  <h4>下载安装</h4>
+                  <p>前往官方下载页获取 Codex 桌面 App，支持 macOS 和 Windows。</p>
+                  <div class="template-block">
+                    <div class="template-header"><span class="template-label">下载地址</span><button class="copy-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制</button></div>
+                    <pre>https://chatgpt.com/zh-Hans-CN/codex/get-started/</pre>
+                  </div>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-content">
+                  <h4>登录方式（二选一）</h4>
+                  <p><strong>方式 A（新手首选）：</strong>用 ChatGPT 账号登录。简单，额度由账号套餐决定。</p>
+                  <p><strong>方式 B：</strong>用 OpenAI API Key 登录。需要自己购买和管理 API 额度，适合有独立预算或企业环境的人。</p>
+                  <span class="step-tag success">新手推荐方式 A</span>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-content">
+                  <h4>首次进入</h4>
+                  <p>系统可能让你选择用途（日常工作、开发、学习）。随便选一个接近的即可，后面可以改。</p>
+                </div>
+              </div>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="card">
+          <button class="card-header">
+            <div class="card-icon accent">🖥️</div>
+            <div class="card-title">第二步：认识界面</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <p>界面通常分成三块，新手先记住三件事：</p>
+            <div class="steps">
+              <div class="step">
+                <div class="step-content">
+                  <h4>左侧：任务管理区</h4>
+                  <p>新对话、搜索、插件、自动化、项目、历史线程等入口。</p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-content">
+                  <h4>中间：对话交互区</h4>
+                  <p>你在这里输入需求、批准权限、查看 Codex 的过程说明。</p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-content">
+                  <h4>右侧：结果和侧边栏区</h4>
+                  <p>展示文件、网页预览、文档、PPT、表格、代码 diff、运行结果等。</p>
+                </div>
+              </div>
+            </div>
+            <h4>新手策略</h4>
+            <p>打开陌生界面后，直接对 Codex 说：</p>
+            <div class="template-block">
+              <div class="template-header"><span class="template-label">提示词</span><button class="copy-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制</button></div>
+              <pre>请介绍当前界面里我最常用的 5 个入口，并告诉我分别什么时候用。</pre>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="card">
+          <button class="card-header">
+            <div class="card-icon accent">📁</div>
+            <div class="card-title">第三步：创建/进入项目</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <p>Codex 里的"项目"基本对应你电脑上的一个文件夹。选中文件夹后，里面的文件就变成 Codex 的工作上下文。</p>
+            <h4>标准操作</h4>
+            <div class="template-block">
+              <div class="template-header"><span class="template-label">首次进入项目的推荐话术</span><button class="copy-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制</button></div>
+              <pre>请进入这个项目，先不要修改文件。先读一下目录结构，告诉我这个项目是做什么的、核心文件在哪里、下一步应该看什么。</pre>
+            </div>
+            <p>项目不等于代码仓库，写作、资料整理、视频素材、运营文档都可以建项目。</p>
+          </div></div>
+        </div>
+
+        <div class="card">
+          <button class="card-header">
+            <div class="card-icon warning">🔐</div>
+            <div class="card-title">第四步：选择权限</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <table class="data-table">
+              <tr><th>权限模式</th><th>行为</th><th>风险</th><th>推荐</th></tr>
+              <tr><td>默认权限</td><td>只能读写所选文件夹内文件，外部/敏感操作需请示</td><td>低</td><td>可用</td></tr>
+              <tr><td><strong>自动审查</strong></td><td>低风险自动执行，高风险再申请</td><td>中</td><td><span class="tag tag-success">新手首选</span></td></tr>
+              <tr><td>完全访问</td><td>可在电脑上执行更广泛操作</td><td>高</td><td>谨慎使用</td></tr>
+            </table>
+            <p>涉及删除、大范围移动文件、安装系统级工具、改环境变量、访问隐私目录时，<strong>仍然要认真看权限说明</strong>。</p>
+          </div></div>
+        </div>
+
+        <div class="card">
+          <button class="card-header">
+            <div class="card-icon success">✅</div>
+            <div class="card-title">第五步：发出第一个任务并验收</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <p>新手不要一上来就"帮我写个大项目"。选一个低风险、可验证的小任务：</p>
+            <ul class="checklist">
+              <li>整理一个文件夹里的 Markdown，生成索引</li>
+              <li>检查 README 是否过期，列出问题</li>
+              <li>把会议记录按主题分类汇总</li>
+            </ul>
+            <h4>验收标准</h4>
+            <p>任务完成后，检查实际产物：文件是否生成、内容是否正确、格式是否符合预期。不要只看 Codex 的"完成"说明。</p>
+          </div></div>
+        </div>
+      </section>
+
+      <!-- ===== B. 标准操作 SOP 库 ===== -->
+      <section class="section" id="sop">
+        <h2 class="section-title">标准操作 SOP 库</h2>
+        <p class="section-desc">按任务场景整理的标准流程。每个 SOP 包含：适用场景、标准步骤、推荐提示词、验收方式、风险提醒。</p>
+
+        <div class="card">
+          <button class="card-header">
+            <div class="card-icon accent">📖</div>
+            <div class="card-title">SOP：让 Codex 先读项目、不乱改文件</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <p><span class="tag tag-neutral">适用场景</span> 首次接触一个项目，或让 Codex 在修改前理解全貌。</p>
+            <div class="steps">
+              <div class="step">
+                <div class="step-content">
+                  <h4>锁定范围</h4>
+                  <p>确保 Codex 已进入正确的项目文件夹。</p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-content">
+                  <h4>发出"只读"指令</h4>
+                  <div class="template-block">
+                    <div class="template-header"><span class="template-label">推荐提示词</span><button class="copy-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制</button></div>
+                    <pre>请先不要修改任何文件。读取当前项目结构，告诉我：
+1. 这个项目是做什么的；
+2. 核心目录和关键文件；
+3. 运行、测试、构建命令；
+4. 你建议我从哪里开始。</pre>
+                  </div>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-content">
+                  <h4>确认理解</h4>
+                  <p>让 Codex 复述它理解的项目目标、技术栈和关键路径，确保没有误解。</p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-content">
+                  <h4>再进入修改阶段</h4>
+                  <p>确认理解无误后，再给出具体的修改需求。每次都先让 Codex 列出会影响哪些文件。</p>
+                  <span class="step-tag warning">禁止一上来就"帮我重构"</span>
+                </div>
+              </div>
+            </div>
+            <p><strong>验收方式：</strong>Codex 能准确描述项目结构、技术栈、入口文件和构建命令。</p>
+          </div></div>
+        </div>
+
+        <div class="card">
+          <button class="card-header">
+            <div class="card-icon accent">🗂️</div>
+            <div class="card-title">SOP：本地文件整理</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <p><span class="tag tag-neutral">适用场景</span> 整理 Markdown、会议记录、视频素材、运营文档等。</p>
+            <div class="steps">
+              <div class="step">
+                <div class="step-content">
+                  <h4>先扫描，不动原文件</h4>
+                  <p>让 Codex 先列出文件夹内容、文件数量、格式分布，给出整理方案。</p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-content">
+                  <h4>明确输出位置</h4>
+                  <p>要求 Codex 保留原始文件不动，输出到新位置或新文件。</p>
+                  <div class="template-block">
+                    <div class="template-header"><span class="template-label">推荐提示词</span><button class="copy-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制</button></div>
+                    <pre>请整理这个文件夹里的资料，生成一份结构化 Markdown。要求：
+1. 不遗漏任何独特知识点；
+2. 重复内容合并；
+3. 冲突信息标出来；
+4. 保留来源文件名；
+5. 输出一份正式稿和一份整理报告。</pre>
+                  </div>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-content">
+                  <h4>视频素材的特殊处理</h4>
+                  <p>Codex 可以先统计文件数量，抽关键帧，拼成缩略图判断内容，再按规则重命名。记得要求"先给方案，等我确认后再执行"。</p>
+                </div>
+              </div>
+            </div>
+            <p><strong>验收方式：</strong>原始文件未被改动，输出文件结构清晰、内容完整、无遗漏。</p>
+          </div></div>
+        </div>
+
+        <div class="card">
+          <button class="card-header">
+            <div class="card-icon accent">🛠️</div>
+            <div class="card-title">SOP：命令行安装与环境检查</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <p><span class="tag tag-neutral">适用场景</span> 安装开发工具、配置环境、验证版本。</p>
+            <div class="steps">
+              <div class="step">
+                <div class="step-content">
+                  <h4>三步原则</h4>
+                  <p>好的命令行任务必须满足：先检查现状 → 缺什么再安装 → 安装后验证结果。</p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-content">
+                  <h4>标准提示词</h4>
+                  <div class="template-block">
+                    <div class="template-header"><span class="template-label">推荐提示词</span><button class="copy-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制</button></div>
+                    <pre>请检查当前电脑是否已具备完成这个项目所需环境。先列出现状和缺失项，再给安装计划。涉及系统级修改、管理员权限、删除文件、修改 shell 配置前必须问我。安装完成后验证版本和最小运行示例。</pre>
+                  </div>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-content">
+                  <h4>安装 Agent IDE（推荐）</h4>
+                  <p>建议安装 Cursor 作为 Codex 的外部编辑器。Codex 负责理解、修改、运行、验证；Cursor 负责精细编辑和人工检查。</p>
+                  <div class="template-block">
+                    <div class="template-header"><span class="template-label">安装并配置 Cursor</span><button class="copy-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制</button></div>
+                    <pre>请检查我是否已安装 Cursor；若未安装，请帮我安装。安装后，把 Codex 桌面端右上角"打开编辑器"的目标设置为 Cursor，并验证是否生效。</pre>
+                  </div>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-content">
+                  <h4>安装不知名工具</h4>
+                  <p>如果工具不够知名，给官方链接，让 Codex 只根据官方文档安装，避免撞到同名不相关仓库。</p>
+                </div>
+              </div>
+            </div>
+            <p><strong>验收方式：</strong>安装后运行 `xxx --version` 或最小示例，确认可用。</p>
+          </div></div>
+        </div>
+
+        <div class="card">
+          <button class="card-header">
+            <div class="card-icon accent">✏️</div>
+            <div class="card-title">SOP：修改代码/文档</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <p><span class="tag tag-neutral">适用场景</span> 让 Codex 修改代码、更新文档、实现新功能。</p>
+            <div class="template-block">
+              <div class="template-header"><span class="template-label">标准提示词</span><button class="copy-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制</button></div>
+              <pre>请实现这个需求：&lt;需求&gt;。
+要求：
+1. 先阅读相关文件、调用方和测试；
+2. 给出简短方案；
+3. 只改必要文件；
+4. 改完运行相关测试或最小验证；
+5. 最后说明改了什么、验证了什么、还有什么没验证。</pre>
+            </div>
+            <h4>关键原则</h4>
+            <ul class="checklist">
+              <li>先让它列出会影响的文件，再执行</li>
+              <li>要求只改必要文件，不要"顺便优化"</li>
+              <li>改完必须跑测试或最小验证</li>
+              <li>让它说明"还有什么没验证"</li>
+            </ul>
+            <p><strong>验收方式：</strong>代码通过测试，或最小验证通过；改动范围与预期一致。</p>
+          </div></div>
+        </div>
+
+        <div class="card">
+          <button class="card-header">
+            <div class="card-icon warning">🧠</div>
+            <div class="card-title">SOP：上下文管理</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <p><span class="tag tag-neutral">适用场景</span> 对话变长、Codex 开始遗忘前面的约定、任务阶段切换。</p>
+            <div class="steps">
+              <div class="step">
+                <div class="step-content">
+                  <h4>查看上下文状态</h4>
+                  <p>界面里的小圆圈或上下文入口能看到：当前已用比例、已用/总 token 数、是否已经压缩过。</p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-content">
+                  <h4>手动压缩时机</h4>
+                  <ul class="checklist">
+                    <li>一个阶段结束，要开始新阶段</li>
+                    <li>对话很长，Codex 开始反复遗漏前面约定</li>
+                    <li>已经生成了关键文件，不需要保留每个中间过程</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-content">
+                  <h4>压缩前保存关键信息</h4>
+                  <div class="template-block">
+                    <div class="template-header"><span class="template-label">压缩前提示词</span><button class="copy-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制</button></div>
+                    <pre>请先把当前任务的关键决策、文件路径、未完成事项、验证结果整理成一段 compact summary，然后再压缩上下文。</pre>
+                  </div>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-content">
+                  <h4>执行压缩</h4>
+                  <p>输入 <code>/压缩</code> 斜杠命令，或让 Codex 执行压缩。</p>
+                </div>
+              </div>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="card">
+          <button class="card-header">
+            <div class="card-icon warning">💰</div>
+            <div class="card-title">SOP：额度与模型选择</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <p><span class="tag tag-neutral">适用场景</span> 控制额度消耗、在速度和智能之间做选择。</p>
+            <table class="data-table">
+              <tr><th>任务类型</th><th>推荐设置</th></tr>
+              <tr><td>普通整理、改文案、查文件</td><td>标准速度，中等智能</td></tr>
+              <tr><td>大型重构、复杂排错、架构设计、跨文件修改</td><td><span class="tag tag-accent">高智能</span></td></tr>
+              <tr><td>赶时间且任务明确</td><td>快速模式（额度消耗更高）</td></tr>
+              <tr><td>不确定时</td><td>先用默认模型，出问题再提高智能程度</td></tr>
+            </table>
+            <h4>省额度核心方法</h4>
+            <ul class="checklist">
+              <li>先让它读目录并给计划，再改</li>
+              <li>先让它列出影响文件，再执行</li>
+              <li>先让它跑最小验证，再做大范围任务</li>
+              <li>图片、视频、大文件处理前先抽样</li>
+            </ul>
+            <p><strong>查看额度：</strong>左下角设置里找"剩余额度"，或在对话框输入斜杠命令找"状态"。</p>
+          </div></div>
+        </div>
+
+        <div class="card">
+          <button class="card-header">
+            <div class="card-icon accent">📝</div>
+            <div class="card-title">SOP：AGENTS.md 和 Memory</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <p><span class="tag tag-neutral">适用场景</span> 让 Codex 长期记住你的偏好和项目规则。</p>
+            <h4>三种记忆方式对比</h4>
+            <table class="data-table">
+              <tr><th>类型</th><th>作用范围</th><th>适合写什么</th><th>入口</th></tr>
+              <tr><td>全局 AGENTS.md</td><td>所有项目</td><td>长期偏好：语言、先给结论、不要删文件等</td><td>设置 > 个性化 > 自定义指令</td></tr>
+              <tr><td>项目级 AGENTS.md</td><td>当前项目</td><td>项目目标、目录说明、运行命令、代码风格、禁区</td><td>项目根目录 `AGENTS.md`</td></tr>
+              <tr><td>自动 Memory</td><td>跨线程自动召回</td><td>对话中自然沉淀的可复用信息</td><td>设置 > 个性化 > 记忆</td></tr>
+            </table>
+            <h4>项目级 AGENTS.md 生成方法</h4>
+            <div class="template-block">
+              <div class="template-header"><span class="template-label">生成项目 AGENTS.md</span><button class="copy-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制</button></div>
+              <pre>请阅读当前项目结构和 README，生成一份项目级 AGENTS.md。内容包括项目目标、目录说明、运行命令、测试命令、代码风格、禁止修改的路径、交付前验证要求。先给草稿，等我确认后再写入文件。</pre>
+            </div>
+            <h4>最佳实践</h4>
+            <ul class="checklist">
+              <li>明确、稳定、重要的规则，优先写进 AGENTS.md</li>
+              <li>不要只靠自动记忆，它可能记不全</li>
+              <li>共享知识库（纯文本文件夹）比锁在某个线程里更稳</li>
+            </ul>
+          </div></div>
+        </div>
+
+        <div class="card">
+          <button class="card-header">
+            <div class="card-icon warning">🗺️</div>
+            <div class="card-title">SOP：大型任务不跑偏（计划模式 / Fork / 干预 / 排队）</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <p><span class="tag tag-neutral">适用场景</span> 从零做网站、重构项目、整理几十份资料、做 PPT、写自动化工作流。</p>
+            <div class="steps">
+              <div class="step">
+                <div class="step-content">
+                  <h4>打开计划模式</h4>
+                  <p>复杂任务不要直接执行。推荐流程：选项目文件夹 → 打开计划模式 → 描述目标 → 回答关键问题 → 检查计划 → 补充约束 → 执行 → 中途干预 → 验收。</p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-content">
+                  <h4>任务干预</h4>
+                  <p>执行中途可以直接补充指令。Codex 不会立即打断当前工具调用，但会在下次合适节点吸收。</p>
+                  <div class="template-block">
+                    <div class="template-header"><span class="template-label">干预示例</span><button class="copy-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制</button></div>
+                    <pre>刚才的视觉方向太商务了，请改成更像独立创作者主页，减少营销感。</pre>
+                  </div>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-content">
+                  <h4>任务排队</h4>
+                  <p>不打断当前任务，安排下一步：</p>
+                  <div class="template-block">
+                    <div class="template-header"><span class="template-label">排队示例</span><button class="copy-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制</button></div>
+                    <pre>等当前页面做好后，请启动本地预览，截图检查移动端和桌面端，再修明显布局问题。</pre>
+                  </div>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-content">
+                  <h4>Fork 分支</h4>
+                  <p>每个 AI 回复下面可能有 Fork。适合：前面聊得很好后面跑偏了、想试另一个方案但不想污染主线、想从某个历史节点重新开始。</p>
+                </div>
+              </div>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="card">
+          <button class="card-header">
+            <div class="card-icon accent">🌐</div>
+            <div class="card-title">SOP：浏览器与插件</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <p><span class="tag tag-neutral">适用场景</span> 预览网页、测试按钮、操作外部网站、部署上线。</p>
+            <table class="data-table">
+              <tr><th>插件</th><th>用途</th><th>选择规则</th></tr>
+              <tr><td>Browser</td><td>应用内浏览器自动化</td><td><span class="tag tag-success">本地网页测试首选</span></td></tr>
+              <tr><td>Chrome</td><td>使用你真实 Chrome 登录态</td><td>Gmail、公司后台、已登录网站</td></tr>
+              <tr><td>Computer Use</td><td>操作桌面图形界面</td><td>浏览器解决不了、必须操作桌面 App</td></tr>
+              <tr><td>Vercel / Netlify</td><td>部署网站</td><td>前端上线、预览环境</td></tr>
+              <tr><td>GitHub</td><td>处理仓库、PR、Issue</td><td>代码协作、审查、发布</td></tr>
+            </table>
+            <h4>网页预览 SOP</h4>
+            <div class="template-block">
+              <div class="template-header"><span class="template-label">推荐提示词</span><button class="copy-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制</button></div>
+              <pre>请启动本地开发服务器，在 Codex 侧边栏打开预览。检查桌面端和手机端布局，发现问题直接修。</pre>
+            </div>
+            <h4>一键部署</h4>
+            <div class="template-block">
+              <div class="template-header"><span class="template-label">部署提示词</span><button class="copy-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制</button></div>
+              <pre>请使用 Netlify 插件把当前个人主页部署上线。先检查项目构建方式，说明会创建什么站点和预览链接，部署后验证链接能访问。</pre>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="card">
+          <button class="card-header">
+            <div class="card-icon accent">🧩</div>
+            <div class="card-title">SOP：Skill / MCP / 自动化 / Goals</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <p><span class="tag tag-neutral">适用场景</span> 沉淀重复工作流、连接外部工具、定时任务、长期目标追踪。</p>
+            <h4>Skill 创建流程</h4>
+            <div class="steps">
+              <div class="step">
+                <div class="step-content">
+                  <h4>先跑通真实流程</h4>
+                  <p>不要一上来就闭门造 Skill。先让真实流程证明它有用。</p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-content">
+                  <h4>再沉淀为 Skill</h4>
+                  <div class="template-block">
+                    <div class="template-header"><span class="template-label">沉淀 Skill</span><button class="copy-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制</button></div>
+                    <pre>请把以上流程整理成一个可复用 Skill。要求包括触发场景、输入要求、执行步骤、质量标准、输出格式、失败处理和示例提示词。</pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <h4>MCP 安装流程</h4>
+            <ol class="checklist">
+              <li>给官方链接</li>
+              <li>让 Codex 阅读 README</li>
+              <li>让它说明权限和风险</li>
+              <li>安装</li>
+              <li>重启或授权</li>
+              <li>在设置里确认 MCP 服务器状态</li>
+              <li>做一个最小调用测试</li>
+            </ol>
+            <h4>自动化创建要点</h4>
+            <ul class="checklist">
+              <li>什么时候运行</li>
+              <li>在哪个项目或文件夹运行</li>
+              <li>使用什么输入源</li>
+              <li>产出什么格式</li>
+              <li>是否允许发布、发消息、改线上内容</li>
+              <li>失败时怎么报告</li>
+            </ul>
+            <span class="step-tag warning">新手建议自动化只"生成草稿"和"提醒确认"，不要自动发布/发送/改生产环境</span>
+            <h4>Goals 标准写法</h4>
+            <div class="template-block">
+              <div class="template-header"><span class="template-label">好的 Goal 示例</span><button class="copy-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制</button></div>
+              <pre>把这个 Python 工具迁移到 Rust。完成标准：所有现有单元测试通过；CLI 参数兼容旧版本；README 更新迁移说明；性能基准不低于旧版本。每完成一个阶段报告一次，不要删除旧实现，直到我确认。</pre>
+            </div>
+          </div></div>
+        </div>
+      </section>
+
+      <!-- ===== C. 问题排查中心 ===== -->
+      <section class="section" id="troubleshooting">
+        <h2 class="section-title">问题排查中心</h2>
+        <p class="section-desc">以"我遇到了什么问题"为入口。每个问题包含：现象、优先检查项、标准处理步骤、推荐提示词、风险提醒。</p>
+
+        <div class="card">
+          <button class="card-header">
+            <div class="card-icon danger">❓</div>
+            <div class="card-title">Codex 不知道项目怎么运行</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <p><strong>现象：</strong>Codex 给出的项目理解有误，或找不到入口文件、构建命令。</p>
+            <h4>优先检查项</h4>
+            <ul class="checklist">
+              <li>项目里是否有 README？是否包含运行/构建命令？</li>
+              <li>package.json / pyproject.toml / Cargo.toml 等配置文件是否存在？</li>
+              <li>Codex 是否真的读了全部关键文件？</li>
+            </ul>
+            <h4>标准处理步骤</h4>
+            <div class="steps">
+              <div class="step">
+                <div class="step-content">
+                  <h4>让 Codex 重新扫描</h4>
+                  <div class="template-block">
+                    <div class="template-header"><span class="template-label">推荐提示词</span><button class="copy-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制</button></div>
+                    <pre>请重新读取项目根目录下的 README 和所有配置文件（package.json / pyproject.toml 等），列出：1）项目类型和用途；2）安装依赖的命令；3）启动/构建/测试命令；4）入口文件位置。如果有任何信息缺失，明确告诉我。</pre>
+                  </div>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-content">
+                  <h4>补全信息</h4>
+                  <p>手动告诉 Codex 正确的入口、命令或特殊构建流程。</p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-content">
+                  <h4>写入 AGENTS.md</h4>
+                  <p>把确认后的项目信息写入项目级 AGENTS.md，避免下次重复解释。</p>
+                </div>
+              </div>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="card">
+          <button class="card-header">
+            <div class="card-icon danger">📝</div>
+            <div class="card-title">Codex 想改太多文件</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <p><strong>现象：</strong>你只想改一个功能，Codex 却计划修改十几个文件，甚至重构整个项目。</p>
+            <h4>标准处理步骤</h4>
+            <div class="template-block">
+              <div class="template-header"><span class="template-label">限制改动范围</span><button class="copy-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制</button></div>
+              <pre>请只修改实现这个需求所必需的文件。先列出你计划改动的文件清单和每个文件的改动原因，等我确认后再执行。不要重构无关代码。</pre>
+            </div>
+            <ul class="checklist">
+              <li>明确要求"先列出影响文件，再执行"</li>
+              <li>指定"只改必要文件，不要顺便优化"</li>
+              <li>如果已跑偏，用 Fork 回到之前的好节点</li>
+            </ul>
+          </div></div>
+        </div>
+
+        <div class="card">
+          <button class="card-header">
+            <div class="card-icon warning">🔐</div>
+            <div class="card-title">权限申请看不懂</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <p><strong>现象：</strong>Codex 弹出一个权限申请，你不确定批准是否安全。</p>
+            <h4>标准处理步骤</h4>
+            <div class="steps">
+              <div class="step">
+                <div class="step-content">
+                  <h4>不要立即批准</h4>
+                  <p>让它解释命令用途、影响路径、回滚方案。</p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-content">
+                  <h4>要求解释</h4>
+                  <div class="template-block">
+                    <div class="template-header"><span class="template-label">推荐提示词</span><button class="copy-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制</button></div>
+                    <pre>请解释这个权限申请的具体用途、会影响哪些文件/目录、如果不批准有什么替代方案、执行后如何回滚。</pre>
+                  </div>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-content">
+                  <h4>高风险操作必须人工确认</h4>
+                  <p>删除、覆盖、发布、付款、发消息、改生产环境、系统级修改，必须看清楚再批。</p>
+                </div>
+              </div>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="card">
+          <button class="card-header">
+            <div class="card-icon danger">❌</div>
+            <div class="card-title">安装工具失败</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <p><strong>现象：</strong>Codex 尝试安装工具但报错，或装完后不可用。</p>
+            <h4>优先检查项</h4>
+            <ul class="checklist">
+              <li>网络是否正常？（部分地区需代理）</li>
+              <li>是否已有冲突版本？</li>
+              <li>是否需要管理员权限？</li>
+              <li>安装路径是否在环境变量中？</li>
+            </ul>
+            <h4>标准处理步骤</h4>
+            <div class="template-block">
+              <div class="template-header"><span class="template-label">排查安装失败</span><button class="copy-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制</button></div>
+              <pre>安装失败了。请分析报错信息，判断是网络、权限、版本冲突还是路径问题。给出明确的修复步骤，修复后再次验证安装是否成功。</pre>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="card">
+          <button class="card-header">
+            <div class="card-icon warning">🧠</div>
+            <div class="card-title">上下文快满或开始遗忘</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <p><strong>现象：</strong>Codex 开始反复遗漏前面约定，或提示上下文接近上限。</p>
+            <h4>标准处理步骤</h4>
+            <div class="steps">
+              <div class="step">
+                <div class="step-content">
+                  <h4>保存关键信息</h4>
+                  <div class="template-block">
+                    <div class="template-header"><span class="template-label">保存后压缩</span><button class="copy-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制</button></div>
+                    <pre>请先把当前任务的关键决策、文件路径、未完成事项、验证结果整理成一段 compact summary，然后再压缩上下文。</pre>
+                  </div>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-content">
+                  <h4>执行压缩</h4>
+                  <p>输入 <code>/压缩</code> 或让 Codex 压缩上下文。</p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-content">
+                  <h4>长期信息写入 AGENTS.md</h4>
+                  <p>重要的规则、约定、项目信息不要只靠上下文，写进 AGENTS.md 更稳。</p>
+                </div>
+              </div>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="card">
+          <button class="card-header">
+            <div class="card-icon warning">💸</div>
+            <div class="card-title">额度消耗太快</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <p><strong>现象：</strong>额度在短时间内大幅下降，或 Codex 反复做无用功。</p>
+            <h4>标准处理步骤</h4>
+            <ul class="checklist">
+              <li>先让它读目录并给计划，再改</li>
+              <li>先让它列出影响文件，再执行</li>
+              <li>先让它跑最小验证，再做大范围任务</li>
+              <li>图片、视频、大文件处理前先抽样</li>
+              <li>避免在同一个跑偏的线程里死磕，用 Fork 分支</li>
+              <li>不需要保留的中间过程，及时压缩上下文</li>
+            </ul>
+          </div></div>
+        </div>
+
+        <div class="card">
+          <button class="card-header">
+            <div class="card-icon danger">🌐</div>
+            <div class="card-title">网页预览或浏览器测试不工作</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <p><strong>现象：</strong>侧边栏预览空白、端口冲突、Browser 插件无法打开页面。</p>
+            <h4>优先检查项</h4>
+            <ul class="checklist">
+              <li>本地服务器是否真的启动了？</li>
+              <li>端口是否被占用？</li>
+              <li>文件路径是否正确？</li>
+              <li>浏览器插件是否已安装并启用？</li>
+            </ul>
+            <div class="template-block">
+              <div class="template-header"><span class="template-label">排查预览问题</span><button class="copy-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制</button></div>
+              <pre>网页预览不工作。请检查：1）本地服务器状态；2）端口占用情况；3）文件路径是否正确；4）Browser 插件状态。给出具体原因和修复步骤。</pre>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="card">
+          <button class="card-header">
+            <div class="card-icon warning">🔍</div>
+            <div class="card-title">不知道该用 Browser、Chrome 还是 Computer Use</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <table class="data-table">
+              <tr><th>场景</th><th>推荐</th><th>原因</th></tr>
+              <tr><td>本地网页测试、公开网页、无登录态</td><td><span class="tag tag-success">Browser</span></td><td>应用内浏览器，轻量安全</td></tr>
+              <tr><td>Gmail、公司后台、已登录网站</td><td><span class="tag tag-accent">Chrome</span></td><td>使用真实登录态</td></tr>
+              <tr><td>浏览器解决不了、必须操作桌面 App</td><td><span class="tag tag-warning">Computer Use</span></td><td>图形界面自动化，风险更高</td></tr>
+            </table>
+            <p><strong>决策口诀：</strong>能 Browser 不 Chrome，能 Chrome 不 Computer Use。</p>
+          </div></div>
+        </div>
+
+        <div class="card">
+          <button class="card-header">
+            <div class="card-icon warning">🧩</div>
+            <div class="card-title">不知道该用 Skill、MCP、自动化还是 Goals</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <table class="data-table">
+              <tr><th>需求</th><th>推荐</th></tr>
+              <tr><td>重复工作流沉淀、固定输出格式</td><td><span class="tag tag-success">Skill</span></td></tr>
+              <tr><td>连接外部工具/数据库/知识库</td><td><span class="tag tag-accent">MCP</span></td></tr>
+              <tr><td>定时执行、日报/周报/例行检查</td><td><span class="tag tag-warning">自动化</span></td></tr>
+              <tr><td>长期任务、明确完成标准、需持续追踪</td><td><span class="tag tag-neutral">Goals</span></td></tr>
+            </table>
+            <p><strong>核心区别：</strong>Skill = 怎么做（流程模板）；MCP = 连什么（外部接口）；自动化 = 什么时候做（定时触发）；Goals = 做到什么程度（完成标准）。</p>
+          </div></div>
+        </div>
+
+        <div class="card">
+          <button class="card-header">
+            <div class="card-icon danger">⚠️</div>
+            <div class="card-title">自动化任务怕误发、误改或不可控</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <p><strong>现象：</strong>担心自动化任务自动发布内容、发送消息、修改生产环境。</p>
+            <h4>安全模板</h4>
+            <div class="template-block">
+              <div class="template-header"><span class="template-label">安全的自动化创建方式</span><button class="copy-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制</button></div>
+              <pre>请创建一个自动化任务：&lt;频率和时间&gt;，在 &lt;项目/目录&gt; 中执行 &lt;任务&gt;。输出 &lt;格式&gt; 到 &lt;位置&gt;。只生成草稿，不自动发布或发送。失败时在当前线程报告原因和下一步建议。</pre>
+            </div>
+            <h4>安全原则</h4>
+            <ul class="checklist">
+              <li>自动化只"生成草稿"和"提醒确认"</li>
+              <li>不要一开始就自动发布、自动发送、自动改生产环境</li>
+              <li>明确失败时的报告方式和位置</li>
+              <li>定期检查自动化任务的执行记录</li>
+            </ul>
+          </div></div>
+        </div>
+      </section>
+
+      <!-- ===== D. 可复制模板库 ===== -->
+      <section class="section" id="templates">
+        <h2 class="section-title">可复制模板库</h2>
+        <p class="section-desc">每个模板都有复制按钮，并标注"什么时候用 / 要替换哪些变量 / 输出应该长什么样"。</p>
+
+        <div class="card">
+          <button class="card-header">
+            <div class="card-icon accent">📖</div>
+            <div class="card-title">读项目模板</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <p><span class="tag tag-neutral">什么时候用</span> 首次接触项目，或需要 Codex 在修改前理解全貌。</p>
+            <p><span class="tag tag-neutral">替换变量</span> 无。直接复制使用。</p>
+            <p><span class="tag tag-neutral">输出预期</span> 项目说明、核心目录、关键文件、运行命令、建议起点。</p>
+            <div class="template-block">
+              <div class="template-header"><span class="template-label">复制模板</span><button class="copy-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制</button></div>
+              <pre>请先不要修改任何文件。读取当前项目结构，告诉我：
+1. 这个项目是做什么的；
+2. 核心目录和关键文件；
+3. 运行、测试、构建命令；
+4. 你建议我从哪里开始。</pre>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="card">
+          <button class="card-header">
+            <div class="card-icon accent">🛠️</div>
+            <div class="card-title">安装环境模板</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <p><span class="tag tag-neutral">什么时候用</span> 新项目开始、换电脑、环境缺失。</p>
+            <p><span class="tag tag-neutral">替换变量</span> 把"完成这个项目所需环境"替换为具体工具名。</p>
+            <p><span class="tag tag-neutral">输出预期</span> 现状清单、缺失项、安装计划、验证结果。</p>
+            <div class="template-block">
+              <div class="template-header"><span class="template-label">复制模板</span><button class="copy-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制</button></div>
+              <pre>请检查当前电脑是否已具备完成这个项目所需环境。先列出现状和缺失项，再给安装计划。涉及系统级修改、管理员权限、删除文件、修改 shell 配置前必须问我。安装完成后验证版本和最小运行示例。</pre>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="card">
+          <button class="card-header">
+            <div class="card-icon accent">✏️</div>
+            <div class="card-title">修改代码模板</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <p><span class="tag tag-neutral">什么时候用</span> 让 Codex 实现新功能、修复 bug、修改现有代码。</p>
+            <p><span class="tag tag-neutral">替换变量</span> 把 <code>&lt;需求&gt;</code> 替换为你的具体需求。</p>
+            <p><span class="tag tag-neutral">输出预期</span> 简短方案、修改文件列表、测试验证结果、未验证项说明。</p>
+            <div class="template-block">
+              <div class="template-header"><span class="template-label">复制模板</span><button class="copy-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制</button></div>
+              <pre>请实现这个需求：&lt;需求&gt;。
+要求：
+1. 先阅读相关文件、调用方和测试；
+2. 给出简短方案；
+3. 只改必要文件；
+4. 改完运行相关测试或最小验证；
+5. 最后说明改了什么、验证了什么、还有什么没验证。</pre>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="card">
+          <button class="card-header">
+            <div class="card-icon accent">🗂️</div>
+            <div class="card-title">整理资料模板</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <p><span class="tag tag-neutral">什么时候用</span> 整理 Markdown、会议记录、学习笔记、调研资料。</p>
+            <p><span class="tag tag-neutral">替换变量</span> 无。如需指定输出位置，补充说明。</p>
+            <p><span class="tag tag-neutral">输出预期</span> 结构化 Markdown + 整理报告，原文件不动。</p>
+            <div class="template-block">
+              <div class="template-header"><span class="template-label">复制模板</span><button class="copy-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制</button></div>
+              <pre>请整理这个文件夹里的资料，生成一份结构化 Markdown。要求：
+1. 不遗漏任何独特知识点；
+2. 重复内容合并；
+3. 冲突信息标出来；
+4. 保留来源文件名；
+5. 输出一份正式稿和一份整理报告。</pre>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="card">
+          <button class="card-header">
+            <div class="card-icon accent">🌐</div>
+            <div class="card-title">网页制作模板</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <p><span class="tag tag-neutral">什么时候用</span> 从零做一个网页、Landing Page、个人主页。</p>
+            <p><span class="tag tag-neutral">替换变量</span> 把 <code>&lt;主题&gt;</code> 替换为具体网页主题。</p>
+            <p><span class="tag tag-neutral">输出预期</span> 计划确认、代码、本地预览、移动端检查。</p>
+            <div class="template-block">
+              <div class="template-header"><span class="template-label">复制模板</span><button class="copy-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制</button></div>
+              <pre>请从零做一个 &lt;主题&gt; 网页。先用计划模式问我必要问题，再生成实施计划。确认后再写代码。完成后启动本地预览，检查桌面端和移动端，修复明显布局问题。</pre>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="card">
+          <button class="card-header">
+            <div class="card-icon accent">🧩</div>
+            <div class="card-title">创建 Skill 模板</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <p><span class="tag tag-neutral">什么时候用</span> 把跑通的工作流沉淀为可复用 Skill。</p>
+            <p><span class="tag tag-neutral">替换变量</span> 无。在跑通流程后直接使用。</p>
+            <p><span class="tag tag-neutral">输出预期</span> Skill 草稿（场景、输入、步骤、标准、格式、失败处理）。</p>
+            <div class="template-block">
+              <div class="template-header"><span class="template-label">复制模板</span><button class="copy-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制</button></div>
+              <pre>请把我们刚才跑通的流程沉淀成一个 Skill。包括：适用场景、触发关键词、输入要求、执行步骤、质量标准、输出格式、失败处理和示例提示词。先给草稿，等我确认后再写入技能目录。</pre>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="card">
+          <button class="card-header">
+            <div class="card-icon accent">⏰</div>
+            <div class="card-title">创建自动化模板</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <p><span class="tag tag-neutral">什么时候用</span> 定时任务、日报/周报、例行检查。</p>
+            <p><span class="tag tag-neutral">替换变量</span> <code>&lt;频率&gt;</code> <code>&lt;项目&gt;</code> <code>&lt;任务&gt;</code> <code>&lt;格式&gt;</code> <code>&lt;位置&gt;</code></p>
+            <p><span class="tag tag-neutral">输出预期</span> 自动化配置，只生成草稿不自动发布。</p>
+            <div class="template-block">
+              <div class="template-header"><span class="template-label">复制模板</span><button class="copy-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制</button></div>
+              <pre>请创建一个自动化任务：&lt;频率和时间&gt;，在 &lt;项目/目录&gt; 中执行 &lt;任务&gt;。输出 &lt;格式&gt; 到 &lt;位置&gt;。只生成草稿，不自动发布或发送。失败时在当前线程报告原因和下一步建议。</pre>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="card">
+          <button class="card-header">
+            <div class="card-icon accent">📝</div>
+            <div class="card-title">写 AGENTS.md 模板</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <p><span class="tag tag-neutral">什么时候用</span> 新项目初始化、规则沉淀。</p>
+            <p><span class="tag tag-neutral">替换变量</span> 无。让 Codex 根据项目自动生成。</p>
+            <p><span class="tag tag-neutral">输出预期</span> AGENTS.md 草稿，包含项目说明、命令、风格、禁区、验证要求。</p>
+            <div class="template-block">
+              <div class="template-header"><span class="template-label">复制模板</span><button class="copy-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制</button></div>
+              <pre>请阅读当前项目结构和 README，生成一份项目级 AGENTS.md。内容包括项目目标、目录说明、运行命令、测试命令、代码风格、禁止修改的路径、交付前验证要求。先给草稿，等我确认后再写入文件。</pre>
+            </div>
+          </div></div>
+        </div>
+      </section>
+
+      <!-- ===== E. 最佳实践与安全边界 ===== -->
+      <section class="section" id="best-practices">
+        <h2 class="section-title">最佳实践与安全边界</h2>
+        <p class="section-desc">权限选择、人工确认清单、好任务描述结构、验收标准、流程沉淀方法。</p>
+
+        <div class="card expanded">
+          <button class="card-header">
+            <div class="card-icon success">🔐</div>
+            <div class="card-title">新手推荐权限选择</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <p><span class="tag tag-success">首选：自动审查</span> 减少频繁打断，又不会把危险操作完全放开。</p>
+            <p>涉及以下操作时，仍然要认真看权限说明：</p>
+            <ul class="warnlist">
+              <li>删除文件或大范围移动文件</li>
+              <li>安装系统级工具或改环境变量</li>
+              <li>访问隐私目录（下载、文档、钥匙串等）</li>
+              <li>修改 shell 配置文件（.bashrc / .zshrc 等）</li>
+            </ul>
+          </div></div>
+        </div>
+
+        <div class="card">
+          <button class="card-header">
+            <div class="card-icon danger">🛑</div>
+            <div class="card-title">哪些动作必须人工确认</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <table class="data-table">
+              <tr><th>动作</th><th>风险</th><th>确认要点</th></tr>
+              <tr><td>删除文件/目录</td><td>数据丢失</td><td>确认路径、是否有备份</td></tr>
+              <tr><td>覆盖已有文件</td><td>丢失旧版本</td><td>确认是否可覆盖、是否需备份</td></tr>
+              <tr><td>发布/部署</td><td>影响线上用户</td><td>确认目标环境、回滚方案</td></tr>
+              <tr><td>付款/订阅</td><td>财务损失</td><td><span class="tag tag-danger">永远不要批准</span></td></tr>
+              <tr><td>发送消息/邮件</td><td>对外沟通风险</td><td>确认收件人、内容、时机</td></tr>
+              <tr><td>改生产环境</td><td>服务中断</td><td>确认变更窗口、回滚方案</td></tr>
+              <tr><td>系统级修改</td><td>系统不稳定</td><td>确认影响范围、是否有替代方案</td></tr>
+            </table>
+          </div></div>
+        </div>
+
+        <div class="card">
+          <button class="card-header">
+            <div class="card-icon accent">🎯</div>
+            <div class="card-title">好任务描述的结构</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <p>一个有效的任务描述应该包含四个部分：</p>
+            <div class="steps">
+              <div class="step">
+                <div class="step-content">
+                  <h4>目标（Goal）</h4>
+                  <p>你要完成什么。用一句话说清楚最终产物是什么。</p>
+                  <p class="text-muted text-sm">❌ "帮我看看这个代码" → ✅ "把这个函数的报错处理改成返回 Result 类型"</p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-content">
+                  <h4>上下文（Context）</h4>
+                  <p>相关文件、技术栈、约束条件。让 Codex 知道在哪里工作。</p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-content">
+                  <h4>边界（Boundary）</h4>
+                  <p>不要做什么、只改哪些文件、不改哪些文件、不允许的行为。</p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-content">
+                  <h4>验收标准（Acceptance）</h4>
+                  <p>怎么算完成？测试通过？预览正常？文档更新？</p>
+                </div>
+              </div>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="card">
+          <button class="card-header">
+            <div class="card-icon success">✅</div>
+            <div class="card-title">验收标准速查</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <table class="data-table">
+              <tr><th>任务类型</th><th>验收方式</th></tr>
+              <tr><td>代码修改</td><td>跑测试、最小验证、检查 diff</td></tr>
+              <tr><td>网页制作</td><td>本地预览、检查移动端、检查交互</td></tr>
+              <tr><td>文档整理</td><td>查结构完整性、样本抽查、来源追溯</td></tr>
+              <tr><td>数据处理</td><td>看样本、统计行数/字段、抽查异常值</td></tr>
+              <tr><td>环境安装</td><td>版本验证、最小示例运行</td></tr>
+            </table>
+            <p class="mt-4"><strong>核心原则：</strong>不要只看 Codex 说"完成了"，要看实际产物。</p>
+          </div></div>
+        </div>
+
+        <div class="card">
+          <button class="card-header">
+            <div class="card-icon accent">💾</div>
+            <div class="card-title">如何把成功流程沉淀下来</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <div class="steps">
+              <div class="step">
+                <div class="step-content">
+                  <h4>一次有效执行</h4>
+                  <p>先确保流程在真实任务中跑通了。</p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-content">
+                  <h4>提取通用部分</h4>
+                  <p>去掉项目特有内容，保留可复用的步骤、标准、提示词。</p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-content">
+                  <h4>选择沉淀形式</h4>
+                  <table class="data-table">
+                    <tr><th>形式</th><th>适合</th></tr>
+                    <tr><td>AGENTS.md</td><td>项目级规则、长期约束</td></tr>
+                    <tr><td>Skill</td><td>可复用工作流、固定输出格式</td></tr>
+                    <tr><td>自动化</td><td>定时触发、例行任务</td></tr>
+                    <tr><td>共享知识库</td><td>人员、项目、决策等长期信息</td></tr>
+                  </table>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-content">
+                  <h4>验证沉淀效果</h4>
+                  <p>在新项目或新线程中测试，确认 Codex 能按沉淀的规则正确执行。</p>
+                </div>
+              </div>
+            </div>
+          </div></div>
+        </div>
+      </section>
+
+      <!-- ===== F. 决策树与对比表 ===== -->
+      <section class="section" id="decisions">
+        <h2 class="section-title">决策树与对比表</h2>
+        <p class="section-desc">快速判断该用什么工具、什么模式、什么权限。</p>
+
+        <div class="card expanded">
+          <button class="card-header">
+            <div class="card-icon accent">🌐</div>
+            <div class="card-title">Browser vs Chrome vs Computer Use</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <div class="decision-flow">
+              <div class="decision-node">
+                <div class="decision-question">你需要操作网页还是桌面 App？</div>
+              </div>
+              <div class="decision-branch">
+                <div class="branch-item"><strong>网页操作：</strong>继续下一个问题</div>
+                <div class="branch-item"><strong>桌面 App 操作：</strong>→ <span class="tag tag-warning">Computer Use</span>（风险最高，授权前看清范围）</div>
+              </div>
+              <div class="decision-node" style="margin-top:12px;">
+                <div class="decision-question">这个网页需要你的登录态吗？</div>
+              </div>
+              <div class="decision-branch">
+                <div class="branch-item"><strong>不需要（公开页面 / 本地预览）：</strong>→ <span class="tag tag-success">Browser</span>（首选，轻量安全）</div>
+                <div class="branch-item"><strong>需要（Gmail / 公司后台）：</strong>→ <span class="tag tag-accent">Chrome</span>（使用真实登录态）</div>
+              </div>
+            </div>
+            <table class="data-table mt-4">
+              <tr><th>维度</th><th>Browser</th><th>Chrome</th><th>Computer Use</th></tr>
+              <tr><td>登录态</td><td>无</td><td>你的真实 Chrome</td><td>不适用</td></tr>
+              <tr><td>速度</td><td>快</td><td>中</td><td>慢</td></tr>
+              <tr><td>风险</td><td>低</td><td>中</td><td>高</td></tr>
+              <tr><td>典型场景</td><td>本地预览、公开网页测试</td><td>已登录网站操作</td><td>无 API 的桌面 App</td></tr>
+            </table>
+          </div></div>
+        </div>
+
+        <div class="card">
+          <button class="card-header">
+            <div class="card-icon accent">📝</div>
+            <div class="card-title">AGENTS.md vs Memory vs 共享知识库</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <table class="data-table">
+              <tr><th>维度</th><th>AGENTS.md</th><th>自动 Memory</th><th>共享知识库</th></tr>
+              <tr><td>稳定性</td><td><span class="tag tag-success">高</span>（文件级，不会丢）</td><td><span class="tag tag-warning">中</span>（可能记不全）</td><td><span class="tag tag-success">高</span>（纯文本，长期保存）</td></tr>
+              <tr><td>更新方式</td><td>手动编辑或让 Codex 改</td><td>自动总结</td><td>手动或按规则写入</td></tr>
+              <tr><td>适合内容</td><td>规则、偏好、禁区、命令</td><td>可复用的上下文信息</td><td>人员、项目、决策、待办</td></tr>
+              <tr><td>召回方式</td><td>每次对话自动加载</td><td>关键词匹配自动召回</td><td>Codex 按需读取</td></tr>
+              <tr><td>推荐策略</td><td>重要规则写这里</td><td>辅助记忆，不依赖</td><td>长期项目信息存这里</td></tr>
+            </table>
+          </div></div>
+        </div>
+
+        <div class="card">
+          <button class="card-header">
+            <div class="card-icon accent">🧩</div>
+            <div class="card-title">Skill vs MCP vs 自动化 vs Goals</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <div class="decision-flow">
+              <div class="decision-node">
+                <div class="decision-question">你的核心需求是什么？</div>
+              </div>
+              <div class="decision-branch">
+                <div class="branch-item"><strong>重复工作流、固定输出格式：</strong>→ <span class="tag tag-success">Skill</span></div>
+                <div class="branch-item"><strong>连接外部工具/数据库/知识库：</strong>→ <span class="tag tag-accent">MCP</span></div>
+                <div class="branch-item"><strong>定时执行、例行任务：</strong>→ <span class="tag tag-warning">自动化</span></div>
+                <div class="branch-item"><strong>长期任务、明确完成标准：</strong>→ <span class="tag tag-neutral">Goals</span></div>
+              </div>
+            </div>
+            <table class="data-table mt-4">
+              <tr><th>维度</th><th>Skill</th><th>MCP</th><th>自动化</th><th>Goals</th></tr>
+              <tr><td>触发方式</td><td>关键词/手动调用</td><td>对话中按需调用</td><td>定时触发</td><td>持续追踪直到完成</td></tr>
+              <tr><td>核心能力</td><td>流程模板</td><td>外部接口连接</td><td>定时执行</td><td>验证驱动</td></tr>
+              <tr><td>创建难度</td><td>低（先跑通再沉淀）</td><td>中（给官方链接）</td><td>低</td><td>中（需定义验证器）</td></tr>
+              <tr><td>使用频率</td><td>每次类似任务</td><td>需要外部数据时</td><td>按设定周期</td><td>长期项目</td></tr>
+            </table>
+          </div></div>
+        </div>
+
+        <div class="card">
+          <button class="card-header">
+            <div class="card-icon accent">🗺️</div>
+            <div class="card-title">计划模式 vs 直接执行</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <table class="data-table">
+              <tr><th>场景</th><th>推荐</th><th>原因</th></tr>
+              <tr><td>改一个函数、修一个 bug</td><td>直接执行</td><td>范围明确，计划模式反而慢</td></tr>
+              <tr><td>从零做网站、重构项目</td><td><span class="tag tag-success">计划模式</span></td><td>范围大，需要先对齐方向</td></tr>
+              <tr><td>整理几十份资料</td><td><span class="tag tag-success">计划模式</span></td><td>步骤多，需要阶段规划</td></tr>
+              <tr><td>安装复杂环境</td><td><span class="tag tag-success">计划模式</span></td><td>依赖多，失败需要回退策略</td></tr>
+            </table>
+            <p class="mt-4"><strong>经验法则：</strong>如果任务超过 3 个步骤，或失败代价高，就用计划模式。</p>
+          </div></div>
+        </div>
+
+        <div class="card">
+          <button class="card-header">
+            <div class="card-icon accent">🔐</div>
+            <div class="card-title">默认权限 vs 自动审查 vs 完全访问</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <table class="data-table">
+              <tr><th>权限</th><th>自动执行范围</th><th>需要申请的操作</th><th>推荐人群</th></tr>
+              <tr><td>默认权限</td><td>项目内文件读写</td><td>外部文件、敏感命令</td><td>保守用户</td></tr>
+              <tr><td><span class="tag tag-success">自动审查</span></td><td>低风险操作自动执行</td><td>高风险操作仍需申请</td><td><span class="tag tag-success">新手首选</span></td></tr>
+              <tr><td>完全访问</td><td>几乎所有操作</td><td>极少</td><td>高级用户，需理解风险</td></tr>
+            </table>
+            <p class="mt-4"><strong>建议：</strong>从自动审查开始。熟悉 Codex 的行为模式后，再根据任务类型调整。</p>
+          </div></div>
+        </div>
+      </section>
+
+      <!-- ===== G. 7 天练习路线 ===== -->
+      <section class="section" id="roadmap">
+        <h2 class="section-title">7 天练习路线</h2>
+        <p class="section-desc">可执行训练计划。每天包含：目标、操作、推荐提示词、完成标准。</p>
+
+        <div class="day-card">
+          <div class="day-header">
+            <div class="day-number">1</div>
+            <div>
+              <div class="day-title">熟悉界面和项目</div>
+              <div class="day-goal">目标：会打开 Codex、会创建/进入项目、会让 Codex 只读分析。</div>
+            </div>
+          </div>
+          <div class="template-block">
+            <div class="template-header"><span class="template-label">推荐提示词</span><button class="copy-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制</button></div>
+            <pre>请介绍当前 Codex 界面，告诉我新手最常用的入口。然后读取当前项目，不修改文件，只输出项目说明。</pre>
+          </div>
+          <p class="text-sm text-muted"><strong>完成标准：</strong>能说出左侧/中间/右侧三个区域的主要功能；Codex 正确描述了项目结构和用途。</p>
+        </div>
+
+        <div class="day-card">
+          <div class="day-header">
+            <div class="day-number">2</div>
+            <div>
+              <div class="day-title">整理一个文件夹</div>
+              <div class="day-goal">目标：掌握文件整理 SOP，学会要求"保留原文件不动"。</div>
+            </div>
+          </div>
+          <div class="template-block">
+            <div class="template-header"><span class="template-label">推荐提示词</span><button class="copy-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制</button></div>
+            <pre>请整理这个文件夹里的所有 Markdown，生成索引、主题分类和待办清单。保留原文件不动。</pre>
+          </div>
+          <p class="text-sm text-muted"><strong>完成标准：</strong>原文件未被修改，输出文件结构清晰、分类合理、无遗漏。</p>
+        </div>
+
+        <div class="day-card">
+          <div class="day-header">
+            <div class="day-number">3</div>
+            <div>
+              <div class="day-title">安装一个工具</div>
+              <div class="day-goal">目标：掌握环境检查 → 安装 → 验证的三步流程。</div>
+            </div>
+          </div>
+          <div class="template-block">
+            <div class="template-header"><span class="template-label">推荐提示词</span><button class="copy-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制</button></div>
+            <pre>请检查并安装 GitHub CLI，安装后验证版本，并告诉我怎么登录。</pre>
+          </div>
+          <p class="text-sm text-muted"><strong>完成标准：</strong>gh --version 返回正确版本号；知道下一步登录命令。</p>
+        </div>
+
+        <div class="day-card">
+          <div class="day-header">
+            <div class="day-number">4</div>
+            <div>
+              <div class="day-title">做一个静态网页</div>
+              <div class="day-goal">目标：掌握计划模式、本地预览、移动端检查。</div>
+            </div>
+          </div>
+          <div class="template-block">
+            <div class="template-header"><span class="template-label">推荐提示词</span><button class="copy-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制</button></div>
+            <pre>请从零做一个个人主页，先问我必要问题，再生成计划，确认后实施。完成后在侧边栏预览并修布局。</pre>
+          </div>
+          <p class="text-sm text-muted"><strong>完成标准：</strong>网页在侧边栏预览正常；桌面端和移动端布局无明显问题。</p>
+        </div>
+
+        <div class="day-card">
+          <div class="day-header">
+            <div class="day-number">5</div>
+            <div>
+              <div class="day-title">写项目 AGENTS.md</div>
+              <div class="day-goal">目标：掌握让 Codex 理解项目规则并长期记住。</div>
+            </div>
+          </div>
+          <div class="template-block">
+            <div class="template-header"><span class="template-label">推荐提示词</span><button class="copy-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制</button></div>
+            <pre>请根据当前项目生成 AGENTS.md 草稿，包含项目说明、命令、风格、禁区、验证要求。先不要写入，等我确认。</pre>
+          </div>
+          <p class="text-sm text-muted"><strong>完成标准：</strong>AGENTS.md 草稿包含项目目标、目录说明、运行命令、代码风格、禁止修改路径、验证要求；你确认后写入文件。</p>
+        </div>
+
+        <div class="day-card">
+          <div class="day-header">
+            <div class="day-number">6</div>
+            <div>
+              <div class="day-title">安装或创建一个 Skill</div>
+              <div class="day-goal">目标：掌握 Skill 的安装和创建流程。</div>
+            </div>
+          </div>
+          <div class="template-block">
+            <div class="template-header"><span class="template-label">推荐提示词</span><button class="copy-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制</button></div>
+            <pre>请把我整理资料的流程沉淀为一个 Skill，要求以后输入一个资料文件夹，就能输出正式稿和整理报告。</pre>
+          </div>
+          <p class="text-sm text-muted"><strong>完成标准：</strong>Skill 草稿包含触发场景、输入要求、执行步骤、质量标准、输出格式、失败处理；能用最小示例验证触发。</p>
+        </div>
+
+        <div class="day-card">
+          <div class="day-header">
+            <div class="day-number">7</div>
+            <div>
+              <div class="day-title">创建一个低风险自动化</div>
+              <div class="day-goal">目标：掌握自动化创建，理解安全边界。</div>
+            </div>
+          </div>
+          <div class="template-block">
+            <div class="template-header"><span class="template-label">推荐提示词</span><button class="copy-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制</button></div>
+            <pre>请创建一个每周一上午 9 点运行的自动化任务：整理本项目过去一周新增 Markdown，生成周报草稿，保存到 reports/drafts，不自动发布。</pre>
+          </div>
+          <p class="text-sm text-muted"><strong>完成标准：</strong>自动化任务配置完成；明确包含频率、项目、任务、输出格式、位置；设置了"只生成草稿，不自动发布"；你知道在哪里查看执行记录。</p>
+        </div>
+
+        <div class="card" style="margin-top:24px;">
+          <button class="card-header">
+            <div class="card-icon success">🎓</div>
+            <div class="card-title">7 天后你应该掌握什么</div>
+            <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="card-body"><div class="card-body-inner">
+            <ul class="checklist">
+              <li>给上下文：让 Codex 先读项目、列计划、确认范围</li>
+              <li>给目标：描述清楚要做什么、不做什么</li>
+              <li>授权工具：理解权限申请，知道什么该批什么不该批</li>
+              <li>检查计划：复杂任务用计划模式，中途能干预</li>
+              <li>验收产物：看实际文件/预览/测试，不看"完成"说明</li>
+              <li>沉淀流程：把成功经验写成 AGENTS.md、Skill 或自动化</li>
+            </ul>
+            <p>这就是从"问 AI"到"管 Agent"的关键转变。</p>
+          </div></div>
+        </div>
+      </section>
+
+    </div> <!-- /content -->
+  </main> <!-- /main -->
+</div> <!-- /app -->
+
+<script src="assets/app.js"></script>
+</body>
+</html>
