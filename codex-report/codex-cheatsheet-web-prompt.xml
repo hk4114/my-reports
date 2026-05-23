@@ -1,0 +1,199 @@
+<prompt>
+  <intent_analysis>
+    <core_intent>把《Codex 从零开始保姆级使用指南》转化成一个“Codex 标准操作与最佳实践网站”：用户打开网站后，能从安装一路做到初步使用；遇到常见问题时，能查到标准操作、排查路径、可复制模板和最佳实践。</core_intent>
+    <key_entities>
+      源文档：./Codex从零开始保姆级使用指南.md
+      目标用户：刚开始使用 Codex 的中文用户；不想读完整长文，只想照着标准流程完成安装、配置、初步使用、问题处理和模板复用的人。
+    </key_entities>
+    <context_given>源文档覆盖 Codex 的安装登录、界面、本地文件读写、权限、命令行、上下文、额度、模型、AGENTS.md、Memory、计划模式、Fork、侧边栏、插件、Skills、MCP、自动化、Goals、手机控制、Appshots、提示词模板、避坑清单和 7 天练习路线。</context_given>
+    <missing_information>None。技术栈不限制。形式由效果决定：优先保证用户能照着完成任务、排查问题、复用模板。</missing_information>
+    <ambiguity_risks>
+      不要把目标理解成“做一个漂亮的可视化页面”。视觉只是辅助，核心是操作有效。
+      不要把源文档简单搬运成长网页。必须重组为 SOP、任务路径、问题排查、模板库和最佳实践。
+      “常用命令”应理解为可执行的用户话术、斜杠命令、界面入口、操作步骤和安全规则的组合。
+      可以基于源文档归纳最佳实践，但不要编造源文档没有支撑的产品事实。
+    </ambiguity_risks>
+  </intent_analysis>
+
+  <optimization_strategy>
+    <mode>DETAIL / Deep optimization</mode>
+    <task_type>Code Generation + Information Architecture + Operational Playbook</task_type>
+    <strategy>按技能编排执行：先用 article-analyzer 抽取源文档里的操作知识，再用 prompt-optimizer 固化网站生成要求，然后用 web-design 完成网站信息架构、界面与实现；如需要表达选择路径或流程关系，再用 baoyu-diagram 生成决策树或流程图。最后验证用户能完成关键路径。</strategy>
+    <role_policy>你是资深 Codex 使用教练、信息架构师和产品型前端工程师。你的判断标准不是页面炫不炫，而是用户照着页面能不能把事情做成。</role_policy>
+    <reasoning_policy>先给简短实施计划和信息架构，再创建文件。不要输出私有推理过程。</reasoning_policy>
+  </optimization_strategy>
+
+  <skill_plan>
+    <skill>article-analyzer</skill>
+    <skill>prompt-optimizer</skill>
+    <skill>web-design</skill>
+    <skill>baoyu-diagram</skill>
+  </skill_plan>
+
+  <context>
+    这不是宣传页，不是文章页，也不是单纯速查表。它应该像一个“Codex 新手工作台”：
+    用户第一次打开，可以按步骤完成安装、登录、项目创建、权限选择、第一次文件操作、第一次命令行任务、第一次网页预览、第一次写 AGENTS.md。
+    用户后续遇到问题，可以按问题类型查：权限、额度、上下文、安装失败、任务跑偏、该用 Browser/Chrome/Computer Use、该用 Skill/MCP/自动化/Goals。
+    用户要复用经验，可以直接复制模板提示词和标准操作清单。
+  </context>
+
+  <input_data>
+    <source_document_path>Codex从零开始保姆级使用指南.md</source_document_path>
+    <output_directory>codex-cheatsheet-web/</output_directory>
+  </input_data>
+
+  <task>
+    读取源文档，创建一个以“完成任务”为中心的 Codex 标准操作网站。请完成以下工作：
+
+    1. 抽取并重组知识。
+       - 优先使用 article-analyzer 的文章分析能力，先把源文档拆成：入门闭环、SOP、问题排查、模板、最佳实践、决策点。
+       - 从源文档中抽取所有可执行内容：步骤、入口、命令、提示词、判断规则、风险提醒、避坑、最佳实践、练习路线。
+       - 把长文解释压缩成可操作的 SOP，不要丢失独特知识点。
+       - 把相近内容合并为统一标准，例如“安装工具的标准流程”“创建项目的标准流程”“让 Codex 改代码的标准流程”。
+
+    2. 建立网站核心结构。
+       必须包含以下模块，模块名称可优化，但功能不能缺：
+
+       A. 从 0 到 1 入门路线
+       - 目标：让用户从没装过 Codex 到完成第一次有效任务。
+       - 内容至少包括：准备账号、下载安装、登录方式、认识界面、创建/进入项目、选择权限、发出第一个任务、查看结果、验收输出。
+       - 每一步都要包含：做什么、在哪里做、标准操作、下一步、常见错误。
+
+       B. 标准操作 SOP 库
+       按任务场景整理，不按原文目录机械排列。至少包含：
+       - 读项目：如何让 Codex 先读项目、不乱改文件。
+       - 本地文件整理：如何整理 Markdown、会议记录、视频素材等。
+       - 命令行安装：如何让 Codex 检查环境、安装工具、验证版本。
+       - 修改代码/文档：如何提出需求、限制改动范围、要求验证。
+       - 上下文管理：什么时候压缩、压缩前要保存什么。
+       - 额度和模型选择：什么时候用默认、什么时候提高智能程度、什么时候省额度。
+       - AGENTS.md 和 Memory：什么写进全局规则，什么写进项目规则，什么交给自动记忆。
+       - 计划模式/Fork/干预/排队：大型任务如何不跑偏。
+       - 浏览器与插件：Browser、Chrome、Computer Use 的选择规则。
+       - Skill/MCP/自动化/Goals：分别什么时候用，标准创建流程是什么。
+
+       C. 问题排查中心
+       以“我遇到了什么问题”为入口，而不是以功能为入口。至少包含：
+       - Codex 不知道项目怎么运行。
+       - Codex 想改太多文件。
+       - 权限申请看不懂。
+       - 安装工具失败。
+       - 上下文快满或开始遗忘。
+       - 额度消耗太快。
+       - 网页预览或浏览器测试不工作。
+       - 不知道该用 Browser、Chrome 还是 Computer Use。
+       - 不知道该用 Skill、MCP、自动化还是 Goals。
+       - 自动化任务怕误发、误改或不可控。
+       每个问题必须给出：现象、优先检查项、标准处理步骤、推荐提示词、风险提醒。
+
+       D. 可复制模板库
+       把源文档中的提示词整理成模板，并补齐使用场景。至少包含：
+       - 读项目模板。
+       - 安装环境模板。
+       - 修改代码模板。
+       - 整理资料模板。
+       - 网页制作模板。
+       - 创建 Skill 模板。
+       - 创建自动化模板。
+       - 写 AGENTS.md 模板。
+       每个模板必须有复制按钮，并标注“什么时候用 / 要替换哪些变量 / 输出应该长什么样”。
+
+       E. 最佳实践与安全边界
+       - 新手推荐权限选择。
+       - 哪些动作必须人工确认：删除、覆盖、发布、付款、发消息、改生产环境、系统级修改。
+       - 好任务描述的结构：目标、上下文、边界、验收标准。
+       - 验收标准：代码跑测试、网页看预览、文档查结构、数据看样本。
+       - 如何把一次成功流程沉淀成 AGENTS.md、Skill 或自动化。
+
+       F. 决策树与对比表
+       至少包含这些决策：
+       - Browser vs Chrome vs Computer Use。
+       - AGENTS.md vs Memory vs 共享知识库。
+       - Skill vs MCP vs 自动化 vs Goals。
+       - 计划模式 vs 直接执行。
+       - 默认权限 vs 自动审查 vs 完全访问。
+
+       G. 7 天练习路线
+       不是装饰时间线，而是可执行训练计划。每天包含：目标、操作、推荐提示词、完成标准。
+
+    3. 交互要求。
+       - 必须有搜索：能搜问题、功能、模板、关键词。
+       - 必须有场景筛选或导航：用户能按“我要安装 / 我要配置 / 我要做任务 / 我遇到问题 / 我要模板 / 我要最佳实践”进入。
+       - 模板必须可复制，并显示复制成功反馈。
+       - SOP 和排查卡片必须能快速展开/收起，避免页面成为一篇长文。
+       - 用户应能在 3 次点击内找到任一核心场景的标准操作。
+
+    4. 技术实现。
+       - 优先使用 web-design 的网页设计流程，先确认信息架构和页面设计目标，再进入实现。
+       - 不限制技术栈。可以使用任何合适的前端方案。
+       - 先检查当前目录是否已有项目结构；如有，优先沿用。
+       - 如果新建项目，选择能最快交付稳定可用网站的技术方案，并说明理由。
+       - 如果引入依赖，记录安装、启动、构建命令，并完成本地验证。
+       - 所有文案使用中文。
+
+    5. 验证。
+       - 如页面包含选择路径或流程关系，优先用 baoyu-diagram 生成或辅助设计决策树/流程图，例如 Browser vs Chrome vs Computer Use、Skill vs MCP vs 自动化 vs Goals。
+       用真实用户任务验证，而不是只看页面能不能打开。至少验证这些路径：
+       - 新手如何从安装到创建第一个项目。
+       - 用户想让 Codex 先读项目、不改文件，能否找到模板。
+       - 用户遇到权限申请看不懂，能否找到处理标准。
+       - 用户不知道 Browser/Chrome/Computer Use 怎么选，能否找到决策表。
+       - 用户想创建自动化但怕误发，能否找到安全模板。
+       - 搜索、导航、复制按钮可用。
+       - 桌面端和移动端无明显阅读障碍。
+  </task>
+
+  <constraints>
+    <constraint>效果优先于形式。不要为了视觉效果牺牲操作清晰度。</constraint>
+    <constraint>不要做营销 Landing Page，不要做普通文章排版，不要只做命令列表。</constraint>
+    <constraint>不得删除、移动或覆盖源文档。</constraint>
+    <constraint>如输出目录已存在，先检查内容；不要覆盖用户已有重要文件。必要时创建带编号的新目录。</constraint>
+    <constraint>不限制技术栈；技术选择必须服务于可用性、维护性和验证。</constraint>
+    <constraint>不要凭空补充产品功能。最佳实践可以归纳，但必须能从源文档内容推导。</constraint>
+    <constraint>不要把所有原文内容无差别塞进页面。必须重组为任务路径、SOP、排查、模板和决策。</constraint>
+    <constraint>保留源文档所有独特知识点，尤其是操作入口、提示词模板、权限风险、插件差异、自动化和 Goals 的区别。</constraint>
+  </constraints>
+
+  <success_criteria>
+    <criterion>用户能按网站完成“安装/登录 → 创建项目 → 选择权限 → 发出第一个任务 → 验收结果”的新手闭环。</criterion>
+    <criterion>每个 SOP 都包含：适用场景、标准步骤、推荐提示词、验收方式、风险提醒。</criterion>
+    <criterion>每个问题排查项都包含：现象、检查顺序、处理步骤、可复制提示词。</criterion>
+    <criterion>模板库可复制，并说明变量如何替换。</criterion>
+    <criterion>决策表能让用户明确知道什么时候用 Browser、Chrome、Computer Use、Skill、MCP、自动化、Goals。</criterion>
+    <criterion>用户能在 3 次点击内找到常见任务或问题的标准做法。</criterion>
+    <criterion>最终交付是真实可运行的网站，并报告验证结果。</criterion>
+  </success_criteria>
+
+  <output_contract>
+    <format>Local website files + concise final report</format>
+    <structure>
+      输出目录建议：
+      codex-cheatsheet-web/
+
+      文件结构由所选技术栈决定。若使用框架，应包含源码、配置、运行说明；若使用静态方案，应包含可直接打开或本地服务可访问的页面文件。
+
+      最终回复结构：
+      - 已生成：列出文件路径和访问方式
+      - 技术选择：一句话说明为什么这样选
+      - 页面解决什么问题：列出 5-8 个核心模块
+      - 已验证：列出按用户任务验证的路径
+      - 未验证：如有，明确说明
+    </structure>
+    <length>最终回复不超过 350 字。网页内容不限，以帮助用户完成任务为准。</length>
+    <delivery>直接创建文件，并在完成后报告路径、访问方式和验证结果。</delivery>
+  </output_contract>
+
+  <self_check>
+    完成前逐项检查：
+    - 是否真的读取了源文档。
+    - 是否从“用户要完成什么任务”组织网站，而不是从“原文章节”机械组织。
+    - 是否按技能计划使用 article-analyzer、prompt-optimizer、web-design，并在需要决策图时使用 baoyu-diagram。
+    - 是否覆盖从安装到初步使用的完整闭环。
+    - 是否有 SOP、问题排查、模板库、最佳实践、决策表、7 天路线。
+    - 是否每个 SOP 都有推荐提示词和验收标准。
+    - 是否每个排查项都有现象、检查顺序和处理步骤。
+    - 是否包含搜索、导航、复制按钮。
+    - 是否报告技术选择、运行方式和真实验证结果。
+    - 是否避免了营销页、纯文章页、只有视觉没有操作价值的问题。
+  </self_check>
+</prompt>
