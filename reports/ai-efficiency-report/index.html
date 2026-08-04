@@ -1,0 +1,1091 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI 提效实战</title>
+  <style>
+    :root {
+      --canvas-w: 1920px;
+      --canvas-h: 1080px;
+      --bg: #f4f7f8;
+      --paper: #fbfcfc;
+      --navy: #0c2944;
+      --ink: #102a43;
+      --blue: #1f6faf;
+      --blue-2: #4e93c8;
+      --pale-blue: #dceaf4;
+      --grid-blue: rgba(31, 111, 175, 0.095);
+      --orange: #e89b35;
+      --pale-orange: #f7e8d1;
+      --muted: #5b7083;
+      --line: #b9cbd8;
+      --white: #ffffff;
+      --type-display: 148px;
+      --type-title: 72px;
+      --type-subtitle: 48px;
+      --type-body: 36px;
+      --type-small: 27px;
+      --type-label: 24px;
+      --pad-top: 88px;
+      --pad-bottom: 72px;
+      --pad-x: 112px;
+      --gap-title: 54px;
+      --gap-item: 28px;
+      --font-sans: "Aptos", "Microsoft YaHei UI", "PingFang SC", "Noto Sans SC", sans-serif;
+      --font-mono: "Cascadia Mono", "Microsoft YaHei UI", monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: #071724;
+      color: var(--ink);
+      font-family: var(--font-sans);
+      letter-spacing: 0;
+    }
+
+    deck-stage:not(:defined) {
+      visibility: hidden;
+    }
+
+    section[data-label] > *:not(img):not(picture):not(video):not(svg):not(canvas) {
+      height: 100%;
+      box-sizing: border-box;
+    }
+
+    .slide {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      padding: var(--pad-top) var(--pad-x) var(--pad-bottom);
+      background-color: var(--bg);
+      color: var(--ink);
+    }
+
+    .slide::after {
+      content: "";
+      position: absolute;
+      inset: 22px;
+      border: 1px solid rgba(31, 111, 175, 0.28);
+      pointer-events: none;
+    }
+
+    .blueprint {
+      background-color: var(--bg);
+      background-image:
+        linear-gradient(var(--grid-blue) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-blue) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    .blueprint-dark {
+      background-color: var(--navy);
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+      background-size: 48px 48px;
+      color: var(--white);
+    }
+
+    .blueprint-dark::after {
+      border-color: rgba(255, 255, 255, 0.26);
+    }
+
+    .image-slide {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: #f7f9f9;
+      overflow: hidden;
+    }
+
+    .image-slide::after {
+      content: none;
+    }
+
+    .image-slide img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      background: #f7f9f9;
+    }
+
+    h1,
+    h2,
+    h3,
+    p,
+    ul,
+    ol,
+    blockquote,
+    figure {
+      margin: 0;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-weight: 760;
+      line-height: 1.16;
+      text-wrap: balance;
+    }
+
+    p,
+    li,
+    blockquote {
+      line-height: 1.68;
+      text-wrap: pretty;
+    }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: var(--blue);
+      font-family: var(--font-mono);
+      font-size: var(--type-label);
+      font-weight: 700;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 54px;
+      height: 4px;
+      background: currentColor;
+    }
+
+    .blueprint-dark .eyebrow {
+      color: #8dc2e8;
+    }
+
+    .slide-title {
+      max-width: 1510px;
+      margin-top: 24px;
+      color: var(--ink);
+      font-size: var(--type-title);
+    }
+
+    .blueprint-dark .slide-title {
+      color: var(--white);
+    }
+
+    .title-rule {
+      width: 100%;
+      height: 2px;
+      margin-top: 36px;
+      background: var(--line);
+    }
+
+    .title-rule span {
+      display: block;
+      width: 210px;
+      height: 6px;
+      transform: translateY(-2px);
+      background: var(--blue);
+    }
+
+    .orange {
+      color: var(--orange);
+    }
+
+    .blue {
+      color: var(--blue);
+    }
+
+    .mono {
+      font-family: var(--font-mono);
+    }
+
+    .capsule-label {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      padding: 8px 18px;
+      border: 1px solid currentColor;
+      border-radius: 2px;
+      font-size: var(--type-label);
+      font-weight: 720;
+      line-height: 1;
+    }
+
+    .corner-index {
+      position: absolute;
+      right: 72px;
+      top: 68px;
+      color: rgba(31, 111, 175, 0.45);
+      font-family: var(--font-mono);
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .blueprint-dark .corner-index {
+      color: rgba(255, 255, 255, 0.42);
+    }
+
+    /* 01 — cover */
+    .cover {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 44px;
+      padding-top: 76px;
+    }
+
+    .cover-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+    }
+
+    .cover-top .serial {
+      color: rgba(255, 255, 255, 0.72);
+      font-family: var(--font-mono);
+      font-size: 26px;
+    }
+
+    .cover-main {
+      align-self: center;
+      max-width: 1580px;
+    }
+
+    .cover-kicker {
+      color: #8dc2e8;
+      font-size: 34px;
+      font-weight: 700;
+    }
+
+    .cover h1 {
+      max-width: 1580px;
+      margin-top: 24px;
+      color: var(--white);
+      font-size: 102px;
+      line-height: 1.12;
+    }
+
+    .cover h1 .orange {
+      display: block;
+      margin-top: 10px;
+    }
+
+    .cover-subtitle {
+      margin-top: 44px;
+      color: rgba(255, 255, 255, 0.74);
+      font-size: 36px;
+      line-height: 1.45;
+    }
+
+    .cover-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.26);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.26);
+    }
+
+    .cover-metric {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: baseline;
+      gap: 20px;
+      padding: 25px 36px 26px 0;
+    }
+
+    .cover-metric + .cover-metric {
+      padding-left: 36px;
+      border-left: 1px solid rgba(255, 255, 255, 0.26);
+    }
+
+    .cover-metric strong {
+      color: var(--orange);
+      font-size: 54px;
+      line-height: 1;
+    }
+
+    .cover-metric span {
+      color: rgba(255, 255, 255, 0.76);
+      font-size: 30px;
+    }
+
+    /* 02 — workload */
+    .workload-layout {
+      display: grid;
+      grid-template-columns: 0.78fr 0.18fr 1.62fr;
+      align-items: center;
+      gap: 56px;
+      height: 680px;
+      margin-top: 38px;
+    }
+
+    .one-person {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 26px;
+      height: 100%;
+      padding: 38px 0;
+      border-top: 2px solid var(--ink);
+      border-bottom: 2px solid var(--ink);
+    }
+
+    .one-person strong {
+      color: var(--orange);
+      font-size: 300px;
+      font-weight: 780;
+      line-height: 0.82;
+      transform: translateY(58px);
+    }
+
+    .one-person span {
+      padding-bottom: 0;
+      color: var(--ink);
+      font-size: 46px;
+      font-weight: 720;
+      line-height: 1.3;
+    }
+
+    .multiply {
+      color: var(--blue);
+      font-family: var(--font-mono);
+      font-size: 116px;
+      font-weight: 400;
+      text-align: center;
+    }
+
+    .project-streams {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px 34px;
+    }
+
+    .project-stream {
+      min-height: 205px;
+      padding: 32px 32px 28px;
+      border-top: 8px solid var(--blue);
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.6);
+    }
+
+    .project-stream:nth-child(2),
+    .project-stream:nth-child(4) {
+      border-top-color: var(--orange);
+    }
+
+    .project-stream .num {
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .project-stream h3 {
+      margin-top: 18px;
+      font-size: 38px;
+      line-height: 1.3;
+    }
+
+    .project-stream p {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 26px;
+    }
+
+    .thread-band {
+      position: absolute;
+      left: var(--pad-x);
+      right: var(--pad-x);
+      bottom: 70px;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: center;
+      gap: 34px;
+      padding: 18px 0 0;
+      border-top: 2px solid var(--blue);
+    }
+
+    .thread-band strong {
+      color: var(--blue);
+      font-size: 56px;
+      line-height: 1;
+    }
+
+    .thread-band span {
+      color: var(--muted);
+      font-size: 30px;
+    }
+
+    /* 03 — collaboration tax */
+    .tax-grid {
+      display: grid;
+      grid-template-columns: 1fr 176px 1fr;
+      align-items: stretch;
+      gap: 40px;
+      height: 520px;
+      margin-top: 64px;
+    }
+
+    .tax-column {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      padding: 42px 40px 36px;
+      border-top: 8px solid var(--blue);
+      border-bottom: 2px solid var(--ink);
+      background: rgba(255, 255, 255, 0.62);
+    }
+
+    .tax-column.orange-line {
+      border-top-color: var(--orange);
+    }
+
+    .tax-column .step {
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .tax-column h3 {
+      align-self: center;
+      font-size: 64px;
+      line-height: 1.2;
+    }
+
+    .tax-column p {
+      align-self: end;
+      color: var(--muted);
+      font-size: 31px;
+      line-height: 1.5;
+    }
+
+    .tax-arrow {
+      align-self: center;
+      color: var(--blue);
+      font-family: var(--font-mono);
+      font-size: 108px;
+      text-align: center;
+    }
+
+    .tax-verdict {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 34px;
+      margin-top: 62px;
+      font-size: 48px;
+      font-weight: 760;
+    }
+
+    .tax-verdict strong {
+      color: var(--orange);
+      font-size: 74px;
+    }
+
+    /* 04 — transition */
+    .transition-body {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      align-items: center;
+      gap: 96px;
+      height: 660px;
+      margin-top: 30px;
+    }
+
+    .transition-lines {
+      display: grid;
+      gap: 62px;
+    }
+
+    .signal-row {
+      display: grid;
+      grid-template-columns: 280px 1fr 100px;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .signal-label {
+      font-size: 38px;
+      font-weight: 760;
+    }
+
+    .signal-track {
+      position: relative;
+      height: 28px;
+      background: rgba(16, 42, 67, 0.11);
+    }
+
+    .signal-track span {
+      display: block;
+      height: 100%;
+      background: var(--blue);
+    }
+
+    .signal-track.speed span {
+      width: 92%;
+    }
+
+    .signal-track.attention span {
+      width: 92%;
+      background: var(--orange);
+    }
+
+    .signal-value {
+      color: var(--blue);
+      font-family: var(--font-mono);
+      font-size: 32px;
+      font-weight: 780;
+      text-align: right;
+    }
+
+    .signal-value.orange {
+      color: var(--orange);
+    }
+
+    .transition-note {
+      padding-top: 38px;
+      border-top: 2px solid var(--line);
+      color: var(--muted);
+      font-size: 31px;
+      line-height: 1.6;
+    }
+
+    .bottleneck-box {
+      display: grid;
+      place-items: center;
+      min-height: 480px;
+      border: 2px solid var(--blue);
+      background: rgba(220, 234, 244, 0.56);
+      text-align: center;
+    }
+
+    .bottleneck-box .small {
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 26px;
+      font-weight: 700;
+    }
+
+    .bottleneck-box strong {
+      display: block;
+      margin-top: 20px;
+      color: var(--orange);
+      font-size: 132px;
+      line-height: 1;
+    }
+
+    .bottleneck-box p {
+      margin-top: 28px;
+      color: var(--ink);
+      font-size: 34px;
+      line-height: 1.5;
+    }
+
+    /* 07 — gains */
+    .insight-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0;
+      height: 570px;
+      margin-top: 56px;
+      border-top: 2px solid var(--ink);
+      border-bottom: 2px solid var(--ink);
+    }
+
+    .insight {
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      gap: 22px;
+      padding: 42px 42px 34px;
+    }
+
+    .insight + .insight {
+      border-left: 1px solid var(--line);
+    }
+
+    .insight .case-label {
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .insight .delta {
+      display: flex;
+      align-items: baseline;
+      gap: 18px;
+    }
+
+    .insight .delta strong {
+      color: var(--blue);
+      font-size: 58px;
+      line-height: 1;
+    }
+
+
+    .insight h3 {
+      align-self: end;
+      font-size: 40px;
+      line-height: 1.45;
+    }
+    .insight h3 span {
+      display: block;
+    }
+
+
+    .insight-conclusion {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 104px;
+      margin-top: 42px;
+      padding: 20px 36px;
+      background: var(--navy);
+      color: var(--white);
+      font-size: 35px;
+      font-weight: 720;
+      text-align: center;
+    }
+
+
+    /* 09 — context loop */
+    .context-layout {
+      display: grid;
+      grid-template-columns: 0.78fr 1.75fr 0.95fr;
+      align-items: stretch;
+      gap: 46px;
+      height: 600px;
+      margin-top: 48px;
+    }
+
+    .context-entry,
+    .context-outcome {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 34px;
+      border-top: 8px solid var(--orange);
+      border-bottom: 2px solid var(--ink);
+      background: rgba(255, 255, 255, 0.58);
+    }
+
+    .context-outcome {
+      border-top-color: var(--blue);
+    }
+
+    .context-entry .small,
+    .context-outcome .small {
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .context-entry strong,
+    .context-outcome strong {
+      margin-top: 22px;
+      font-size: 50px;
+      line-height: 1.25;
+    }
+
+    .context-entry p,
+    .context-outcome p {
+      margin-top: 26px;
+      color: var(--muted);
+      font-size: 28px;
+      line-height: 1.62;
+    }
+
+    .repo-block {
+      position: relative;
+      padding: 34px 38px 36px;
+      border: 2px solid var(--blue);
+      background: rgba(220, 234, 244, 0.58);
+    }
+
+    .repo-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+      padding-bottom: 24px;
+      border-bottom: 2px solid var(--blue);
+    }
+
+    .repo-head strong {
+      font-size: 38px;
+    }
+
+    .repo-head span {
+      color: var(--blue);
+      font-family: var(--font-mono);
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .repo-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0 32px;
+      margin-top: 14px;
+    }
+
+    .repo-item {
+      display: grid;
+      grid-template-columns: 46px 1fr;
+      align-items: center;
+      gap: 14px;
+      min-height: 132px;
+      border-bottom: 1px solid rgba(31, 111, 175, 0.36);
+    }
+
+    .repo-item .num {
+      color: var(--blue);
+      font-family: var(--font-mono);
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    .repo-item strong {
+      font-size: 30px;
+      line-height: 1.35;
+    }
+
+    .context-arrow {
+      position: absolute;
+      top: 50%;
+      color: var(--blue);
+      font-family: var(--font-mono);
+      font-size: 64px;
+      transform: translateY(-50%);
+    }
+
+    .context-arrow.left {
+      left: -48px;
+    }
+
+    .context-arrow.right {
+      right: -48px;
+    }
+
+    /* 11 — actions */
+    .action-list {
+      display: grid;
+      gap: 0;
+      margin-top: 58px;
+      border-top: 2px solid var(--ink);
+      border-bottom: 2px solid var(--ink);
+    }
+
+    .action-row {
+      display: grid;
+      grid-template-columns: 128px 490px 1fr;
+      align-items: center;
+      gap: 38px;
+      min-height: 188px;
+      padding: 24px 0;
+    }
+
+    .action-row + .action-row {
+      border-top: 1px solid var(--line);
+    }
+
+    .action-num {
+      color: var(--blue);
+      font-family: var(--font-mono);
+      font-size: 58px;
+      font-weight: 800;
+    }
+
+
+    .action-row h3 {
+      font-size: 42px;
+    }
+
+    .action-row p {
+      color: var(--muted);
+      font-size: 29px;
+      line-height: 1.55;
+    }
+
+    .action-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100px;
+      margin-top: 38px;
+      color: var(--ink);
+      font-size: 36px;
+      font-weight: 760;
+    }
+
+    .action-bottom strong {
+      margin-left: 0;
+      color: var(--orange);
+      font-size: 44px;
+    }
+
+    @media print {
+      html,
+      body {
+        overflow: visible;
+        background: #ffffff;
+      }
+    }
+  </style>
+</head>
+<body>
+  <deck-stage width="1920" height="1080" no-rail>
+    <section data-label="AI 提效实战">
+      <div class="slide blueprint-dark cover">
+        <div class="cover-top">
+          <div class="eyebrow"><span>全员分享 / 实战复盘</span></div>
+          <div class="serial"><span>AI × FRONTEND DELIVERY</span></div>
+        </div>
+        <div class="cover-main">
+          <p class="cover-kicker"><span>从逐行 Review 到审方案、验功能</span></p>
+          <h1>
+            <span>它写完了，我还在看</span>
+            <span class="orange">上半年引入 AI 后前端交付模式的变化</span>
+          </h1>
+          <p class="cover-subtitle"><span>用规则、工具和关键门禁，把人的注意力留给真正需要判断的地方</span></p>
+        </div>
+        <div class="cover-metrics">
+          <div class="cover-metric"><strong>1</strong><span>名前端</span></div>
+          <div class="cover-metric"><strong>4</strong><span>个项目</span></div>
+          <div class="cover-metric"><strong>8–12</strong><span>条并行线程 / 周</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section data-label="四个项目">
+      <div class="slide blueprint">
+        <div class="eyebrow"><span>工作负载</span></div>
+        <h2 class="slide-title"><span>一个人同时推进四个项目</span></h2>
+        <div class="corner-index"><span>02 / 12</span></div>
+        <div class="workload-layout">
+          <div class="one-person">
+            <strong>1</strong>
+            <span>名前端</span>
+          </div>
+          <div class="multiply"><span>×</span></div>
+          <div class="project-streams">
+            <div class="project-stream">
+              <span class="num">01</span>
+              <h3><span>数字工地</span></h3>
+              <p><span>对内平台 + 对外平台</span></p>
+            </div>
+            <div class="project-stream">
+              <span class="num">02</span>
+              <h3><span>预制厂管理系统</span></h3>
+              <p><span>生产与管理业务</span></p>
+            </div>
+            <div class="project-stream">
+              <span class="num">03</span>
+              <h3><span>数智工地小程序</span></h3>
+              <p><span>移动端业务交付</span></p>
+            </div>
+            <div class="project-stream">
+              <span class="num">04</span>
+              <h3><span>零散业务模块</span></h3>
+              <p><span>持续插入的功能线</span></p>
+            </div>
+          </div>
+        </div>
+        <div class="thread-band">
+          <strong>8–12</strong>
+          <span>每周并行推进的功能线程</span>
+        </div>
+      </div>
+    </section>
+
+    <section data-label="协作损耗">
+      <div class="slide blueprint">
+        <div class="eyebrow"><span>原始瓶颈</span></div>
+        <h2 class="slide-title"><span>协作损耗先消耗了注意力</span></h2>
+        <div class="corner-index"><span>03 / 12</span></div>
+        <div class="tax-grid">
+          <div class="tax-column">
+            <span class="step">HANDOFF / 01</span>
+            <h3><span>信息传递</span></h3>
+            <p><span>传递一次，理解就可能变形一次</span></p>
+          </div>
+          <div class="tax-arrow"><span>→</span></div>
+          <div class="tax-column orange-line">
+            <span class="step">HANDOFF / 02</span>
+            <h3><span>代码交付</span></h3>
+            <p><span>交付一次，就要重新质检一次</span></p>
+          </div>
+        </div>
+        <div class="tax-verdict">
+          <span>花在</span>
+          <strong>Review + 排查</strong>
+          <span>上的时间，比自己开发还多</span>
+        </div>
+      </div>
+    </section>
+
+    <section data-label="AI 后的瓶颈">
+      <div class="slide blueprint">
+        <div class="eyebrow"><span>第一次转折</span></div>
+        <h2 class="slide-title"><span>AI 提高了执行速度，瓶颈仍在 Review</span></h2>
+        <div class="corner-index"><span>04 / 12</span></div>
+        <div class="transition-body">
+          <div class="transition-lines">
+            <div class="signal-row" data-anim="wipe-in" data-anim-dir="left" data-anim-trigger="click" data-anim-duration="650">
+              <span class="signal-label">交付速度</span>
+              <div class="signal-track speed"><span></span></div>
+              <span class="signal-value">提速</span>
+            </div>
+            <div class="signal-row" data-anim="wipe-in" data-anim-dir="left" data-anim-trigger="click" data-anim-duration="650">
+              <span class="signal-label">注意力消耗</span>
+              <div class="signal-track attention"><span></span></div>
+              <span class="signal-value orange">未降</span>
+            </div>
+            <p class="transition-note"><span>AI 能独立写完模块，也能保持输出风格一致；但我仍然要逐行看、提前判断逻辑节点、在方向偏离时重新下指令。</span></p>
+          </div>
+          <div class="bottleneck-box" data-anim="zoom-in" data-anim-trigger="click" data-anim-duration="700">
+            <div>
+              <span class="small">CURRENT BOTTLENECK</span>
+              <strong>我</strong>
+              <p><span>从 Review 别人的代码<br>变成 Review AI 的代码</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section data-label="角色转变">
+      <div class="image-slide">
+        <img src="imgs/01-infographic-attention-bottleneck.webp" alt="注意力瓶颈从人工协作开发到审方案验功能的演进图">
+      </div>
+    </section>
+
+    <section data-label="案例数据">
+      <div class="image-slide">
+        <img src="imgs/02-infographic-case-metrics.webp" alt="跨平台重构、新功能交付和线上排障三个案例的提效数据">
+      </div>
+    </section>
+
+    <section data-label="提效来源">
+      <div class="slide blueprint">
+        <div class="eyebrow"><span>案例复盘</span></div>
+        <h2 class="slide-title"><span>提效主要来自减少传递与反复确认</span></h2>
+        <div class="corner-index"><span>07 / 12</span></div>
+        <div class="insight-grid">
+          <div class="insight">
+            <span class="case-label">CASE 01 / 跨平台重构</span>
+            <div class="delta"><strong>6.5 天 → 2 天</strong></div>
+            <h3><span>自动检查接管代码质检，</span><span>功能验收只看结果</span></h3>
+          </div>
+          <div class="insight">
+            <span class="case-label">CASE 02 / 新功能交付</span>
+            <div class="delta"><strong>3.5 天 → 1 天</strong></div>
+            <h3><span>方案确认后直接执行，</span><span>不再经历二次翻译</span></h3>
+          </div>
+          <div class="insight">
+            <span class="case-label">CASE 03 / 线上排障</span>
+            <div class="delta"><strong>半天 → 半小时</strong></div>
+            <h3><span>排查链条不跨团队，</span><span>一个人完成问题闭环</span></h3>
+          </div>
+        </div>
+        <div class="insight-conclusion">
+          <span>省掉的</span><span class="orange">不是写代码的时间</span><span>，而是传递信息和反复确认的时间</span>
+        </div>
+      </div>
+    </section>
+
+    <section data-label="两个闭环">
+      <div class="image-slide">
+        <img src="imgs/04-infographic-dual-loop.webp" alt="上下文闭环与执行闭环共同支撑 AI 自主执行的关系图">
+      </div>
+    </section>
+
+    <section data-label="上下文闭环">
+      <div class="slide blueprint">
+        <div class="eyebrow"><span>方法一 / 上下文闭环</span></div>
+        <h2 class="slide-title"><span>上下文闭环把隐性知识写进项目仓库</span></h2>
+        <div class="corner-index"><span>09 / 12</span></div>
+        <div class="context-layout">
+          <div class="context-entry">
+            <span class="small">AGENT START</span>
+            <strong>每次启动<br>都是空白</strong>
+            <p><span>如果信息只在脑子里，每次都要重讲；漏一处，方向就可能从开头偏离。</span></p>
+          </div>
+          <div class="repo-block">
+            <span class="context-arrow left">→</span>
+            <div class="repo-head">
+              <strong>项目仓库</strong>
+              <span>CONTEXT AS CODE</span>
+            </div>
+            <div class="repo-grid">
+              <div class="repo-item"><span class="num">01</span><strong>项目总规则</strong></div>
+              <div class="repo-item"><span class="num">02</span><strong>标准化流程</strong></div>
+              <div class="repo-item"><span class="num">03</span><strong>行为边界</strong></div>
+              <div class="repo-item"><span class="num">04</span><strong>当前规格与契约</strong></div>
+              <div class="repo-item"><span class="num">05</span><strong>过程记录</strong></div>
+              <div class="repo-item"><span class="num">06</span><strong>关键决策</strong></div>
+            </div>
+            <span class="context-arrow right">→</span>
+          </div>
+          <div class="context-outcome">
+            <span class="small">AGENT READY</span>
+            <strong>读一遍仓库<br>即可开工</strong>
+            <p><span>知道该做什么、不该做什么，也知道做到什么程度才算完成。</span></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section data-label="执行闭环">
+      <div class="image-slide">
+        <img src="imgs/03-infographic-execution-gates.webp" alt="方案确认、自动验证和功能验收构成的执行门禁流程">
+      </div>
+    </section>
+
+    <section data-label="三个动作">
+      <div class="slide blueprint">
+        <div class="eyebrow"><span>团队迁移</span></div>
+        <h2 class="slide-title"><span>三个动作可以迁移到其他团队</span></h2>
+        <div class="corner-index"><span>11 / 12</span></div>
+        <div class="action-list">
+          <div class="action-row" data-anim="fade-in" data-anim-trigger="click" data-anim-duration="500">
+            <span class="action-num">01</span>
+            <h3><span>把团队上下文写下来</span></h3>
+            <p><span>只给新同事看文档，他能否说清：在做什么、流程是什么、怎样算做对？</span></p>
+          </div>
+          <div class="action-row" data-anim="fade-in" data-anim-trigger="click" data-anim-duration="500">
+            <span class="action-num">02</span>
+            <h3><span>在关键流程建立硬门禁</span></h3>
+            <p><span>对不确定性强、出错代价高的节点，明确谁确认、用什么证据才能推进。</span></p>
+          </div>
+          <div class="action-row" data-anim="fade-in" data-anim-trigger="click" data-anim-duration="500">
+            <span class="action-num">03</span>
+            <h3><span>把验证变成看得见的证据</span></h3>
+            <p><span>报告、数据、截图都可以；关键是换个人来看，也能独立判断对错。</span></p>
+          </div>
+        </div>
+        <div class="action-bottom">
+          <span>把验证从“我信你”变成</span><strong>“我看得到”</strong>
+        </div>
+      </div>
+    </section>
+
+    <section data-label="验收自动化">
+      <div class="image-slide">
+        <img src="imgs/05-infographic-validation-evolution.webp" alt="从逐行审代码到验收自动化的检查粒度演进图">
+      </div>
+    </section>
+  </deck-stage>
+  <script src="deck-stage.js"></script>
+</body>
+</html>
