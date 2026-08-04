@@ -834,17 +834,315 @@
       font-size: 44px;
     }
 
+    .access-gate {
+      --gate-blue: #76c7ef;
+      --gate-orange: #e89b35;
+      --gate-alert: #ef6b57;
+      position: fixed;
+      inset: 0;
+      z-index: 2147483646;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      background: rgba(4, 16, 27, 0.94);
+      color: #f7fbff;
+      isolation: isolate;
+      -webkit-backdrop-filter: blur(18px) saturate(0.72);
+      backdrop-filter: blur(18px) saturate(0.72);
+      animation: gate-cover-in 460ms cubic-bezier(0.22, 1, 0.36, 1) both;
+      transition:
+        opacity 480ms cubic-bezier(0.22, 1, 0.36, 1) 240ms,
+        visibility 0s linear 720ms;
+    }
+
+    .access-gate::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background-image:
+        linear-gradient(rgba(118, 199, 239, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(118, 199, 239, 0.08) 1px, transparent 1px);
+      background-size: 48px 48px;
+      opacity: 0.72;
+    }
+
+    .access-gate::after {
+      content: "";
+      position: absolute;
+      top: -18%;
+      right: 0;
+      left: 0;
+      z-index: -1;
+      height: 18%;
+      border-bottom: 1px solid rgba(118, 199, 239, 0.3);
+      background: linear-gradient(180deg, transparent, rgba(118, 199, 239, 0.08));
+      animation: gate-scan 5.6s linear infinite;
+      pointer-events: none;
+    }
+
+    .gate-shell {
+      position: relative;
+      width: min(288px, calc(100vw - 48px));
+      height: 232px;
+      display: grid;
+      grid-template-rows: 152px 80px;
+      place-items: center;
+    }
+
+    .gate-lock {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      display: grid;
+      place-items: center;
+      padding: 0;
+      border: 1px solid rgba(118, 199, 239, 0.7);
+      border-radius: 50%;
+      background: rgba(12, 41, 68, 0.56);
+      box-shadow:
+        inset 0 0 28px rgba(118, 199, 239, 0.12),
+        0 18px 60px rgba(0, 0, 0, 0.38);
+      color: inherit;
+      cursor: pointer;
+      transform: translateY(40px);
+      transition:
+        transform 420ms cubic-bezier(0.22, 1, 0.36, 1),
+        border-color 220ms ease,
+        background-color 220ms ease,
+        box-shadow 220ms ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .gate-lock::before,
+    .gate-lock::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .gate-lock::before {
+      inset: -14px;
+      border: 1px solid rgba(118, 199, 239, 0.28);
+      animation: gate-ring-breathe 2.8s ease-in-out infinite;
+    }
+
+    .gate-lock::after {
+      inset: -27px;
+      border: 1px dashed rgba(232, 155, 53, 0.52);
+      animation: gate-ring-turn 16s linear infinite;
+    }
+
+    .gate-lock:hover {
+      border-color: var(--gate-orange);
+      background: rgba(18, 54, 84, 0.74);
+      box-shadow:
+        inset 0 0 32px rgba(118, 199, 239, 0.2),
+        0 20px 64px rgba(0, 0, 0, 0.42);
+    }
+
+    .gate-lock:focus-visible,
+    .gate-code:focus-visible {
+      outline: 2px solid var(--gate-orange);
+      outline-offset: 6px;
+    }
+
+    .gate-lock-glyph {
+      display: block;
+      font-size: 58px;
+      line-height: 1;
+      filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.3));
+      transform: translateY(-1px);
+      transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .gate-form {
+      width: 192px;
+      height: 60px;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transform: translateY(-18px) scale(0.92);
+      transition:
+        opacity 280ms ease 80ms,
+        visibility 0s linear 360ms,
+        transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .gate-code {
+      width: 100%;
+      height: 60px;
+      padding: 0 20px;
+      border: 1px solid rgba(118, 199, 239, 0.6);
+      border-radius: 4px;
+      outline: none;
+      background: rgba(5, 23, 38, 0.88);
+      box-shadow: inset 0 0 22px rgba(118, 199, 239, 0.08);
+      color: #ffffff;
+      caret-color: var(--gate-orange);
+      font-family: var(--font-mono);
+      font-size: 28px;
+      font-variant-numeric: tabular-nums;
+      font-weight: 760;
+      letter-spacing: 0;
+      text-align: center;
+      transition:
+        border-color 180ms ease,
+        box-shadow 180ms ease;
+    }
+
+    .gate-code:focus {
+      border-color: var(--gate-orange);
+      box-shadow:
+        inset 0 0 22px rgba(118, 199, 239, 0.12),
+        0 0 0 3px rgba(232, 155, 53, 0.12);
+    }
+
+    .gate-visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .access-gate.is-prompting .gate-lock {
+      transform: translateY(0) scale(0.78);
+    }
+
+    .access-gate.is-prompting .gate-lock-glyph {
+      transform: translateY(-1px) scale(0.92);
+    }
+
+    .access-gate.is-prompting .gate-form {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateY(0) scale(1);
+      transition-delay: 80ms, 0s, 80ms;
+    }
+
+    .access-gate.is-error .gate-shell {
+      animation: gate-reject 360ms ease both;
+    }
+
+    .access-gate.is-error .gate-code {
+      border-color: var(--gate-alert);
+      box-shadow: 0 0 0 3px rgba(239, 107, 87, 0.14);
+    }
+
+    .access-gate.is-unlocking {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .access-gate.is-unlocking .gate-lock {
+      border-color: var(--gate-orange);
+      animation: gate-unlock 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .access-gate.is-unlocking .gate-form {
+      opacity: 0;
+      transform: translateY(10px) scale(0.96);
+      transition-delay: 0s;
+    }
+
+    @keyframes gate-cover-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes gate-ring-breathe {
+      0%, 100% { opacity: 0.42; transform: scale(0.96); }
+      50% { opacity: 1; transform: scale(1.04); }
+    }
+
+    @keyframes gate-ring-turn {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes gate-scan {
+      from { transform: translateY(0); }
+      to { transform: translateY(656%); }
+    }
+
+    @keyframes gate-reject {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-9px); }
+      55% { transform: translateX(7px); }
+      78% { transform: translateX(-3px); }
+    }
+
+    @keyframes gate-unlock {
+      0% { transform: translateY(0) scale(0.78); }
+      45% { transform: translateY(0) scale(0.94) rotate(-4deg); }
+      100% { transform: translateY(0) scale(1.12) rotate(0); }
+    }
+
+    @media (max-width: 480px) {
+      .gate-shell {
+        width: min(260px, calc(100vw - 40px));
+      }
+
+      .gate-lock {
+        width: 108px;
+        height: 108px;
+      }
+
+      .gate-lock-glyph {
+        font-size: 52px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .access-gate,
+      .access-gate::after,
+      .gate-lock,
+      .gate-lock::before,
+      .gate-lock::after,
+      .gate-lock-glyph,
+      .gate-form,
+      .gate-shell {
+        animation-duration: 1ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 1ms !important;
+        transition-delay: 0s !important;
+      }
+    }
+
     @media print {
       html,
       body {
         overflow: visible;
         background: #ffffff;
       }
+
+      .access-gate {
+        display: none !important;
+      }
     }
   </style>
 </head>
 <body>
-  <deck-stage width="1920" height="1080" no-rail>
+  <div class="access-gate" id="access-gate" role="dialog" aria-modal="true" aria-label="访问验证">
+    <div class="gate-shell">
+      <button class="gate-lock" id="gate-lock" type="button" aria-label="输入访问码" aria-controls="gate-form" aria-expanded="false">
+        <span class="gate-lock-glyph" id="gate-lock-glyph" aria-hidden="true">🔒</span>
+      </button>
+      <form class="gate-form" id="gate-form" aria-hidden="true" autocomplete="off" novalidate>
+        <label class="gate-visually-hidden" for="gate-code">四位数字访问码</label>
+        <input class="gate-code" id="gate-code" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" autocapitalize="off" spellcheck="false" disabled>
+        <span class="gate-visually-hidden" id="gate-status" aria-live="assertive"></span>
+      </form>
+    </div>
+  </div>
+  <deck-stage width="1920" height="1080" no-rail inert aria-hidden="true">
     <section data-label="AI 提效实战">
       <div class="slide blueprint-dark cover">
         <div class="cover-top">
@@ -1087,5 +1385,89 @@
     </section>
   </deck-stage>
   <script src="deck-stage.js"></script>
+  <script>
+    (() => {
+      const passcode = "9527";
+      const gate = document.getElementById("access-gate");
+      const deck = document.querySelector("deck-stage");
+      const lockButton = document.getElementById("gate-lock");
+      const lockGlyph = document.getElementById("gate-lock-glyph");
+      const form = document.getElementById("gate-form");
+      const input = document.getElementById("gate-code");
+      const status = document.getElementById("gate-status");
+      const shell = gate.querySelector(".gate-shell");
+      let unlocked = false;
+
+      const blockDeckKeys = (event) => {
+        if (!unlocked) event.stopImmediatePropagation();
+      };
+
+      const revealDeck = () => {
+        if (!gate.isConnected) return;
+        deck.inert = false;
+        deck.removeAttribute("aria-hidden");
+        gate.remove();
+      };
+
+      const unlock = () => {
+        if (unlocked) return;
+        unlocked = true;
+        status.textContent = "验证通过";
+        input.disabled = true;
+        input.blur();
+        lockGlyph.textContent = "🔓";
+        lockButton.setAttribute("aria-label", "已解锁");
+        gate.classList.remove("is-error");
+        gate.classList.add("is-unlocking");
+        window.removeEventListener("keydown", blockDeckKeys, true);
+        gate.addEventListener("transitionend", (event) => {
+          if (event.target === gate && event.propertyName === "opacity") revealDeck();
+        });
+        window.setTimeout(revealDeck, 900);
+      };
+
+      const reject = () => {
+        input.value = "";
+        input.setAttribute("aria-invalid", "true");
+        status.textContent = "访问码错误，请重试";
+        gate.classList.remove("is-error");
+        requestAnimationFrame(() => gate.classList.add("is-error"));
+        input.focus({ preventScroll: true });
+      };
+
+      const verify = () => {
+        if (input.value === passcode) unlock();
+        else reject();
+      };
+
+      window.addEventListener("keydown", blockDeckKeys, true);
+
+      lockButton.addEventListener("click", () => {
+        if (gate.classList.contains("is-prompting")) return;
+        gate.classList.add("is-prompting");
+        lockButton.setAttribute("aria-expanded", "true");
+        form.setAttribute("aria-hidden", "false");
+        input.disabled = false;
+        requestAnimationFrame(() => input.focus({ preventScroll: true }));
+      });
+
+      input.addEventListener("input", () => {
+        const digits = input.value.replace(/\D/g, "").slice(0, 4);
+        if (input.value !== digits) input.value = digits;
+        input.removeAttribute("aria-invalid");
+        status.textContent = "";
+        if (digits.length === 4) verify();
+      });
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        verify();
+      });
+
+      shell.addEventListener("animationend", (event) => {
+        if (event.animationName === "gate-reject") gate.classList.remove("is-error");
+      });
+    })();
+  </script>
 </body>
 </html>
