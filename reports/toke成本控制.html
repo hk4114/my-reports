@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Coding Agent Token 成本控制</title>
+<style>
+  :root {
+    --bg: #0e1116;
+    --bg-2: #121722;
+    --panel: #171e2c;
+    --panel-2: #1c2434;
+    --ink: #eef1f5;
+    --ink-2: #b9c1cf;
+    --ink-3: #7d8798;
+    --line: #2a3345;
+    --line-soft: rgba(122,138,168,.16);
+    --amber: #f2a93b;
+    --amber-deep: #b9741a;
+    --teal: #3ec9a7;
+    --teal-deep: #1c7a66;
+    --red: #e5606b;
+    --blue: #5aa7e8;
+    --serif: "Songti SC", "Noto Serif SC", "Source Han Serif SC", "STSong", Georgia, serif;
+    --sans: -apple-system, "SF Pro Text", "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+    --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    --maxw: 1080px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  ::selection { background: rgba(242, 169, 59, .28); }
+
+  /* ---------- backdrop ---------- */
+  .grain {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    opacity: .5;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E");
+  }
+  .bg-glow {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(640px 360px at 82% -6%, rgba(242,169,59,.07), transparent 70%),
+      radial-gradient(520px 300px at 8% 14%, rgba(61,201,167,.05), transparent 70%),
+      radial-gradient(760px 520px at 50% 108%, rgba(90,167,232,.05), transparent 70%);
+  }
+
+  .wrap { position: relative; z-index: 1; max-width: var(--maxw); margin: 0 auto; padding: 0 40px; }
+
+  /* ---------- progress bar ---------- */
+  .progressbar {
+    position: fixed; top: 0; left: 0; height: 2px; width: 0;
+    background: linear-gradient(90deg, var(--amber), var(--teal));
+    z-index: 60;
+  }
+
+  /* ---------- header ---------- */
+  header { padding: 96px 0 56px; border-bottom: 1px solid var(--line-soft); }
+  .kicker {
+    font-family: var(--mono); font-size: 12.5px; letter-spacing: .28em;
+    color: var(--amber); text-transform: uppercase; margin-bottom: 26px;
+  }
+  h1 {
+    font-family: var(--serif); font-weight: 700;
+    font-size: clamp(38px, 5.6vw, 62px); line-height: 1.18; letter-spacing: .01em;
+    max-width: 15em;
+  }
+  h1 .accent { color: var(--amber); }
+  .dek {
+    margin-top: 26px; max-width: 34em;
+    color: var(--ink-2); font-size: 17.5px; line-height: 1.8;
+  }
+  .meta {
+    margin-top: 34px; display: flex; gap: 28px; flex-wrap: wrap;
+    font-family: var(--mono); font-size: 12.5px; color: var(--ink-3);
+  }
+  .meta span b { color: var(--ink-2); font-weight: 600; }
+
+  /* ---------- hero numbers ---------- */
+  .hero-stats {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+    background: var(--line-soft); border: 1px solid var(--line-soft);
+    margin-top: 46px;
+  }
+  .stat { background: var(--panel); padding: 22px 26px; }
+  .stat .num {
+    font-family: var(--mono); font-size: 30px; font-weight: 700;
+    color: var(--amber); letter-spacing: -.02em;
+  }
+  .stat .num small { font-size: 15px; color: var(--ink-3); font-weight: 500; }
+  .stat .lbl { margin-top: 6px; font-size: 13px; color: var(--ink-2); }
+
+  /* ---------- section ---------- */
+  section { padding: 84px 0 20px; }
+  .sec-head { display: flex; align-items: baseline; gap: 22px; margin-bottom: 34px; }
+  .sec-no {
+    font-family: var(--mono); font-size: 15px; color: var(--amber);
+    letter-spacing: .1em; white-space: nowrap;
+  }
+  .sec-no::after { content: " /"; color: var(--ink-3); }
+  h2 {
+    font-family: var(--serif); font-weight: 700;
+    font-size: 32px; line-height: 1.25; letter-spacing: .01em;
+  }
+  .sec-sub { max-width: 44em; color: var(--ink-2); margin-top: -8px; margin-bottom: 30px; font-size: 15.5px; }
+  .sec-lead { max-width: 44em; color: var(--ink-2); margin-bottom: 26px; font-size: 15.5px; }
+
+  /* ---------- formula ---------- */
+  .formula-card {
+    background: var(--panel); border: 1px solid var(--line-soft);
+    padding: 30px 34px; position: relative; overflow: hidden;
+  }
+  .formula-card::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: linear-gradient(var(--amber), var(--teal));
+  }
+  .formula {
+    font-family: var(--mono); font-size: clamp(15px, 2.4vw, 21px);
+    line-height: 2; color: var(--ink);
+  }
+  .formula .t { color: var(--amber); }
+  .formula .p { color: var(--ink-3); }
+  .formula .c { color: var(--teal); }
+  .formula-note { margin-top: 16px; color: var(--ink-3); font-size: 13.5px; }
+
+  /* ---------- bar chart: request anatomy ---------- */
+  .anatomy { margin-top: 34px; }
+  .anatomy-title {
+    font-size: 14px; color: var(--ink-2); margin-bottom: 14px;
+    letter-spacing: .06em;
+  }
+  .bar-row { display: grid; grid-template-columns: 132px 1fr 86px; gap: 14px; align-items: center; margin-bottom: 10px; }
+  .bar-label { font-size: 13px; color: var(--ink-2); font-family: var(--mono); text-align: right; }
+  .bar-track { background: var(--panel); height: 30px; position: relative; border: 1px solid var(--line-soft); }
+  .bar-fill { height: 100%; display: block; }
+  .bar-val { font-family: var(--mono); font-size: 12.5px; color: var(--ink-3); }
+  .fill-system { background: var(--blue); }
+  .fill-history { background: var(--amber); }
+  .fill-code { background: var(--teal); }
+  .fill-user { background: var(--red); }
+  .bar-user { position: relative; }
+  .bar-user .marker {
+    position: absolute; left: 0; top: -26px; height: 0;
+  }
+  .anatomy-note { margin-top: 16px; font-size: 13px; color: var(--ink-3); }
+
+  /* ---------- findings grid ---------- */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .card {
+    background: var(--panel); border: 1px solid var(--line-soft);
+    padding: 26px 28px;
+  }
+  .card h3 { font-size: 17px; margin-bottom: 12px; color: var(--ink); }
+  .card h3 em { font-style: normal; color: var(--amber); font-family: var(--mono); font-size: 13px; margin-right: 8px; }
+  .card p, .card li { color: var(--ink-2); font-size: 14.5px; }
+  .card ul { list-style: none; }
+  .card ul li { padding-left: 20px; position: relative; margin-bottom: 8px; }
+  .card ul li::before { content: "—"; position: absolute; left: 0; color: var(--amber); opacity: .7; }
+
+  /* ---------- ladder ---------- */
+  .ladder { margin-top: 10px; counter-reset: ladder; }
+  .rung {
+    display: grid; grid-template-columns: 86px 1fr 200px;
+    gap: 0; border: 1px solid var(--line-soft);
+    margin-bottom: -1px; background: var(--panel);
+    transition: background .25s, transform .25s;
+    position: relative;
+  }
+  .rung:hover { background: var(--panel-2); transform: translateX(4px); }
+  .rung .lv {
+    font-family: var(--mono); font-size: 40px; font-weight: 700;
+    color: transparent; -webkit-text-stroke: 1px var(--amber);
+    display: flex; align-items: center; justify-content: center;
+    border-right: 1px solid var(--line-soft); padding: 26px 0;
+  }
+  .rung .body { padding: 22px 26px; }
+  .rung .body h3 { font-size: 19px; font-family: var(--serif); margin-bottom: 8px; }
+  .rung .body p { color: var(--ink-2); font-size: 14.5px; }
+  .rung .gain {
+    display: flex; align-items: center; justify-content: center; text-align: center;
+    border-left: 1px solid var(--line-soft); padding: 16px;
+  }
+  .rung .gain .g { font-family: var(--mono); font-size: 15px; color: var(--teal); line-height: 1.5; }
+  .rung .gain .g small { display: block; color: var(--ink-3); font-size: 12px; font-family: var(--sans); margin-top: 4px; }
+
+  /* ---------- tables ---------- */
+  .table-wrap { overflow-x: auto; border: 1px solid var(--line-soft); }
+  table { width: 100%; border-collapse: collapse; background: var(--panel); min-width: 620px; }
+  th {
+    text-align: left; font-size: 12.5px; letter-spacing: .08em; color: var(--ink-3);
+    font-weight: 600; padding: 14px 18px; border-bottom: 1px solid var(--line-soft);
+    background: var(--bg-2); white-space: nowrap;
+  }
+  td { padding: 14px 18px; font-size: 14px; color: var(--ink-2); border-bottom: 1px solid var(--line-soft); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  td .mono, .mono { font-family: var(--mono); font-size: 13px; color: var(--ink); }
+  td .save { color: var(--teal); font-family: var(--mono); font-size: 13px; font-weight: 600; white-space: nowrap; }
+  td .cost { color: var(--amber); font-family: var(--mono); font-size: 13px; white-space: nowrap; }
+
+  /* ---------- pipeline demo ---------- */
+  .pipeline { background: #0c1017; border: 1px solid var(--line-soft); padding: 28px 30px; font-family: var(--mono); font-size: 13px; line-height: 2; overflow-x: auto; }
+  .pipeline .cm { color: var(--ink-3); }
+  .pipeline .k { color: var(--blue); }
+  .pipeline .v { color: var(--ink-2); }
+  .pipeline .ok { color: var(--teal); }
+
+  /* ---------- misconceptions ---------- */
+  .myth { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line-soft); border: 1px solid var(--line-soft); }
+  .myth-item { background: var(--panel); padding: 22px 26px; }
+  .myth-item .m { font-family: var(--mono); color: var(--red); font-size: 16px; margin-bottom: 6px; }
+  .myth-item .m::before { content: "✕ "; }
+  .myth-item p { color: var(--ink-2); font-size: 14px; }
+
+  /* ---------- checklist timeline ---------- */
+  .timeline { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .phase { border: 1px solid var(--line-soft); background: var(--panel); }
+  .phase-head { padding: 16px 22px; border-bottom: 1px solid var(--line-soft); display: flex; align-items: center; gap: 12px; }
+  .phase-head .tag { font-family: var(--mono); font-size: 12px; letter-spacing: .1em; padding: 3px 10px; border-radius: 2px; }
+  .tag-today { color: #0e1116; background: var(--amber); }
+  .tag-week { color: #0b1016; background: var(--teal); }
+  .tag-month { color: #0e1116; background: var(--blue); }
+  .phase-head h3 { font-size: 15px; }
+  .phase ul { list-style: none; padding: 8px 22px 18px; }
+  .phase li { padding: 9px 0; padding-left: 28px; position: relative; color: var(--ink-2); font-size: 14px; border-bottom: 1px dashed var(--line-soft); }
+  .phase li:last-child { border-bottom: none; }
+  .phase li::before {
+    content: ""; position: absolute; left: 2px; top: 17px; width: 10px; height: 10px;
+    border: 1.5px solid var(--amber); border-radius: 50%;
+  }
+  .phase li::after { content: ""; position: absolute; left: 7px; top: 27px; width: 1px; height: calc(100% - 14px); background: var(--line-soft); }
+  .phase li:last-child::after { display: none; }
+
+  /* ---------- conclusion ---------- */
+  .conclusion {
+    background: linear-gradient(180deg, var(--panel-2), var(--panel));
+    border: 1px solid var(--line-soft); padding: 44px 46px; margin: 40px 0;
+    position: relative;
+  }
+  .conclusion::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--amber); }
+  .conclusion .eq { font-family: var(--mono); font-size: clamp(15px, 2.2vw, 19px); line-height: 2.1; }
+  .conclusion .eq .t { color: var(--amber); }
+  .conclusion .eq .c { color: var(--teal); }
+  .conclusion h3 { font-family: var(--serif); font-size: 22px; margin-bottom: 16px; }
+
+  /* ---------- footer ---------- */
+  footer { margin-top: 60px; border-top: 1px solid var(--line-soft); padding: 36px 0 80px; }
+  footer .src { color: var(--ink-3); font-size: 13px; line-height: 2; }
+  footer .src a { color: var(--blue); text-decoration: none; }
+  footer .src a:hover { text-decoration: underline; }
+
+  /* ---------- nav ---------- */
+  nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(14, 17, 22, .86); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .nav-inner { max-width: var(--maxw); margin: 0 auto; padding: 0 40px; height: 52px; display: flex; align-items: center; gap: 26px; overflow-x: auto; }
+  .nav-inner a { color: var(--ink-3); font-size: 13px; text-decoration: none; font-family: var(--mono); letter-spacing: .04em; white-space: nowrap; transition: color .2s; }
+  .nav-inner a:hover { color: var(--amber); }
+  .nav-inner a b { color: var(--amber); font-weight: 600; margin-right: 5px; }
+
+  /* ---------- reveal ---------- */
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+
+  @media (max-width: 860px) {
+    .wrap, .nav-inner { padding: 0 20px; }
+    .grid-2, .grid-3, .timeline, .hero-stats, .myth { grid-template-columns: 1fr; }
+    .rung { grid-template-columns: 64px 1fr; }
+    .rung .gain { grid-column: 1 / -1; border-left: none; border-top: 1px solid var(--line-soft); }
+    .rung .lv { font-size: 30px; }
+    header { padding: 64px 0 40px; }
+    h1 { font-size: 38px; }
+    section { padding: 60px 0 10px; }
+    .conclusion { padding: 30px 26px; }
+    .bar-row { grid-template-columns: 96px 1fr 62px; }
+    .bar-label { font-size: 11.5px; text-align: left; }
+  }
+  @media print {
+    nav, .progressbar, .bg-glow, .grain { display: none; }
+    body { background: #fff; color: #111; }
+    .card, .formula-card, .myth-item, .phase, .conclusion, table { background: #fff; border-color: #ccc; }
+    .formula .t { color: #b9741a; } .formula .c { color: #1c7a66; }
+    .stat .num { color: #b9741a; }
+  }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+<div class="bg-glow"></div>
+<div class="progressbar" id="progress"></div>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-brand" href="#"><b>≡</b>TOKEN</a>
+    <a href="#s1"><b>01</b>心智模型</a>
+    <a href="#s2"><b>02</b>使用习惯</a>
+    <a href="#s3"><b>03</b>模型路由</a>
+    <a href="#s4"><b>04</b>上下文压缩</a>
+    <a href="#s5"><b>05</b>代码图谱</a>
+    <a href="#s6"><b>06</b>多 Agent</a>
+    <a href="#s7"><b>07</b>误区</a>
+    <a href="#s8"><b>08</b>行动清单</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- ============ HEADER ============ -->
+  <header>
+    <div class="kicker">REPORT&nbsp;·&nbsp;AI CODING AGENT COST</div>
+    <h1>一篇搞懂 AI Coding Agent<br>的 <span class="accent">Token 成本控制</span></h1>
+    <p class="dek">
+      你问的那句话，在每次请求里可能连 <b style="color:var(--amber)">1%</b> 都不到。
+      真正的成本大头，藏在系统为了“让你觉得它记得”而每轮重复搬运的上下文里。
+      本报告把账单拆开，给出一套从使用习惯、模型路由，到上下文压缩、代码图谱、多 Agent 协作的完整优化路径。
+    </p>
+    <div class="meta">
+      <span>来源 <b>腾讯技术工程 · devinyzeng</b></span>
+      <span>整理 <b>Kane Echoes</b></span>
+      <span>日期 <b>2026-08-07</b></span>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="num">&lt;1<small>%</small></div><div class="lbl">你问的话在请求中的占比</div></div>
+      <div class="stat"><div class="num">~89<small>%</small></div><div class="lbl">RTK 压终端输出的典型节省</div></div>
+      <div class="stat"><div class="num">70–85<small>%</small></div><div class="lbl">多 Agent 编排 vs 单 Agent 预估节省</div></div>
+    </div>
+  </header>
+
+  <!-- ============ 01 MENTAL MODEL ============ -->
+  <section id="s1">
+    <div class="sec-head reveal">
+      <span class="sec-no">01</span>
+      <h2>先把账单看明白</h2>
+    </div>
+    <p class="sec-sub reveal">真正决定账单的不是你敲进去的几十个字，而是系统为了让模型融入上下文自动带上的一大坨东西。</p>
+
+    <div class="formula-card reveal">
+      <div class="formula">
+        <span class="t">总成本</span> <span class="p">≈</span> 固定前缀 <span class="p">+</span> 会话历史 <span class="p">+</span> 运行时检索 <span class="p">+</span> 工具往返 <span class="p">+</span> 模型输出
+      </div>
+      <div class="formula-note">固定前缀 = System Prompt + Skill 定义 + Tool / MCP 定义 + 稳定背景文档。你的提问往往只是最后一撮“点火器”。</div>
+    </div>
+
+    <div class="anatomy reveal">
+      <div class="anatomy-title">一次典型请求的结构（近似分布）</div>
+      <div class="bar-row">
+        <div class="bar-label">用户问题</div>
+        <div class="bar-track bar-user"><div class="bar-fill fill-user" style="width:0.3%"></div></div>
+        <div class="bar-amount mono">0.1K</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">系统提示</div>
+        <div class="bar-track"><div class="bar-fill fill-system" style="width:2.3%"></div></div>
+        <div class="bar-amount mono">5K</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">项目说明</div>
+        <div class="bar-track"><div class="bar-fill fill-system" style="width:4.7%"></div></div>
+        <div class="bar-amount mono">10K</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Skill 定义</div>
+        <div class="bar-track"><div class="bar-fill fill-system" style="width:9%"></div></div>
+        <div class="bar-amount mono">20K</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Tool / MCP</div>
+        <div class="bar-track"><div class="bar-fill fill-system" style="width:14%"></div></div>
+        <div class="bar-amount mono">30K</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">历史会话</div>
+        <div class="bar-track"><div class="bar-fill fill-history" style="width:46%"></div></div>
+        <div class="bar-amount mono">100K</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">代码文件</div>
+        <div class="bar-track"><div class="bar-fill fill-code" style="width:23%"></div></div>
+        <div class="bar-amount mono">50K</div>
+      </div>
+      <div class="anatomy-note">注：并非所有产品精确如此，而是典型的成本分布。红色细条几乎不可见——那是你的提问。</div>
+    </div>
+
+    <div class="grid-3" style="margin-top:44px">
+      <div class="card reveal">
+        <h3><em>M1</em>“它记得”是幻觉</h3>
+        <ul>
+          <li>大模型本身无状态，“记得”其实是 Agent 层每轮把历史重新拼装再传入</li>
+          <li>所谓记忆 ≈ 再次传入，不是存储在模型里</li>
+        </ul>
+      </div>
+      <div class="card reveal">
+        <h3><em>M2</em>会话越长，每轮越贵</h3>
+        <ul>
+          <li>历史不是“放着等模型想”，而是很可能每轮都重新携带</li>
+          <li>越长会话 = 越重负债</li>
+        </ul>
+      </div>
+      <div class="card reveal">
+        <h3><em>M3</em>工具调用形成回路</h3>
+        <ul>
+          <li>读上下文 → 调工具 → 返回结果又塞回上下文 → 再下一轮</li>
+          <li>一次任务是一连串“请求—返回—再请求”的链条</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="table-wrap reveal" style="margin-top:44px">
+      <table>
+        <thead><tr><th>成本类型</th><th>它是什么</th><th>为什么放大</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">输入 Token</td><td>系统提示、历史消息、代码片段、检索结果、工具定义</td><td>每轮可能重复携带，是最大头</td></tr>
+          <tr><td class="mono">输出 Token</td><td>模型最终回答的文字</td><td>回答越长、越啰嗦、越容易失控</td></tr>
+          <tr><td class="mono">推理 Token</td><td>thinking budget / reasoning effort</td><td>简单任务走高推理档位会明显溢价</td></tr>
+          <tr><td class="mono">工具往返</td><td>工具描述、调用参数、返回结果进入上下文</td><td>一次工具调用常常比原问题还长</td></tr>
+          <tr><td class="mono">重试成本</td><td>第一次做错后重新来一轮</td><td>每修一次，整包上下文再付一遍</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card reveal" style="margin-top:22px;border-left:3px solid var(--amber)">
+      <h3>容易被低估的两项</h3>
+      <p><b>工具往返</b>：你以为只是“让它查个文件”，模型经历的却是 理解工具定义 → 生成参数 → 接收返回值 → 再思考，多段上下文交换。</p>
+      <p style="margin-top:10px"><b>重试成本</b>：格式不对、结构错、找错文件——于是又来一轮：重新描述 → 附带历史 → 拉代码 → 再跑。<strong style="color:var(--amber)">减少重试本身就是最硬的成本优化。</strong></p>
+    </div>
+
+    <div class="formula-card reveal" style="margin-top:26px;border-color:var(--line-soft)">
+      <div class="formula">
+        <span class="p">认知结论：</span> Token 优化的重点，<b style="color:var(--ink)">不是把提示词写短</b>，<br><span class="t">而是把前缀写稳</span>——让它能被 Prompt Cache 命中、被按需加载。
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 02 HABITS ============ -->
+  <section id="s2">
+    <div class="sec-head reveal">
+      <span class="sec-no">02</span>
+      <h2>使用习惯：最便宜，收益最大</h2>
+    </div>
+    <p class="sec-sub reveal">零工程投入，今天就能改。这一层解决“无意义的历史和废 Token”。</p>
+
+    <div class="grid-3">
+      <div class="card reveal"><h3><em>H1</em>一个 Session 一件事</h3><p>聊天与任务都分开：修 Bug 开一个，写文档开一个。Session 越长，继承的历史越多，每一轮越贵。</p></div>
+      <div class="card reveal"><h3><em>H2</em>长会话及时 /compact</h3><p>完整试错过程不是资产。需要的是：现在干什么、做完了什么、哪条路不通、下一步怎么做。</p></div>
+      <div class="card reveal"><h3><em>H3</em>聊天记录不是数据库</h3><p>背景、决策、约束、待办外置到文档、Memory、Repo Map、任务清单。会话只承载当前工作状态。</p></div>
+      <div class="card reveal"><h3><em>H4</em>指定输出格式</h3><p>「直接给结论，不要复述问题」。一行约束同时省输出，又能更可用 → 重试更少。</p></div>
+      <div class="card reveal"><h3><em>H5</em>Skill ≠ 免费能力</h3><p>每个 Skill 带 Description / Instructions / Examples。高频稳定通用的常驻；低频长说明的按需触发。</p></div>
+      <div class="card reveal"><h3><em>H6</em>MCP 宁少勿堆</h3><p>每多一个 MCP 就多一份 Tool Def + 选择成本。高频可能就两三个；工具越多决策越慢、错误调用越易发。</p></div>
+      <div class="card reveal"><h3><em>H7</em>CLI 优先于 MCP</h3><p>能 CLI 就 CLI（git diff / kubectl / docker ps）。MCP 的价值在跨系统编排、结构化返回、权限收敛。已有成熟命令链路时，别为看起来高级而过度工具化。</p></div>
+      <div class="card reveal"><h3><em>H8</em>引用文件带完整路径</h3><p>只写文件名 → AI 要搜索确认多次。用 <span class="mono">@src/config/config.go</span> 这类直接定位，省一整条搜索链路。</p></div>
+      <div class="card reveal"><h3><em>H9</em>意图一次说完</h3><p>四轮挤牙膏来回 = 重新组装上下文 + 历史 + 状态确认，成本是完整表达的好几倍。把背景、期望、验收条件都写清楚。</p></div>
+    </div>
+  </section>
+
+  <!-- ============ 03 ROUTING ============ -->
+  <section id="s3">
+    <div class="sec-head reveal">
+      <span class="sec-no">03</span>
+      <h2>模型路由：别让贵模型干便宜活</h2>
+    </div>
+    <p class="sec-lead reveal">路由是“匹配优先”，不是“便宜优先”。所有环节默认最强模型，就是直接烧钱。</p>
+
+    <div class="table-wrap reveal">
+      <table>
+        <thead><tr><th>任务</th><th>推荐档位</th><th>理由</th></tr></thead>
+        <tbody>
+          <tr><td>写单元测试</td><td class="save">便宜模型</td><td>模式稳定、模板化</td></tr>
+          <tr><td>写 commit message</td><td class="save">便宜模型</td><td>输出短、风险低</td></tr>
+          <tr><td>Code Review</td><td class="cost">中高档</td><td>需要语义理解</td></tr>
+          <tr><td>架构设计</td><td class="cost">强模型</td><td>长链路推理</td></tr>
+          <tr><td>复杂 Bug 分析</td><td class="cost">强模型</td><td>多步假设与验证</td></tr>
+          <tr><td>大批量分类 / 摘要</td><td class="save">低价或 Batch</td><td>规模大、成本敏感</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grid-2" style="margin-top:26px">
+      <div class="card reveal">
+        <h3>级联升级：先便宜，再升级</h3>
+        <div class="pipeline" style="margin-top:12px">
+          <span class="cm">便宜模型先跑</span><br>
+          <span class="k">↓　判断复杂度</span><br>
+          <span class="v">需要才升级</span><br>
+          <span class="cm">分类 → 初筛 → 摘要（20 页 → 1 页）→ 强模型推理</span>
+        </div>
+      </div>
+      <div class="card reveal">
+        <h3>调预算旋钮，不只换模型</h3>
+        <ul>
+          <li><b>reasoning effort</b> — OpenAI 建议多从 low 起步</li>
+          <li><b>thinking budget</b> — Gemini 可压到 0，关闭思考</li>
+          <li><b>verbosity / max output tokens</b> — 管回答长度</li>
+          <li>高推理档位做分类/摘要/提交说明 = 拿推土机扫地</li>
+        </ul>
+      </div>
+      <div class="card reveal">
+        <h3>把路由固化成系统</h3>
+        <p>Skill / Agent / Command 头部声明模型：<br><span class="mono">model: deepseek-v4-pro</span>，<span class="mono">context: fork</span>。<br>团队每个人用 <span class="mono">/commit</span>、<span class="mono">/gen-ut</span> 都默认便宜模型，成本治理从“靠人记得切”变成“系统默认更省”。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 04 CONTEXT ENGINEERING ============ -->
+  <section id="s4">
+    <div class="sec-head reveal">
+      <span class="sec-no">04</span>
+      <h2>上下文压缩：把高频内容压下来</h2>
+    </div>
+    <p class="sec-lead reveal">四个工具方向不同、可以叠加。装上一个就能看到收益。</p>
+
+    <div class="table-wrap reveal">
+      <table>
+        <thead><tr><th>工具</th><th>压缩什么</th><th>典型节省</th><th>安装</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="mono">RTK</td>
+            <td>终端命令输出（cargo test / pytest / git diff…）</td>
+            <td class="save">80–99.6%</td>
+            <td class="mono">brew install rtk</td>
+          </tr>
+          <tr>
+            <td class="mono">Caveman</td>
+            <td>AI 回复输出（删废话，A→B→C）</td>
+            <td class="save">65–75%</td>
+            <td class="mono">install.sh</td>
+          </tr>
+          <tr>
+            <td class="mono">headroom</td>
+            <td>所有进上下文的内容，可逆压缩按需取回</td>
+            <td class="save">47–92%</td>
+            <td class="mono">pip install headroom-ai[all]</td>
+          </tr>
+          <tr>
+            <td class="mono">context-mode</td>
+            <td>MCP / 工具返回结果 + 跨 compact 会话连续性</td>
+            <td class="save">98%（工具输出）</td>
+            <td class="mono">npm -g context-mode</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grid-2" style="margin-top:26px">
+      <div class="card reveal">
+        <h3>RTK — 终端输出才是 Token 大杀手</h3>
+        <p>30 分钟开发会话实测：不用 RTK ≈ <b>118,000</b> token，用后 ≈ <b>23,900</b>（省 <b style="color:var(--teal)">80%</b>）。</p>
+        <ul style="margin-top:10px">
+          <li>测试输出 −90%、git 类 −60~80%、read/cat −70%</li>
+          <li>四层策略：智能过滤 / 分组聚合 / 智能截断 / 去重合并（「连接超时 ×10」）</li>
+        </ul>
+      </div>
+      <div class="card reveal">
+        <h3>Caveman — 压 AI 输出端废话</h3>
+        <p>四种模式：lite → full → ultra → wenyan。实测解释 React bug：118 → 15 tokens（−87%）。</p>
+        <ul style="margin-top:10px">
+          <li>操作：<span class="mono">/caveman</span> 激活，<span class="mono">stop caveman</span> 关闭</li>
+          <li>来源：arXiv:2604.00025</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card reveal" style="margin-top:26px">
+      <h3>Prompt Cache：所有优化的地基</h3>
+      <p>缓存的是“稳定前缀的处理结果”，不是答案。三个推论：</p>
+      <ul style="margin-top:12px">
+        <li><b>省的不是首次，而是重复成本</b> — 第二次、第三次复用才体现</li>
+        <li><b>缓存不是“写短”，是“写稳”</b> — 天天改 System Prompt，缓存永远不命中</li>
+        <li><b>静态放前，动态放后</b> — 缓存认前缀，不认任意位置的拼图</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 05 CODE GRAPH ============ -->
+  <section id="s5">
+    <div class="sec-head reveal">
+      <span class="sec-no">05</span>
+      <h2>代码图谱：AI 不再盲搜</h2>
+    </div>
+    <p class="sec-sub reveal">真正贵的不是“读代码”，而是“找代码”。图谱让 AI 在读文件之前就知道该读哪里。</p>
+
+    <div class="table-wrap reveal">
+      <table>
+        <thead><tr><th></th><th>Graphify</th><th>CodeGraph</th></tr></thead>
+        <tbody>
+          <tr><td>形态</td><td>Skill 形态，零配置</td><td>MCP Server + 持久化图库（Neo4j / KuzuDB）</td></tr>
+          <tr><td>适用</td><td>个人项目、快速上手</td><td>团队、大型仓库、持久化查询</td></tr>
+          <tr><td>核心能力</td><td><span class="mono">/graphify</span> 生成知识图谱 + graph.json</td><td>trace 调用路径 / impact 影响分析 / context 入口点</td></tr>
+          <tr><td>效益</td><td>减少 71.5× Token（官方）</td><td>平均 −47% Token、−58% Tool Call、−22% 耗时</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grid-2" style="margin-top:26px">
+      <div class="card reveal">
+        <h3>Graphify：查询式知识地图</h3>
+        <p>Tree-sitter 解析构建图谱，AI 查 <span class="mono">graph.json</span> 而不是反复 grep。跨文件问题时影响分析稳定得多：中间件链、Prisma model、测试文件一次列全。</p>
+      </div>
+      <div class="card reveal">
+        <h3>CodeGraph：图数据库基准</h3>
+        <p>7 个真实开源仓库（VS Code / Django / Tokio…）平均 −16% 成本、−47% Token、−58% Tool Call。收益与项目规模、语言强相关：Rust / TS 大型项目收益最显著。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 06 MULTI-AGENT ============ -->
+  <section id="s6">
+    <div class="sec-head reveal">
+      <span class="sec-no">06</span>
+      <h2>多 Agent 协作：别让所有任务挤进一个上下文</h2>
+    </div>
+    <p class="sec-le reveal">单个 Agent 越用越贵：规划、写码、测试、Review 全在一个会话，历史越积越长，便宜活也用贵模型。</p>
+
+    <div class="ladder">
+      <div class="rung reveal">
+        <div class="lv">01</div>
+        <div class="body"><h3>subagent：任务隔离的最低成本</h3><p>子任务分发成独立上下文，每个 subagent 只看自己需要的，主 session 只见结果。子任务真的能拆才拆，否则更贵。</p></div>
+        <div class="gain"><div class="g">独立上下文<small>只回传结果</small></div></div>
+      </div>
+      <div class="rung reveal">
+        <div class="lv">02</div>
+        <div class="body"><h3>Orchestrator–Worker</h3><p>协调器只负责规划调度，不亲自读文件；每个 Worker 只做一件事，只看自己需要的上下文，完成即销毁。</p></div>
+        <div class="gain"><div class="g">每轮成本 5–10×<small>压缩</small></div></div>
+      </div>
+      <div class="rung reveal">
+        <div class="lv">03</div>
+        <div class="body"><h3>上下文隔离后，数据靠文件流转</h3><p>会话历史不互通，文件系统共享 → 结构化 JSON 传递（<span class="mono">.agent/findings.json</span>），进度文件追踪（<span class="mono">progress.json</span>），Worker 指令包含精确 context 裁剪。</p></div>
+        <div class="gain"><div class="g">JSON 外置记忆<small>不做历史回放</small></div></div>
+      </div>
+      <div class="rung reveal">
+        <div class="lv">04</div>
+        <div class="body"><h3>并行执行：时间与成本同压</h3><p>独立子任务同时启动，不等待。4 个 Worker 实际加速 2.8–3.4×；只共享进度文件，无上下文重叠。</p></div>
+        <div class="gain"><div class="g">4 Worker<small>≈3.4× 加速</small></div></div>
+      </div>
+    </div>
+
+    <div class="card reveal" style="margin-top:30px">
+      <h3>端到端对比：单 Agent vs 编排</h3>
+      <div class="pipeline">
+<span class="cm">// 单 Agent 跑 10 轮，每轮 150K+ 历史</span><br>
+<span class="cost" style="color:var(--amber)">总成本 ≈ 800K – 1.2M tokens</span><br>
+<br>
+<span class="cm">// Orchestrator,Worker 分工（规划、分析、实现、补测、汇总）</span><br>
+<span class="ok">总成本 ≈ 100K – 150K tokens&nbsp;&nbsp;节省 70–85%</span><br>
+<br>
+<span class="cm">来源差异</span>：Worker 只看当前步骤相关内容 · 便宜模型干执行活 · 并行减少时间 · 进度文件替代历史
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 07 MISCONCEPTIONS ============ -->
+  <section id="s7">
+    <div class="sec-head reveal">
+      <span class="sec-no">07</span>
+      <h2>误区：很多“优化”其实在加成本</h2>
+    </div>
+    <div class="myth">
+      <div class="myth-item reveal"><div class="m">上下文越多越好</div><p>噪声越多，模型越易分神。看该读哪个文件，比读多少更重要。</p></div>
+      <div class="myth-item reveal"><div class="m">MCP 越多越强</div><p>低频工具长期挂载，贡献的更多是选择成本与错误率。</p></div>
+      <div class="myth-item reveal"><div class="m">全 Agent 都上最强模型</div><p>这不叫优化质量，叫放弃路由。</p></div>
+      <div class="myth-item reveal"><div class="m">聊天记录当长期记忆</div><p>会话越来，关键信息越难提取，成本越高。外置才是记忆系统。</p></div>
+      <div class="myth-item reveal"><div class="m">只看单价不看总成本</div><p>便宜模型如果带来更多重试、搜索、回填，总成本未必更低。</p></div>
+      <div class="myth-item reveal"><div class="m">Prompt 越短越好</div><p>压缩弄丢了必要 few-shot / 格式说明 → 反复重试。要精准，不是一味缩短。</p></div>
+    </div>
+  </section>
+
+  <!-- ============ 08 ACTION PLAN ============ -->
+  <section id="s8">
+    <div class="sec-head reveal">
+      <span class="sec-no">08</span>
+      <h2>行动清单</h2>
+    </div>
+
+    <div class="timeline">
+      <div class="phase reveal">
+        <div class="phase-head"><span class="tag tag-today">TODAY</span><h3>今天就能做</h3></div>
+        <ul>
+          <li>/clear 一个 Session 一件事</li>
+          <li>长会话及时 compact</li>
+          <li>指定输出格式，减废话减重试</li>
+          <li>清点 Skill / MCP，低频按需加载</li>
+          <li>能 CLI 就先 CLI</li>
+          <li>引用文件用 @路径</li>
+          <li>意图一次说完</li>
+        </ul>
+      </div>
+      <div class="phase reveal">
+        <div class="phase-head"><span class="tag tag-week">THIS WEEK</span><h3>这周能做</h3></div>
+        <ul>
+          <li>按任务给模型分档</li>
+          <li>Skill / Agent / Command 绑默认模型</li>
+          <li>装 RTK，压测试 / git / 搜索输出</li>
+          <li>需要短回复时启用 Caveman</li>
+          <li>评估 Graphify 或 CodeGraph</li>
+        </ul>
+      </div>
+      <div class="phase reveal">
+        <div class="phase-head"><span class="tag tag-month">THIS MONTH</span><h3>这个月能做</h3></div>
+        <ul>
+          <li>稳定前缀做成缓存友好结构</li>
+          <li>评估 headroom / context-mode</li>
+          <li>建代码图谱与 Summary / Memory 外置记忆</li>
+          <li>拆出边界清晰的 Orchestrator–Worker</li>
+          <li>.agent/ 目录约定 + progress.json</li>
+          <li>Token / 成本 / 重试率 / 工具调用观测面板</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- conclusion -->
+    <div class="conclusion reveal">
+      <h3>一句话结论</h3>
+      <div class="eq">
+        AI 成本优化，本质不是让你少问一句话，<br>
+        而是让系统少重复做无效工作 ——<br>
+        <br>
+        <span class="t">更低成本</span> = 更少重复上下文<br>
+        <span class="t">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> + 更合理模型路由<br>
+        <span class="t">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> + 更精准代码检索<br>
+        <span class="t">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> + 更清晰 Agent 分工
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="src">
+      本报告整理自：腾讯技术工程《一篇搞懂 AI Coding Agent 的 Token 成本控制》 作者 devinyzeng（原文收藏于 kane_echoes/inbox/article/技术/一篇搞懂-ai-coding-agent-的-token-成本控制.md）。<br>
+      数据与结论均来自原文，标注为“实测 / 估算”处为原文口径。Caveman 数据引用 arXiv:2604.00025；CodeGraph 基准为 2026-06-02 Claude Opus 4.8 验证。
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  // progress bar
+  const progress = document.getElementById('progress');
+  const onScroll = () => {
+    const h = document.documentElement;
+    const max = h.scrollHeight - h.clientHeight;
+    progress.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
+  };
+  document.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
