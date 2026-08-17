@@ -1468,6 +1468,26 @@
         if (event.animationName === "gate-reject") gate.classList.remove("is-error");
       });
     })();
+
+    // 向讲稿页（speaker.html）广播当前页码：BroadcastChannel 为主，
+    // localStorage 兜底（storage 事件只在其他标签页触发，正好符合用途）。
+    (() => {
+      const CHANNEL = "ai-efficiency-deck";
+      const deck = document.querySelector("deck-stage");
+      if (!deck) return;
+      let bc = null;
+      try { if ("BroadcastChannel" in window) bc = new BroadcastChannel(CHANNEL); } catch (_) {}
+      deck.addEventListener("slidechange", (event) => {
+        const msg = {
+          type: "slide",
+          index: event.detail.index,
+          total: event.detail.total,
+          ts: Date.now(),
+        };
+        try { if (bc) bc.postMessage(msg); } catch (_) {}
+        try { localStorage.setItem(CHANNEL + "-slide", JSON.stringify(msg)); } catch (_) {}
+      });
+    })();
   </script>
 </body>
 </html>

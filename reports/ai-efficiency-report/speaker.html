@@ -1,0 +1,514 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>汇报讲稿 · AI 提效实战</title>
+  <style>
+    :root {
+      --bg: #0b1220;
+      --bg-panel: #111a2e;
+      --bg-current: rgba(240, 136, 62, 0.07);
+      --ink: #e9eef7;
+      --ink-dim: #93a1b8;
+      --accent: #f0883e;
+      --line: #22304d;
+      --ok: #3fb27f;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── 顶部状态条 ─────────────────────────────── */
+    #hud {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 12px 28px;
+      background: rgba(11, 18, 32, 0.96);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(6px);
+    }
+    #hud .hud-left { display: flex; align-items: baseline; gap: 14px; min-width: 0; }
+    #page-indicator {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+    #section-label {
+      font-size: 15px;
+      color: var(--ink-dim);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    #hud .hud-center { flex: 1; display: flex; justify-content: center; }
+    .progress {
+      width: min(420px, 100%);
+      height: 6px;
+      background: var(--line);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    #progress-fill {
+      height: 100%;
+      width: 0;
+      background: var(--accent);
+      border-radius: 3px;
+      transition: width 0.35s ease;
+    }
+    #hud .hud-right { display: flex; align-items: center; gap: 10px; }
+    .badge {
+      font-size: 13px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      color: var(--ink-dim);
+      white-space: nowrap;
+    }
+    .badge.linked { color: var(--ok); border-color: var(--ok); }
+    .timer {
+      font-size: 24px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.03em;
+    }
+    .page-timer {
+      font-size: 14px;
+      color: var(--ink-dim);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+    .page-timer.over { color: var(--accent); font-weight: 700; }
+    #hud button {
+      font: inherit;
+      font-size: 14px;
+      color: var(--ink);
+      background: var(--bg-panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 6px 14px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    #hud button:hover { border-color: var(--accent); }
+    #btn-resync { color: var(--accent); border-color: var(--accent); }
+
+    /* ── 讲稿正文 ──────────────────────────────── */
+    #notes {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 36px 32px 45vh;
+    }
+    .preflight {
+      border: 1px dashed var(--line);
+      border-radius: 12px;
+      padding: 18px 26px;
+      margin-bottom: 36px;
+      color: var(--ink-dim);
+      font-size: 16px;
+      line-height: 1.9;
+    }
+    .preflight strong { color: var(--ink); }
+    .note {
+      border-left: 4px solid transparent;
+      border-radius: 0 12px 12px 0;
+      padding: 26px 30px;
+      margin: 0 0 20px;
+      opacity: 0.36;
+      transition: opacity 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+      cursor: pointer;
+    }
+    .note.current {
+      opacity: 1;
+      border-left-color: var(--accent);
+      background: var(--bg-current);
+    }
+    .note-head {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .note-page {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      border-radius: 6px;
+      padding: 2px 10px;
+      white-space: nowrap;
+    }
+    .note-title { font-size: 17px; font-weight: 700; }
+    .note-budget { font-size: 14px; color: var(--ink-dim); margin-left: auto; white-space: nowrap; }
+    .note p {
+      font-size: clamp(23px, 2vw, 30px);
+      line-height: 1.85;
+      margin: 0 0 0.8em;
+    }
+    .note p:last-child { margin-bottom: 0; }
+    .note p.lead { font-weight: 700; }
+    .note .cue {
+      display: block;
+      font-size: 15px;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .note .cue::before { content: "▸ "; }
+    .note ol.groups, .note ol.closing {
+      margin: 0 0 0.8em;
+      padding-left: 1.6em;
+      font-size: clamp(22px, 1.9vw, 28px);
+      line-height: 1.85;
+    }
+    .note ol.groups li, .note ol.closing li { margin-bottom: 0.35em; }
+    .note .flow {
+      font-size: clamp(21px, 1.8vw, 27px);
+      font-weight: 700;
+      color: var(--accent);
+      background: var(--bg-panel);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 14px 20px;
+      margin: 0 0 0.8em;
+      line-height: 1.7;
+    }
+
+    /* ── 底部快捷键提示 ─────────────────────────── */
+    #hint {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 13px;
+      color: var(--ink-dim);
+      padding: 8px;
+      background: rgba(11, 18, 32, 0.9);
+      border-top: 1px solid var(--line);
+    }
+    #hint kbd {
+      font-family: inherit;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 1px 7px;
+      margin: 0 2px;
+      background: var(--bg-panel);
+    }
+    @media (max-width: 900px) {
+      #hud { flex-wrap: wrap; gap: 10px; }
+      #hud .hud-center { order: 3; flex-basis: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <header id="hud">
+    <div class="hud-left">
+      <span id="page-indicator">页 1 / 12</span>
+      <span id="section-label">开场 · AI 提效实战</span>
+    </div>
+    <div class="hud-center">
+      <div class="progress"><div id="progress-fill"></div></div>
+    </div>
+    <div class="hud-right">
+      <span id="sync-badge" class="badge">手动模式</span>
+      <span id="timer" class="timer">00:00</span>
+      <span id="page-timer" class="page-timer">约 1 分钟</span>
+      <button id="btn-timer" type="button">开始计时</button>
+      <button id="btn-resync" type="button" hidden>回到台上页</button>
+      <button id="btn-fullscreen" type="button">全屏</button>
+    </div>
+  </header>
+
+  <main id="notes">
+    <div class="preflight">
+      <strong>开场前确认</strong>：台上页面 <strong>index.html</strong>，访问码 <strong>9527</strong>；全程约 <strong>20 分钟</strong>。
+      阶段口径：三个案例验证“AI 写、人工逐行审查”；双闭环用于升级到“审方案、验功能”；验收自动化是下一阶段。
+      本页与台上 PPT 同浏览器打开时自动跟随翻页；跟随失败时用 <kbd>←</kbd><kbd>→</kbd> 手动切换。
+    </div>
+
+    <section class="note" data-page="1" data-section="开场 · AI 提效实战" data-budget="60">
+      <div class="note-head">
+        <span class="note-page">页 1</span><span class="note-title">封面：它写完了，我还在看</span><span class="note-budget">约 1 分钟</span>
+      </div>
+      <p>这页标题说的是我引入 AI 后遇到的第一个问题：它写得越来越快，我却还在逐行看。</p>
+      <p>今天汇报的，是前端交付模式的一条完整变化路径：上半年我先复盘协作和返工的损耗；六月底明确目标；七月开始在边界清晰的核心前端任务中试跑 AI；随后再用规则、工具和门禁，把人的注意力从逐行审查移到方案确认和功能验收。</p>
+    </section>
+
+    <section class="note" data-page="2" data-section="开场 · 四个项目" data-budget="60">
+      <div class="note-head">
+        <span class="note-page">页 2</span><span class="note-title">工作负载：一个人同时推进四个项目</span><span class="note-budget">约 1 分钟</span>
+      </div>
+      <p>先看工作负载。部门四个后端，前端只有我一个。同时推进数字工地的对内、对外平台，预制厂管理系统，数智工地小程序，以及持续插入的零散业务模块。每周常态有 8 到 12 条功能线程，分别处在需求、开发、联调和验收等不同阶段。</p>
+      <p class="lead">一个人怎样让这些交付保持可控？这就是今天要回答的问题。</p>
+    </section>
+
+    <section class="note" data-page="3" data-section="原始瓶颈 · 协作损耗" data-budget="120">
+      <div class="note-head">
+        <span class="note-page">页 3</span><span class="note-title">协作损耗先消耗了注意力</span><span class="note-budget">约 2 分钟</span>
+      </div>
+      <p>跨团队交付有一笔结构账：信息每传递一次，就多一次重新理解；代码每交付一次，就多一次重新质检。</p>
+      <p>按上半年的工时做粗略复盘，我花在 Review、联调和排查上的时间，比自己开发还多。规则虽然写进了文档，也在会议里对齐过，但没有稳定进入实际交付链路，同类问题仍会重复发生。</p>
+      <p>这不是任何一方是否认真负责的问题。合作单位按既有流程交付，我按交付标准验收，双方都在做各自的工作。损耗来自跨团队等待、上下文重建和反复确认；传递环节越多，返工概率越高。</p>
+    </section>
+
+    <section class="note" data-page="4" data-section="角色演进 · AI 后的瓶颈" data-budget="90">
+      <div class="note-head">
+        <span class="note-page">页 4</span><span class="note-title">AI 提高了执行速度，瓶颈仍在 Review</span><span class="note-budget">约 1.5 分钟</span>
+      </div>
+      <span class="cue">本页信号行与瓶颈框为点击动画，讲完一段点一下。</span>
+      <p>六月底我重新定义了目标：与其先追求所有协作环节同时改变，不如先让最终交付更可控。前者需要多方协调和较长周期；后者可以从我负责的环节立即开始。</p>
+      <p>七月起，我给核心前端交付增加了一条 AI 执行链路。配置、数据和样式等工作仍由合作单位按原流程推进；边界清晰、可以验证和回滚的核心功能，由我定义规格、AI 执行、我负责验收。两条链路并行，各自发挥作用。</p>
+      <p>第一次变化只是把开发动作交给 AI。交付速度提高了，但我仍然逐行检查、预判逻辑节点，并在方向偏离时重新下指令。执行变快，注意力消耗没有同步下降，瓶颈从 Review 别人的代码变成了 Review AI 的代码。</p>
+    </section>
+
+    <section class="note" data-page="5" data-section="角色演进 · 角色转变图" data-budget="90">
+      <div class="note-head">
+        <span class="note-page">页 5</span><span class="note-title">三个阶段：检查粒度上移</span><span class="note-budget">约 1.5 分钟</span>
+      </div>
+      <p>这张图展示三个阶段：人工协作开发；AI 写、人工逐行看；审方案、验功能。人的质量责任没有消失，检查粒度发生了变化：从盯每一行，逐步上移到确认方案、检查自动验证结果和验收功能。真正稀缺的仍然是人的判断。</p>
+      <p>下面三个案例发生在第二阶段。它们证明的是缩短传递链已经带来收益，还不能单独证明验收自动化已经完成。</p>
+    </section>
+
+    <section class="note" data-page="6" data-section="案例证据 · 案例数据" data-budget="180">
+      <div class="note-head">
+        <span class="note-page">页 6</span><span class="note-title">三个案例验证缩短传递链已经产生收益</span><span class="note-budget">约 3 分钟</span>
+      </div>
+      <p><strong>案例一，跨平台重构。</strong>三个平台存在大量重复组件，以前改一处需要同步改三处。旧模式至少 6.5 天，新模式 2 天，提效至少 69%；在这次上线后的回归观察中，bug 从以往至少 2 个降到 0 个。</p>
+      <p>这次提效仍然依赖人工逐行审查。改变之处在于：需求、修改和纠偏都在同一份上下文中完成，发现偏差后可以立即修正，不需要重新等待另一方恢复上下文。</p>
+      <p><strong>案例二，新功能交付。</strong>征迁看板包含列表、填表和数据联调。旧模式至少 3.5 天，新模式 1 天，提效 71%。我把需求直接整理成可验收的规格，再交给 AI 执行，显著减少了跨角色的二次转述。</p>
+      <p><strong>案例三，线上排障。</strong>新页面部署后白屏，系统显示成功，但页面无法打开。旧模式需要运维、开发和我分别排查并交换结果，至少半天；新模式在同一上下文中连续检查部署脚本和打包结果，半小时定位并修复两个叠加问题。这里不再给一个无法复核的百分比，只保留实际耗时。</p>
+    </section>
+
+    <section class="note" data-page="7" data-section="案例证据 · 提效来源" data-budget="60">
+      <div class="note-head">
+        <span class="note-page">页 7</span><span class="note-title">提效主要来自减少传递与反复确认</span><span class="note-budget">约 1 分钟</span>
+      </div>
+      <p>三个案例的共同变化，不是单纯少写了多少代码，而是减少了等待、上下文重建和反复确认。一个责任人把需求、开发、Review、联调和部署五个环节串起来，跨团队转译减少，反馈回路就更短。</p>
+      <p>这里有明确边界：这套方式适合职责明确、可以自动验证、能够快速回滚的任务。跨系统架构、安全合规、生产权限和高风险变更，仍然需要独立复核和必要审批。“一个人串起一条产线”不等于取消协作和制衡。</p>
+    </section>
+
+    <section class="note" data-page="8" data-section="两个闭环 · 总览图" data-budget="60">
+      <div class="note-head">
+        <span class="note-page">页 8</span><span class="note-title">两个闭环：上下文管方向，执行管放行</span><span class="note-budget">约 1 分钟</span>
+      </div>
+      <p>从逐行审查升级到审方案、验功能，靠的不是更大胆地相信 AI，而是两个闭环：上下文闭环管方向，执行闭环管放行。缺少上下文，AI 可能高速跑偏；缺少门禁，做出的结果可能偏离目标。</p>
+    </section>
+
+    <section class="note" data-page="9" data-section="两个闭环 · 上下文闭环" data-budget="120">
+      <div class="note-head">
+        <span class="note-page">页 9</span><span class="note-title">上下文闭环把隐性知识写进项目仓库</span><span class="note-budget">约 2 分钟</span>
+      </div>
+      <p><strong>第一个，上下文闭环。</strong>AI 默认不了解这个项目的最新状态：项目是什么、做到哪一步、哪些文件能碰、什么条件算完成。信息如果只在个人脑子里，每次都要重新讲，遗漏一处就可能从起点偏离。</p>
+      <p>所以我把六类信息写进项目仓库，并要求 AI 开工前读取。它们可以归成三组：</p>
+      <ol class="groups">
+        <li><strong>稳定规则</strong>：项目总规则、标准化流程、行为边界；</li>
+        <li><strong>当前状态</strong>：当前规格与契约；</li>
+        <li><strong>决策记忆</strong>：过程记录和关键决策。</li>
+      </ol>
+      <p>这样做的目标不是让文档替代沟通，而是让项目状态有统一来源。AI 读完后，能知道该做什么、不该做什么，以及做到什么程度才算完成。</p>
+    </section>
+
+    <section class="note" data-page="10" data-section="两个闭环 · 执行闭环" data-budget="120">
+      <div class="note-head">
+        <span class="note-page">页 10</span><span class="note-title">执行闭环：门禁保护人的注意力</span><span class="note-budget">约 2 分钟</span>
+      </div>
+      <p><strong>第二个，执行闭环。</strong>流程与图上保持一致：</p>
+      <div class="flow">方案确认 →［必须我点头］→ 小版本开发 →［自动验证］→［我做功能验收］→ 上线</div>
+      <p>AI 可以高速完成小版本；ESLint、类型检查和规则一致性检查负责机械验证；未通过就返回修改；通过后仍由我做功能验收。通行条件只有两个：自动验证通过，有我的明确确认。</p>
+      <p>门禁保护的是人的注意力。机器处理可重复检查，人只在方案、失败项、功能结果和最终放行这些需要判断的节点介入。AI 不能自己宣布自己正确，验收标准和业务判断仍由人负责。</p>
+    </section>
+
+    <section class="note" data-page="11" data-section="团队迁移 · 三个动作" data-budget="120">
+      <div class="note-head">
+        <span class="note-page">页 11</span><span class="note-title">三个动作可以迁移到其他团队</span><span class="note-budget">约 2 分钟</span>
+      </div>
+      <span class="cue">三条动作为点击逐条展开，讲一条点一下。</span>
+      <p>这套方法不只适用于写代码。三个动作可以迁移到其他团队。</p>
+      <p><strong>第一，把团队上下文写下来。</strong>找一名不了解当前任务的同事，只给他现有文档，看他能否说清三件事：正在做什么、标准流程是什么、怎样判断做对了。答不上来的地方就是信息断层。目标不是让新人从此不提问，而是让他能够定位当前状态、找到正确责任人，并完成一个标准任务。</p>
+      <p><strong>第二，在关键流程建立硬门禁。</strong>对不确定性强、出错代价高的节点，明确谁确认、依据什么证据、满足什么条件才能推进。不一定要建设审批系统，一封可追溯的确认邮件也比口头放行可靠。</p>
+      <p><strong>第三，把验证变成看得见的证据。</strong>报告、数据、截图和客户确认都可以，但证据必须对应验收标准，并且换一个人也能独立判断。把验证从“我相信已经完成”变成“我能看到为什么算完成”。</p>
+    </section>
+
+    <section class="note" data-page="12" data-section="收尾 · 下一阶段：验收自动化" data-budget="120">
+      <div class="note-head">
+        <span class="note-page">页 12</span><span class="note-title">下一阶段：验收自动化 + 收尾</span><span class="note-budget">约 2 分钟</span>
+      </div>
+      <p>最后一页讲下一阶段：验收自动化。当前已经从逐行审代码走到审方案、验功能；下一步是继续把检查粒度从“每个功能点”收敛到“没有通过的项”。</p>
+      <p>路径是：根据已经确认的验收标准生成测试用例，自动跑回归，自动比对预期与实际输出；全部通过就继续推进，没通过的项目交给人做业务判断。这里的边界必须说清：不是让 AI 自己判断自己对不对，而是把事先确定的标准转成可重复执行的检查。</p>
+      <p>最后回到这次实践的结果。AI 没有让我不用工作，也没有取代原有协作方式。它让我减少重复 Review 和上下文重建，把时间集中到方案、边界、异常和最终验收上。返工更少，交付更可控。</p>
+      <p class="lead">三句话收尾：</p>
+      <ol class="closing">
+        <li>提效主要来自减少跨人转译和反复确认，不只是提高写代码的速度。</li>
+        <li>上下文管方向，门禁管放行；规则、验证和必要审批一个都不能少。</li>
+        <li>AI 负责高速执行，人负责目标、边界、业务判断和最终放行。</li>
+      </ol>
+      <p class="lead">一个人可以在边界清晰的任务里串起一条产线，但不能省掉规则、验证和制衡。</p>
+    </section>
+  </main>
+
+  <footer id="hint">
+    <kbd>←</kbd><kbd>→</kbd> 切换页 · <kbd>↑</kbd><kbd>↓</kbd> 滚动 · <kbd>空格</kbd> 开始/暂停计时 · <kbd>F</kbd> 全屏 · 点击任意页跳转
+  </footer>
+
+  <script>
+    (() => {
+      const CHANNEL = "ai-efficiency-deck";
+      const STORE_KEY = "ai-efficiency-deck-slide";
+      const notes = Array.from(document.querySelectorAll(".note"));
+      const total = notes.length;
+      const pageIndicator = document.getElementById("page-indicator");
+      const sectionLabel = document.getElementById("section-label");
+      const progressFill = document.getElementById("progress-fill");
+      const syncBadge = document.getElementById("sync-badge");
+      const timerEl = document.getElementById("timer");
+      const pageTimerEl = document.getElementById("page-timer");
+      const btnTimer = document.getElementById("btn-timer");
+      const btnResync = document.getElementById("btn-resync");
+      const btnFullscreen = document.getElementById("btn-fullscreen");
+
+      let current = 0;          // 讲稿当前页（0 基）
+      let deckIndex = null;     // 台上最后广播的页码
+      let follow = false;       // 是否跟随台上
+      let running = false;      // 计时状态
+      let elapsed = 0;          // 已累计秒数
+      let startedAt = 0;        // 本次起跑时间戳
+      let pageEnteredAt = null; // 进入当前页的时间戳（计时中才有效）
+      let lastSyncTs = 0;       // 去重：storage 轮询与事件可能重复
+
+      const fmt = (s) => {
+        s = Math.max(0, Math.floor(s));
+        return String(Math.floor(s / 60)).padStart(2, "0") + ":" + String(s % 60).padStart(2, "0");
+      };
+      const budgetText = (sec) => "约 " + (sec % 60 === 0 ? (sec / 60) + " 分钟" : (sec / 60).toFixed(1) + " 分钟");
+
+      const updateHud = () => {
+        const note = notes[current];
+        pageIndicator.textContent = "页 " + (current + 1) + " / " + total;
+        sectionLabel.textContent = note.dataset.section;
+        progressFill.style.width = ((current + 1) / total * 100) + "%";
+        if (!running) pageTimerEl.textContent = budgetText(+note.dataset.budget);
+        if (deckIndex !== null && !follow && deckIndex !== current) {
+          btnResync.hidden = false;
+          btnResync.textContent = "回到台上页（页 " + (deckIndex + 1) + "）";
+        } else {
+          btnResync.hidden = true;
+        }
+      };
+
+      const show = (i, fromDeck) => {
+        current = Math.min(Math.max(i, 0), total - 1);
+        notes.forEach((n, k) => n.classList.toggle("current", k === current));
+        notes[current].scrollIntoView({ behavior: "smooth", block: "center" });
+        if (running) pageEnteredAt = performance.now();
+        pageTimerEl.classList.remove("over");
+        if (fromDeck) { follow = true; }
+        updateHud();
+      };
+
+      // ── 计时 ──────────────────────────────────
+      const tick = () => {
+        const secs = elapsed + (running ? (performance.now() - startedAt) / 1000 : 0);
+        timerEl.textContent = fmt(secs);
+        if (running && pageEnteredAt !== null) {
+          const note = notes[current];
+          const budget = +note.dataset.budget;
+          const pageSecs = (performance.now() - pageEnteredAt) / 1000;
+          pageTimerEl.textContent = "本页 " + fmt(pageSecs) + " / " + fmt(budget);
+          pageTimerEl.classList.toggle("over", pageSecs > budget);
+        }
+      };
+      setInterval(tick, 500);
+
+      const toggleTimer = () => {
+        if (running) {
+          elapsed += (performance.now() - startedAt) / 1000;
+          running = false;
+          btnTimer.textContent = "继续计时";
+        } else {
+          startedAt = performance.now();
+          pageEnteredAt = performance.now();
+          running = true;
+          btnTimer.textContent = "暂停";
+        }
+        tick();
+      };
+
+      // ── 台上同步（BroadcastChannel 主通道，storage 事件 + 轮询兜底）──
+      const applySync = (index, ts) => {
+        if (typeof index !== "number" || index < 0 || index >= total) return;
+        if (ts && ts <= lastSyncTs) return;
+        lastSyncTs = ts || Date.now();
+        deckIndex = index;
+        syncBadge.textContent = "已连接台上 PPT";
+        syncBadge.classList.add("linked");
+        if (follow || current === 0) show(index, true);
+        updateHud();
+      };
+
+      if ("BroadcastChannel" in window) {
+        try {
+          const bc = new BroadcastChannel(CHANNEL);
+          bc.onmessage = (e) => {
+            if (e.data && e.data.type === "slide") applySync(e.data.index, e.data.ts);
+          };
+        } catch (_) { /* file:// 等场景不支持时走兜底 */ }
+      }
+      window.addEventListener("storage", (e) => {
+        if (e.key !== STORE_KEY || !e.newValue) return;
+        try {
+          const d = JSON.parse(e.newValue);
+          if (d && d.type === "slide") applySync(d.index, d.ts);
+        } catch (_) {}
+      });
+      // 轮询兜底：storage 事件不触发的环境（部分 file:// 场景）也能跟上
+      setInterval(() => {
+        try {
+          const raw = localStorage.getItem(STORE_KEY);
+          if (!raw) return;
+          const d = JSON.parse(raw);
+          if (d && d.type === "slide") applySync(d.index, d.ts);
+        } catch (_) {}
+      }, 800);
+
+      // ── 手动控制 ──────────────────────────────
+      const manualGo = (i) => { follow = false; show(i, false); };
+
+      notes.forEach((n, k) => n.addEventListener("click", () => manualGo(k)));
+
+      document.addEventListener("keydown", (e) => {
+        if (e.target instanceof HTMLInputElement || e.target instanceof HTMLButtonElement) return;
+        if (e.key === "ArrowRight") { e.preventDefault(); manualGo(current + 1); }
+        else if (e.key === "ArrowLeft") { e.preventDefault(); manualGo(current - 1); }
+        else if (e.key === "Home") { e.preventDefault(); manualGo(0); }
+        else if (e.key === "End") { e.preventDefault(); manualGo(total - 1); }
+        else if (e.key === " ") { e.preventDefault(); toggleTimer(); }
+        else if (e.key === "f" || e.key === "F") { toggleFullscreen(); }
+      });
+
+      const toggleFullscreen = () => {
+        if (document.fullscreenElement) document.exitFullscreen();
+        else document.documentElement.requestFullscreen().catch(() => {});
+      };
+
+      btnTimer.addEventListener("click", () => { toggleTimer(); btnTimer.blur(); });
+      btnResync.addEventListener("click", () => {
+        if (deckIndex !== null) { follow = true; show(deckIndex, true); }
+        btnResync.blur();
+      });
+      btnFullscreen.addEventListener("click", () => { toggleFullscreen(); btnFullscreen.blur(); });
+
+      show(0, false);
+    })();
+  </script>
+</body>
+</html>
