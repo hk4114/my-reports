@@ -120,6 +120,24 @@
       object-position: center;
       background: #f7f9f9;
     }
+    .image-stage-badge {
+      position: absolute;
+      z-index: 2;
+      right: 100px;
+      top: 50px;
+      display: flex;
+      width: 200px;
+      height: 60px;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid var(--orange);
+      background: rgba(255, 255, 255, 0.96);
+      color: var(--orange);
+      font-family: var(--font-mono);
+      font-size: 22px;
+      font-weight: 800;
+    }
+
 
     h1,
     h2,
@@ -589,6 +607,131 @@
       font-size: 34px;
       line-height: 1.5;
     }
+    /* 06 — case evidence */
+    .case-table {
+      margin-top: 38px;
+      border-top: 2px solid var(--ink);
+      border-bottom: 2px solid var(--ink);
+    }
+
+    .case-table-header,
+    .case-table-row {
+      display: grid;
+      grid-template-columns: 1.25fr 0.72fr 0.72fr 0.86fr 1.55fr;
+    }
+
+    .case-table-header {
+      min-height: 54px;
+      background: rgba(220, 234, 244, 0.62);
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 21px;
+      font-weight: 800;
+    }
+
+    .case-table-row {
+      min-height: 158px;
+      border-top: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.56);
+    }
+
+    .case-table-header > *,
+    .case-table-row > * {
+      display: flex;
+      min-width: 0;
+      align-items: center;
+      padding: 18px 24px;
+    }
+
+    .case-table-header > * + *,
+    .case-table-row > * + * {
+      border-left: 1px solid var(--line);
+    }
+
+    .case-name,
+    .case-gain,
+    .case-result {
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+    }
+
+    .case-name {
+      gap: 9px;
+    }
+
+    .case-name span,
+    .case-gain span,
+    .case-result span {
+      color: var(--muted);
+      font-size: 24px;
+      line-height: 1.35;
+    }
+
+    .case-name span {
+      font-family: var(--font-mono);
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .case-name strong {
+      font-size: 34px;
+      line-height: 1.25;
+    }
+
+    .case-time strong {
+      color: var(--blue);
+      font-size: 42px;
+      line-height: 1;
+    }
+
+    .case-gain {
+      gap: 8px;
+    }
+
+    .case-gain strong {
+      color: var(--orange);
+      font-size: 43px;
+      line-height: 1;
+    }
+
+    .case-gain strong.qualitative {
+      color: var(--ink);
+      font-size: 30px;
+      line-height: 1.25;
+    }
+
+    .case-result {
+      gap: 8px;
+    }
+
+    .case-result strong {
+      color: var(--ink);
+      font-size: 29px;
+      line-height: 1.25;
+    }
+
+    .case-stage-note {
+      display: flex;
+      min-height: 78px;
+      margin-top: 24px;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      padding: 16px 28px;
+      background: var(--navy);
+      color: var(--white);
+      font-size: 28px;
+      text-align: center;
+    }
+
+    .case-stage-note span {
+      color: #b9d7eb;
+      font-family: var(--font-mono);
+      font-size: 21px;
+      font-weight: 800;
+    }
+
 
     /* 07 — gains */
     .insight-grid {
@@ -1153,7 +1296,7 @@
           <p class="cover-kicker"><span>从逐行 Review 到审方案、验功能</span></p>
           <h1>
             <span>它写完了，我还在看</span>
-            <span class="orange">上半年引入 AI 后前端交付模式的变化</span>
+            <span class="orange">从上半年协作复盘，到七月 AI 试运行</span>
           </h1>
           <p class="cover-subtitle"><span>用规则、工具和关键门禁，把人的注意力留给真正需要判断的地方</span></p>
         </div>
@@ -1269,8 +1412,37 @@
     </section>
 
     <section data-label="案例数据">
-      <div class="image-slide">
-        <img src="imgs/02-infographic-case-metrics.webp" alt="跨平台重构、新功能交付和线上排障三个案例的提效数据">
+      <div class="slide blueprint">
+        <div class="eyebrow"><span>阶段二 / AI 写，人工逐行审查</span></div>
+        <h2 class="slide-title"><span>三个案例验证缩短传递链已经产生收益</span></h2>
+        <div class="corner-index"><span>06 / 12</span></div>
+        <div class="case-table">
+          <div class="case-table-header">
+            <span>案例</span><span>旧模式</span><span>新模式</span><span>效率变化</span><span>结果与解释</span>
+          </div>
+          <div class="case-table-row">
+            <div class="case-name"><span>CASE 01</span><strong>跨平台重构</strong></div>
+            <div class="case-time"><strong>≥6.5 天</strong></div>
+            <div class="case-time"><strong>2 天</strong></div>
+            <div class="case-gain"><strong>≥69%</strong><span>提效</span></div>
+            <div class="case-result"><strong>本次回归 bug：0</strong><span>需求、修改和纠偏在同一上下文完成</span></div>
+          </div>
+          <div class="case-table-row">
+            <div class="case-name"><span>CASE 02</span><strong>新功能交付</strong></div>
+            <div class="case-time"><strong>≥3.5 天</strong></div>
+            <div class="case-time"><strong>1 天</strong></div>
+            <div class="case-gain"><strong>≥71%</strong><span>提效</span></div>
+            <div class="case-result"><strong>规格直接进入执行</strong><span>减少跨角色的二次转述</span></div>
+          </div>
+          <div class="case-table-row">
+            <div class="case-name"><span>CASE 03</span><strong>线上排障</strong></div>
+            <div class="case-time"><strong>≥半天</strong></div>
+            <div class="case-time"><strong>半小时</strong></div>
+            <div class="case-gain"><strong class="qualitative">不计百分比</strong><span>旧耗时不是精确小时数</span></div>
+            <div class="case-result"><strong>半小时闭环两个问题</strong><span>在同一上下文连续检查部署与打包</span></div>
+          </div>
+        </div>
+        <div class="case-stage-note"><span>证据边界</span><strong>这组数据不代表验收自动化已经完成</strong></div>
       </div>
     </section>
 
@@ -1282,13 +1454,13 @@
         <div class="insight-grid">
           <div class="insight">
             <span class="case-label">CASE 01 / 跨平台重构</span>
-            <div class="delta"><strong>6.5 天 → 2 天</strong></div>
-            <h3><span>自动检查接管代码质检，</span><span>功能验收只看结果</span></h3>
+            <div class="delta"><strong>≥6.5 天 → 2 天</strong></div>
+            <h3><span>同一上下文持续纠偏，</span><span>减少交付等待</span></h3>
           </div>
           <div class="insight">
             <span class="case-label">CASE 02 / 新功能交付</span>
-            <div class="delta"><strong>3.5 天 → 1 天</strong></div>
-            <h3><span>方案确认后直接执行，</span><span>不再经历二次翻译</span></h3>
+            <div class="delta"><strong>≥3.5 天 → 1 天</strong></div>
+            <h3><span>规格直接进入执行，</span><span>减少二次转述</span></h3>
           </div>
           <div class="insight">
             <span class="case-label">CASE 03 / 线上排障</span>
@@ -1297,7 +1469,7 @@
           </div>
         </div>
         <div class="insight-conclusion">
-          <span>省掉的</span><span class="orange">不是写代码的时间</span><span>，而是传递信息和反复确认的时间</span>
+          <span>主要减少的</span><span class="orange">不是写代码的时间</span><span>，而是传递信息和反复确认的时间</span>
         </div>
       </div>
     </section>
@@ -1378,9 +1550,10 @@
       </div>
     </section>
 
-    <section data-label="验收自动化">
+    <section data-label="下一阶段：验收自动化">
       <div class="image-slide">
         <img src="imgs/05-infographic-validation-evolution.webp" alt="从逐行审代码到验收自动化的检查粒度演进图">
+        <div class="image-stage-badge">NEXT / 下一阶段</div>
       </div>
     </section>
   </deck-stage>
