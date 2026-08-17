@@ -1,0 +1,1821 @@
+<!doctype html>
+<html lang="zh-CN" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Herdr 中文可视化操作手册：理解会话、工作区、标签页、窗格和智能体，完成分屏、分离、重连与故障诊断。">
+  <title>Herdr 可视化操作手册</title>
+  <script>document.documentElement.classList.replace('no-js', 'js');</script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@600;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700;900&display=swap');
+
+    :root {
+      --bg: #17171a;
+      --surface: #1e1e22;
+      --surface-alt: #202024;
+      --surface-hover: #26262b;
+      --mass: #26262b;
+      --terminal-bg: #111114;
+      --border: #26262b;
+      --border-strong: #35353d;
+      --border-hover: #6c7086;
+      --text: #eae8ee;
+      --text-secondary: #cdccd2;
+      --text-tertiary: #b0afb6;
+      --text-faint: #908f96;
+      --accent: #cba6f7;
+      --accent-hover: #d7b9fa;
+      --accent-active: #b98ce9;
+      --accent-ink: #17171a;
+      --accent-soft: rgba(203, 166, 247, 0.10);
+      --bg-rgb: 23, 23, 26;
+      --surface-rgb: 30, 30, 34;
+      --text-rgb: 234, 232, 238;
+      --accent-rgb: 203, 166, 247;
+      --success: #5fae74;
+      --error: #c73e3e;
+      --warning: #d3a027;
+      --idle: #5a615c;
+      --done: #94e2d5;
+      --print-bg: #ffffff;
+      --print-text: #000000;
+      --radius-sm: 2px;
+      --radius-md: 4px;
+      --radius-lg: 6px;
+      --grid-size: 72px;
+      --font-zh: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+      --font-display: "Archivo", "Noto Sans SC", "PingFang SC", sans-serif;
+      --font-mono: "JetBrains Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+      --ease-cinema: cubic-bezier(.16, 1, .3, 1);
+      --nav-h: 60px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; background: var(--bg); }
+    body {
+      margin: 0;
+      min-width: 320px;
+      overflow-x: clip;
+      background: var(--bg);
+      color: var(--text-secondary);
+      font-family: var(--font-zh);
+      font-size: 16px;
+      line-height: 1.8;
+      letter-spacing: .02em;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      pointer-events: none;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: var(--grid-size) var(--grid-size);
+      opacity: .72;
+    }
+    ::selection { background: var(--accent); color: var(--accent-ink); }
+    button, a, input { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    a { color: inherit; }
+    img, svg { display: block; max-width: 100%; }
+    code, pre { font-family: var(--font-mono); }
+    [id] { scroll-margin-top: calc(var(--nav-h) + 24px); }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .ambient {
+      position: fixed;
+      inset: -25vmax;
+      z-index: -2;
+      pointer-events: none;
+      opacity: .5;
+      background:
+        radial-gradient(circle at 24% 28%, rgba(var(--accent-rgb), .12), transparent 23%),
+        radial-gradient(circle at 76% 62%, rgba(var(--text-rgb), .045), transparent 25%);
+      transform: translate3d(0, 0, 0) rotate(0deg);
+      animation: ambient-drift 18s ease-in-out infinite alternate;
+    }
+    @keyframes ambient-drift {
+      to { transform: translate3d(2.5vw, -1.5vh, 0) rotate(2deg) scale(1.03); opacity: .68; }
+    }
+    .cursor-glow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      width: 440px;
+      height: 440px;
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0;
+      background: radial-gradient(circle, rgba(var(--accent-rgb), .075), transparent 68%);
+      transform: translate3d(-50%, -50%, 0);
+      transition: opacity 200ms ease;
+    }
+    .cursor-glow.is-visible { opacity: 1; }
+
+    .manual-nav {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 50;
+      height: var(--nav-h);
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid transparent;
+      background: transparent;
+      transition: background 180ms ease, border-color 180ms ease;
+    }
+    .manual-nav.is-scrolled {
+      border-color: var(--border-strong);
+      background: rgba(var(--bg-rgb), .88);
+      backdrop-filter: blur(12px);
+    }
+    .manual-nav__inner {
+      width: min(100% - 2rem, 1372px);
+      margin-inline: auto;
+      display: flex;
+      align-items: center;
+      gap: 1.4rem;
+    }
+    .brand {
+      min-height: 44px;
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      gap: .65rem;
+      color: var(--text);
+      text-decoration: none;
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 900;
+      letter-spacing: -.04em;
+    }
+    .brand__mark {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--border-strong);
+      color: var(--accent);
+      font: 700 .72rem/1 var(--font-mono);
+    }
+    .manual-nav__links {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+    }
+    .manual-nav a {
+      min-height: 44px;
+      min-width: 44px;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--text-tertiary);
+      text-decoration: none;
+      font: 600 .68rem/1 var(--font-mono);
+      letter-spacing: .1em;
+      white-space: nowrap;
+      transition: color 120ms ease;
+    }
+    .manual-nav a:hover,
+    .manual-nav a[aria-current="true"] { color: var(--accent); }
+    .manual-nav a:active { color: var(--accent-active); }
+    .manual-nav a:focus-visible,
+    .brand:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 4px;
+    }
+    .progress-rail {
+      position: fixed;
+      inset: var(--nav-h) 0 auto;
+      z-index: 49;
+      height: 2px;
+      background: var(--border);
+    }
+    .progress-rail__fill {
+      width: 100%;
+      height: 100%;
+      background: var(--accent);
+      transform: scaleX(var(--scroll-progress, 0));
+      transform-origin: left center;
+    }
+
+    .page-shell {
+      width: min(100%, 1440px);
+      margin-inline: auto;
+      border-inline: 1px solid var(--border-strong);
+      background: rgba(var(--bg-rgb), .9);
+      animation: page-enter 480ms var(--ease-cinema) both;
+    }
+    @keyframes page-enter {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .section {
+      position: relative;
+      padding: clamp(5rem, 10vw, 9rem) 0;
+      border-top: 1px solid var(--border-strong);
+    }
+    .section-inner {
+      width: min(calc(100% - 2 * clamp(1rem, 3vw, 2.125rem)), 1280px);
+      margin-inline: auto;
+      position: relative;
+      z-index: 2;
+    }
+    .reading-column { width: min(100%, 760px); }
+    .eyebrow {
+      width: fit-content;
+      margin: 0 0 1rem;
+      padding-bottom: .42rem;
+      border-bottom: 2px solid var(--accent);
+      color: var(--accent);
+      font: 600 .72rem/1.4 var(--font-mono);
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+    .section h2 {
+      margin: 0;
+      max-width: 18ch;
+      color: var(--text);
+      font-family: var(--font-zh);
+      font-size: clamp(2rem, 4.6vw, 4.5rem);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -.035em;
+    }
+    .section-lede {
+      max-width: 64ch;
+      margin: 1.25rem 0 0;
+      color: var(--text-secondary);
+      font-size: clamp(1rem, 1.3vw, 1.075rem);
+      line-height: 1.8;
+      letter-spacing: .02em;
+    }
+
+    .action-button {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .6rem;
+      padding: .75rem 1rem;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+      background: transparent;
+      color: var(--text);
+      text-decoration: none;
+      font: 600 .74rem/1 var(--font-mono);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: color 140ms ease, background 140ms ease, border-color 140ms ease, transform 140ms ease;
+    }
+    .action-button:hover {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: var(--accent-ink);
+    }
+    .action-button:active {
+      background: var(--accent-active);
+      border-color: var(--accent-active);
+      transform: translateY(1px) scale(.99);
+    }
+    .action-button:focus-visible {
+      outline: 3px solid rgba(var(--accent-rgb), .34);
+      outline-offset: 3px;
+    }
+    .action-button:disabled,
+    .action-button[aria-disabled="true"] {
+      border-color: var(--border);
+      color: var(--text-faint);
+      background: transparent;
+      cursor: not-allowed;
+      opacity: .55;
+      transform: none;
+    }
+    .action-button--primary {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: var(--accent-ink);
+    }
+
+    .manual-card {
+      position: relative;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-md);
+      background: var(--surface);
+      color: var(--text-secondary);
+      overflow: clip;
+      transition: border-color 160ms ease, background 160ms ease, transform 180ms var(--ease-cinema);
+    }
+    .manual-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0;
+      background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(var(--accent-rgb), .10), transparent 62%);
+      transition: opacity 160ms ease;
+    }
+    .manual-card > * { position: relative; z-index: 1; }
+    .manual-card:hover {
+      border-color: var(--border-hover);
+      background: var(--surface-hover);
+      transform: translateY(-2px);
+    }
+    .manual-card:hover::before { opacity: 1; }
+    .manual-card:focus-within {
+      border-color: var(--accent);
+      outline: 3px solid rgba(var(--accent-rgb), .22);
+      outline-offset: 2px;
+    }
+    .manual-card[aria-disabled="true"] { opacity: .5; pointer-events: none; }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      min-height: 28px;
+      padding: .32rem .55rem;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+      color: var(--text-secondary);
+      background: var(--surface);
+      font: 600 .66rem/1 var(--font-mono);
+      letter-spacing: 0;
+    }
+    .status-badge::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      flex: 0 0 7px;
+      background: currentColor;
+    }
+    .status-badge[data-status="working"] { color: var(--warning); }
+    .status-badge[data-status="blocked"] { color: var(--error); }
+    .status-badge[data-status="idle"] { color: var(--success); }
+    .status-badge[data-status="done"] { color: var(--done); }
+    .status-badge[data-status="unknown"] { color: var(--text-faint); }
+    .status-badge[data-status="running"] { color: var(--success); }
+
+    .terminal-panel {
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-md);
+      background: var(--terminal-bg);
+      color: var(--text-secondary);
+      box-shadow: 0 24px 80px rgba(var(--bg-rgb), .56);
+      overflow: hidden;
+    }
+    .terminal-panel__bar {
+      min-height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0 .75rem;
+      border-bottom: 1px solid var(--border-strong);
+      color: var(--text-faint);
+      font: 500 .66rem/1 var(--font-mono);
+    }
+    .terminal-panel__bar strong { color: var(--text-secondary); font-weight: 500; }
+    .terminal-panel__body { padding: 1rem; }
+    .command-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: .75rem;
+      padding: .82rem 1rem;
+      border-top: 1px solid var(--border);
+    }
+    .command-row:first-child { border-top: 0; }
+    .command-row code {
+      overflow-x: auto;
+      color: var(--text);
+      font: 400 .82rem/1.65 var(--font-mono);
+      white-space: nowrap;
+      scrollbar-width: thin;
+    }
+    .command-row code::before { content: "$ "; color: var(--accent); }
+    .copy-button {
+      min-width: 72px;
+      min-height: 44px;
+      padding: .55rem .7rem;
+    }
+    .copy-button[data-state="copied"] { color: var(--success); border-color: var(--success); }
+    .copy-button[data-state="error"] { color: var(--error); border-color: var(--error); }
+
+    .text-link {
+      color: var(--accent);
+      text-decoration-line: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: .24em;
+      transition: color 120ms ease, text-underline-offset 120ms ease;
+    }
+    .text-link:hover { color: var(--accent-hover); text-underline-offset: .34em; }
+    .text-link:active { color: var(--accent-active); }
+    .text-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+
+    /* Hero */
+    .hero-story { min-height: 100vh; border-top: 0; padding: 0; }
+    .hero-stage {
+      position: relative;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: calc(var(--nav-h) + 2rem) clamp(1rem, 3vw, 2.125rem) 2rem;
+      overflow: hidden;
+    }
+    .hero-copy {
+      position: relative;
+      z-index: 8;
+      width: min(100%, 1100px);
+      text-align: center;
+      pointer-events: none;
+    }
+    .hero-kicker {
+      margin: 0 0 1.25rem;
+      color: var(--accent);
+      font: 600 .72rem/1 var(--font-mono);
+      letter-spacing: .26em;
+      text-transform: uppercase;
+    }
+    .hero-mark {
+      margin: 0;
+      color: var(--text);
+      font-family: var(--font-display);
+      font-size: clamp(3.6rem, 9vw, 8.75rem);
+      font-weight: 900;
+      line-height: .82;
+      letter-spacing: -.06em;
+    }
+    .hero-copy h1 {
+      max-width: 13ch;
+      margin: 1.1rem auto 0;
+      color: var(--text);
+      font-family: var(--font-zh);
+      font-size: clamp(2.8rem, 6.3vw, 6.5rem);
+      font-weight: 900;
+      line-height: .98;
+      letter-spacing: -.045em;
+      text-wrap: balance;
+    }
+    .hero-word { display: inline-block; }
+    .hero-word--accent {
+      background: linear-gradient(135deg, var(--text), var(--accent));
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-lede {
+      max-width: 760px;
+      margin: 1.5rem auto 0;
+      color: var(--text-secondary);
+      font-size: clamp(1rem, 1.4vw, 1.12rem);
+      line-height: 1.8;
+      letter-spacing: .02em;
+    }
+    .hero-status {
+      margin-top: 1.5rem;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: .55rem;
+    }
+    .hero-actions {
+      margin-top: 1.4rem;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: .75rem;
+      pointer-events: auto;
+    }
+    .orbit-card {
+      position: absolute;
+      z-index: 5;
+      width: clamp(150px, 17vw, 230px);
+      min-height: 116px;
+      padding: .9rem;
+      transform: rotate(var(--r, 0deg));
+      box-shadow: 0 12px 32px rgba(var(--bg-rgb), .24);
+      will-change: transform, opacity;
+    }
+    .orbit-card__index {
+      color: var(--accent);
+      font: 600 .64rem/1 var(--font-mono);
+      letter-spacing: .12em;
+    }
+    .orbit-card h3 {
+      margin: .65rem 0 0;
+      color: var(--text);
+      font: 700 .94rem/1.25 var(--font-zh);
+    }
+    .orbit-card p {
+      margin: .42rem 0 0;
+      color: var(--text-tertiary);
+      font-size: .76rem;
+      line-height: 1.55;
+    }
+    .orbit-card[data-card="session"] { left: 4%; top: 19%; --r: -5deg; }
+    .orbit-card[data-card="workspace"] { right: 5%; top: 17%; --r: 4deg; }
+    .orbit-card[data-card="tab"] { left: 2%; top: 58%; --r: 3deg; }
+    .orbit-card[data-card="pane"] { right: 3%; top: 59%; --r: -4deg; }
+    .orbit-card[data-card="agent"] { left: 15%; bottom: 4%; --r: -2deg; }
+    .orbit-card[data-card="detach"] { right: 16%; bottom: 3%; --r: 2deg; }
+    .hero-terminal {
+      position: absolute;
+      z-index: 7;
+      left: 50%;
+      top: 51%;
+      width: min(920px, calc(100% - 3rem));
+      transform: translate(-50%, -50%);
+    }
+    .herdr-frame {
+      display: grid;
+      grid-template-columns: 190px minmax(0, 1fr);
+      min-height: 430px;
+    }
+    .herdr-sidebar { border-right: 1px solid var(--border-strong); }
+    .herdr-sidebar__title,
+    .pane-label {
+      padding: .7rem .8rem;
+      border-bottom: 1px solid var(--border-strong);
+      color: var(--text-faint);
+      font: 600 .64rem/1 var(--font-mono);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .workspace-row {
+      padding: .85rem .8rem;
+      background: var(--surface-alt);
+      border-bottom: 1px solid var(--border);
+    }
+    .workspace-row strong {
+      display: block;
+      color: var(--text);
+      font: 600 .78rem/1.4 var(--font-mono);
+    }
+    .workspace-row small { color: var(--text-faint); font: 400 .65rem/1.4 var(--font-mono); }
+    .agent-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .5rem;
+      padding: .72rem .8rem;
+      color: var(--text-secondary);
+      font: 500 .72rem/1 var(--font-mono);
+    }
+    .herdr-main { min-width: 0; display: grid; grid-template-rows: 40px 1fr; }
+    .tab-bar {
+      display: flex;
+      align-items: stretch;
+      border-bottom: 1px solid var(--border-strong);
+      font: 500 .68rem/1 var(--font-mono);
+    }
+    .tab-pill { display: flex; align-items: center; padding: 0 .9rem; color: var(--text-faint); border-right: 1px solid var(--border-strong); }
+    .tab-pill.is-active { background: var(--accent); color: var(--accent-ink); }
+    .pane-grid { display: grid; grid-template-columns: 1.35fr .65fr; min-height: 0; }
+    .pane-demo { min-width: 0; padding: 1rem; border-right: 1px solid var(--border-strong); color: var(--text-tertiary); font: 400 .72rem/1.7 var(--font-mono); }
+    .pane-demo:last-child { border-right: 0; }
+    .terminal-line { margin: 0; white-space: pre-wrap; }
+    .terminal-line + .terminal-line { margin-top: .35rem; }
+    .terminal-prompt { color: var(--accent); }
+    .terminal-success { color: var(--success); }
+    .terminal-warning { color: var(--warning); }
+    .terminal-dim { color: var(--text-faint); }
+
+    /* Model */
+    .model-story { padding-block: 0; min-height: 100vh; }
+    .model-stage {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: minmax(0, .78fr) minmax(0, 1.22fr);
+      align-items: center;
+      gap: clamp(2rem, 6vw, 6rem);
+      padding: clamp(5rem, 8vw, 7rem) 0;
+    }
+    .model-stack {
+      position: relative;
+      min-height: 540px;
+      perspective: 1200px;
+    }
+    .model-layer {
+      position: absolute;
+      inset: calc(var(--layer) * 34px);
+      z-index: calc(var(--layer) + 1);
+      padding: 1rem;
+      border: 1px solid var(--border-strong);
+      background: rgba(var(--surface-rgb), calc(.92 - var(--layer) * .08));
+      box-shadow: 0 16px 48px rgba(var(--bg-rgb), .34);
+      will-change: transform, opacity;
+    }
+    .model-layer__head {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      color: var(--text-faint);
+      font: 600 .66rem/1 var(--font-mono);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .model-layer__head strong { color: var(--accent); font-weight: 600; }
+    .model-layer__body {
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .model-layer:not(:last-child) .model-layer__body { display: none; }
+    .model-layer:last-child .model-layer__body { margin-top: 2rem; }
+    .model-layer__body h3 { margin: 0; color: var(--text); font-size: 1rem; }
+    .model-layer__body code { color: var(--text-tertiary); font-size: .72rem; }
+    .model-order {
+      margin: 1.5rem 0 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: .45rem;
+    }
+    .model-order li {
+      padding: .45rem .58rem;
+      border: 1px solid var(--border-strong);
+      color: var(--text-tertiary);
+      font: 500 .67rem/1 var(--font-mono);
+    }
+    .model-order li + li::before { content: "/ "; color: var(--accent); }
+
+    /* Steps */
+    .steps-story { position: relative; height: 600vh; padding: 0; }
+    .steps-stage {
+      position: sticky;
+      top: 0;
+      min-height: 100vh;
+      display: grid;
+      align-items: center;
+      padding: calc(var(--nav-h) + 2.2rem) 0 2.2rem;
+      overflow: hidden;
+    }
+    .pin-swap__inner {
+      display: grid;
+      grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr);
+      gap: clamp(2rem, 6vw, 6rem);
+      align-items: center;
+    }
+    .step-index {
+      margin: 1.5rem 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: .4rem;
+    }
+    .step-index__item {
+      width: 100%;
+      min-height: 54px;
+      display: grid;
+      grid-template-columns: 2.6rem minmax(0, 1fr);
+      align-items: center;
+      gap: .75rem;
+      padding: .62rem .75rem;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text-faint);
+      text-align: left;
+      cursor: pointer;
+      transition: color 140ms ease, border-color 140ms ease, background 140ms ease;
+    }
+    .step-index__item:hover { color: var(--text); border-color: var(--border-strong); }
+    .step-index__item:active { background: var(--surface-alt); }
+    .step-index__item:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+    .step-index__item[data-active] { color: var(--text); border-color: var(--accent); background: var(--accent-soft); }
+    .step-index__number { color: var(--accent); font: 600 .66rem/1 var(--font-mono); }
+    .step-index__text strong { display: block; font-size: .88rem; line-height: 1.35; }
+    .step-index__text small { display: block; margin-top: .12rem; color: var(--text-faint); font-size: .7rem; line-height: 1.4; }
+    .scene-stack { position: relative; min-height: 620px; }
+    .step-scene {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      align-content: center;
+      padding: clamp(1rem, 2.5vw, 1.75rem);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(18px);
+    }
+    .step-scene:first-child { opacity: 1; visibility: visible; transform: none; }
+    .scene-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-strong);
+    }
+    .scene-head span { color: var(--accent); font: 600 .68rem/1 var(--font-mono); letter-spacing: .12em; }
+    .scene-head h3 { margin: 0; color: var(--text); font-size: clamp(1.2rem, 2.6vw, 2rem); line-height: 1.2; }
+    .scene-body { margin-top: 1.25rem; }
+    .scene-body p { margin: 0; color: var(--text-secondary); font-size: .94rem; line-height: 1.75; }
+    .scene-body p + p { margin-top: .8rem; }
+    .scene-note {
+      margin-top: 1rem;
+      padding: .85rem 1rem;
+      border-left: 2px solid var(--accent);
+      background: var(--accent-soft);
+      color: var(--text-secondary);
+      font-size: .84rem;
+    }
+    .mouse-map {
+      margin-top: 1.25rem;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: .65rem;
+    }
+    .mouse-map__item { min-height: 118px; padding: 1rem; }
+    .mouse-map__item code { color: var(--accent); font-size: .68rem; }
+    .mouse-map__item strong { display: block; margin-top: .55rem; color: var(--text); font-size: .9rem; }
+    .mouse-map__item span { display: block; margin-top: .35rem; color: var(--text-tertiary); font-size: .76rem; line-height: 1.55; }
+    .key-sequence {
+      margin-top: 1.25rem;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: .6rem;
+    }
+    kbd {
+      min-width: 46px;
+      min-height: 44px;
+      display: inline-grid;
+      place-items: center;
+      padding: .55rem .75rem;
+      border: 1px solid var(--border-strong);
+      border-bottom-width: 3px;
+      border-radius: var(--radius-sm);
+      background: var(--surface-alt);
+      color: var(--text);
+      font: 600 .78rem/1 var(--font-mono);
+    }
+    .key-sequence__arrow { color: var(--accent); font: 500 .8rem/1 var(--font-mono); }
+    .shortcut-grid {
+      margin-top: 1rem;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: .45rem;
+    }
+    .shortcut-row {
+      display: flex;
+      justify-content: space-between;
+      gap: .75rem;
+      padding: .62rem .7rem;
+      border: 1px solid var(--border);
+      color: var(--text-tertiary);
+      font-size: .76rem;
+    }
+    .shortcut-row code { color: var(--accent); white-space: nowrap; }
+    .flow-line {
+      margin-top: 1.15rem;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: .5rem;
+    }
+    .flow-node {
+      min-height: 92px;
+      display: grid;
+      place-items: center;
+      padding: .7rem;
+      border: 1px solid var(--border-strong);
+      background: var(--surface-alt);
+      text-align: center;
+      color: var(--text-tertiary);
+      font-size: .76rem;
+    }
+    .flow-node strong { display: block; color: var(--text); font-family: var(--font-mono); }
+    .process-heartbeat {
+      width: 8px;
+      height: 8px;
+      margin: .6rem auto 0;
+      background: var(--success);
+      animation: heartbeat 1.5s ease-in-out infinite;
+    }
+    @keyframes heartbeat { 50% { opacity: .28; transform: scale(.78); } }
+    .danger-panel { border-color: var(--error); }
+    .danger-panel .scene-note { border-color: var(--error); background: rgba(var(--bg-rgb), .5); }
+    .diagnostic-list { margin-top: 1rem; display: grid; gap: .5rem; }
+
+    /* Safety */
+    .safety-grid {
+      margin-top: 2rem;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+    .safety-card { padding: clamp(1.1rem, 3vw, 2rem); }
+    .safety-card[data-kind="safe"] { border-color: var(--success); }
+    .safety-card[data-kind="danger"] { border-color: var(--error); }
+    .safety-card__label { color: var(--text-faint); font: 600 .68rem/1 var(--font-mono); letter-spacing: .14em; text-transform: uppercase; }
+    .safety-card h3 { margin: .8rem 0 0; color: var(--text); font-size: clamp(1.35rem, 3vw, 2.4rem); line-height: 1.2; }
+    .safety-card p { margin: .85rem 0 0; color: var(--text-secondary); font-size: .94rem; }
+    .process-map {
+      margin-top: 1.2rem;
+      padding: 1rem;
+      border: 1px solid var(--border);
+      background: var(--terminal-bg);
+      font: 400 .74rem/1.7 var(--font-mono);
+    }
+    .process-map__line { display: flex; justify-content: space-between; gap: 1rem; }
+    .process-map__line + .process-map__line { margin-top: .35rem; }
+    .process-map__line[data-state="live"] span:last-child { color: var(--success); }
+    .process-map__line[data-state="stopped"] span:last-child { color: var(--error); }
+
+    /* Drill */
+    .drill-layout {
+      margin-top: 2.2rem;
+      display: grid;
+      grid-template-columns: minmax(0, .74fr) minmax(0, 1.26fr);
+      gap: 1rem;
+      align-items: stretch;
+    }
+    .drill-console { min-height: 100%; }
+    .drill-console__status {
+      padding: 1.2rem;
+      color: var(--text-secondary);
+      font: 400 .78rem/1.8 var(--font-mono);
+    }
+    .drill-meter {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .drill-meter strong { color: var(--accent); font: 700 2.2rem/1 var(--font-display); letter-spacing: -.04em; }
+    .drill-meter__track { height: 6px; background: var(--border); }
+    .drill-meter__fill { width: var(--drill-progress, 0%); height: 100%; background: var(--accent); transition: width 240ms var(--ease-cinema); }
+    .checklist { margin: 0; padding: 0; list-style: none; display: grid; gap: .55rem; }
+    .checklist-item {
+      position: relative;
+      display: grid;
+      grid-template-columns: 44px minmax(0, 1fr);
+      align-items: center;
+      gap: .8rem;
+      min-height: 68px;
+      padding: .7rem 1rem .7rem .7rem;
+      border: 1px solid var(--border-strong);
+      background: var(--surface);
+      cursor: pointer;
+      transition: border-color 140ms ease, background 140ms ease;
+    }
+    .checklist-item:hover { border-color: var(--border-hover); background: var(--surface-hover); }
+    .checklist-item:focus-within { outline: 2px solid var(--accent); outline-offset: 3px; }
+    .checklist-item input {
+      width: 22px;
+      height: 22px;
+      margin: 0 auto;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+    .checklist-item strong { display: block; color: var(--text); font-size: .9rem; }
+    .checklist-item code { display: block; margin-top: .2rem; color: var(--accent); font-size: .72rem; }
+    .checklist-item:has(input:checked) { border-color: var(--success); background: rgba(var(--surface-rgb), .72); }
+    .checklist-item:has(input:checked) strong { color: var(--success); }
+    .drill-actions { margin-top: .8rem; display: flex; flex-wrap: wrap; gap: .65rem; }
+
+    /* Diagnostics */
+    .bento-grid {
+      margin-top: 2rem;
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: clamp(.875rem, 2vw, 1.5rem);
+    }
+    .bento-card { padding: clamp(1rem, 2.5vw, 1.75rem); }
+    .span-4 { grid-column: span 4; }
+    .span-6 { grid-column: span 6; }
+    .span-8 { grid-column: span 8; }
+    .span-12 { grid-column: 1 / -1; }
+    .bento-card__label { color: var(--accent); font: 600 .66rem/1 var(--font-mono); letter-spacing: .14em; text-transform: uppercase; }
+    .bento-card h3 { margin: .75rem 0 0; color: var(--text); font-size: 1.08rem; }
+    .bento-card p { margin: .55rem 0 0; color: var(--text-tertiary); font-size: .84rem; line-height: 1.65; }
+    .path-list { margin: 1rem 0 0; padding: 0; list-style: none; display: grid; gap: .4rem; }
+    .path-list code { display: block; padding: .58rem .65rem; border: 1px solid var(--border); color: var(--text-secondary); font-size: .72rem; overflow-wrap: anywhere; }
+
+    .site-footer {
+      padding: 2.5rem clamp(1rem, 3vw, 2.125rem);
+      border-top: 1px solid var(--border-strong);
+      color: var(--text-faint);
+      font-size: .72rem;
+      line-height: 1.7;
+    }
+    .site-footer__inner {
+      width: min(100%, 1280px);
+      margin-inline: auto;
+      display: flex;
+      justify-content: space-between;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .site-footer p { margin: 0; }
+
+    .motion-off .cursor-glow,
+    .no-js .cursor-glow { display: none; }
+    .motion-off .hero-story,
+    .motion-off .model-story,
+    .motion-off .steps-story,
+    .no-js .hero-story,
+    .no-js .model-story,
+    .no-js .steps-story { height: auto; min-height: auto; }
+    .motion-off .hero-stage,
+    .motion-off .model-stage,
+    .motion-off .steps-stage,
+    .no-js .hero-stage,
+    .no-js .model-stage,
+    .no-js .steps-stage { position: relative; min-height: auto; padding-block: 7rem; }
+    .motion-off .orbit-card,
+    .no-js .orbit-card { display: none; }
+    .motion-off .hero-terminal,
+    .no-js .hero-terminal { position: relative; left: auto; top: auto; width: min(100%, 920px); margin: 2rem auto 0; transform: none; }
+    .motion-off .hero-stage,
+    .no-js .hero-stage { display: block; }
+    .motion-off .hero-copy,
+    .no-js .hero-copy { margin-inline: auto; }
+    .motion-off .model-stage,
+    .no-js .model-stage { grid-template-columns: 1fr; }
+    .motion-off .model-stack,
+    .no-js .model-stack { min-height: auto; display: grid; gap: .65rem; }
+    .motion-off .model-layer,
+    .no-js .model-layer { position: relative; inset: auto; opacity: 1; transform: none; }
+    .motion-off .pin-swap__inner,
+    .no-js .pin-swap__inner { grid-template-columns: 1fr; }
+    .motion-off .scene-stack,
+    .no-js .scene-stack { min-height: auto; display: grid; gap: 1rem; }
+    .motion-off .step-scene,
+    .no-js .step-scene { position: relative; inset: auto; opacity: 1; visibility: visible; transform: none; }
+    .motion-off .step-index,
+    .no-js .step-index { display: none; }
+
+    @media (max-width: 1180px) {
+      .pin-swap__inner { grid-template-columns: minmax(0, .72fr) minmax(0, 1.28fr); gap: 2rem; }
+      .orbit-card { width: 168px; }
+      .orbit-card[data-card="agent"],
+      .orbit-card[data-card="detach"] { display: none; }
+      .scene-stack { min-height: 590px; }
+      .step-index__text small { display: none; }
+      .span-4 { grid-column: span 6; }
+      .span-8 { grid-column: span 12; }
+    }
+
+    @media (max-width: 760px) {
+      :root { --grid-size: 48px; }
+      .page-shell { border-inline: 0; }
+      .manual-nav__inner { width: calc(100% - 1rem); gap: .8rem; }
+      .brand { font-size: .88rem; }
+      .brand__mark { width: 26px; height: 26px; }
+      .manual-nav__links {
+        min-width: 0;
+        overflow-x: auto;
+        overscroll-behavior-inline: contain;
+        scrollbar-width: none;
+        gap: 1rem;
+      }
+      .manual-nav__links::-webkit-scrollbar { display: none; }
+      .hero-story,
+      .model-story,
+      .steps-story { height: auto !important; min-height: auto; padding: 0; }
+      .hero-stage,
+      .model-stage,
+      .steps-stage { position: relative; min-height: auto; padding: calc(var(--nav-h) + 3.5rem) 1rem 5rem; overflow: visible; }
+      .hero-stage { display: block; }
+      .hero-copy { margin-inline: auto; }
+      .hero-actions { align-items: stretch; }
+      .hero-actions .action-button { flex: 1 1 190px; }
+      .orbit-card { position: relative; inset: auto !important; width: 100%; min-height: 0; margin-top: .65rem; transform: none !important; }
+      .orbit-card:nth-of-type(n + 4) { display: none; }
+      .hero-terminal { position: relative; left: auto; top: auto; width: 100%; margin-top: 1rem; transform: none !important; opacity: 1 !important; visibility: visible !important; }
+      .herdr-frame { grid-template-columns: 1fr; }
+      .herdr-sidebar { border-right: 0; border-bottom: 1px solid var(--border-strong); }
+      .pane-grid { grid-template-columns: 1fr; }
+      .pane-demo { min-height: 180px; border-right: 0; border-bottom: 1px solid var(--border-strong); }
+      .pane-demo:last-child { border-bottom: 0; }
+      .model-stage { grid-template-columns: 1fr; }
+      .model-stack { min-height: auto; display: grid; gap: .65rem; }
+      .model-layer { position: relative; inset: auto; opacity: 1 !important; transform: none !important; }
+      .pin-swap__inner,
+      .bento-grid,
+      .safety-grid,
+      .drill-layout { grid-template-columns: 1fr; }
+      .step-index { display: none; }
+      .scene-stack { min-height: auto; display: grid; gap: 1rem; }
+      .step-scene { position: relative; inset: auto; opacity: 1 !important; visibility: visible !important; transform: none !important; }
+      .mouse-map,
+      .shortcut-grid,
+      .flow-line { grid-template-columns: 1fr; }
+      .command-row { grid-template-columns: 1fr; }
+      .copy-button { width: 100%; }
+      .span-4, .span-6, .span-8, .span-12 { grid-column: 1 / -1; }
+      .site-footer .text-link {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+      }
+      .cursor-glow { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+      }
+      .cursor-glow { display: none; }
+      .hero-word,
+      .orbit-card,
+      .hero-terminal,
+      .model-layer,
+      .step-scene,
+      .scroll-float { opacity: 1 !important; visibility: visible !important; transform: none !important; }
+    }
+
+    @media print {
+      :root {
+        --bg: var(--print-bg);
+        --surface: var(--print-bg);
+        --surface-alt: var(--print-bg);
+        --surface-hover: var(--print-bg);
+        --terminal-bg: var(--print-bg);
+        --text: var(--print-text);
+        --text-secondary: var(--print-text);
+        --text-tertiary: var(--print-text);
+        --text-faint: var(--print-text);
+        --border: var(--print-text);
+        --border-strong: var(--print-text);
+      }
+      .manual-nav,
+      .progress-rail,
+      .cursor-glow,
+      .ambient,
+      .copy-button,
+      .hero-actions { display: none !important; }
+      body, .page-shell { background: var(--print-bg) !important; color: var(--print-text) !important; }
+      .page-shell { border: 0; }
+      .hero-story,
+      .model-story,
+      .steps-story { height: auto !important; }
+      .hero-stage,
+      .model-stage,
+      .steps-stage { position: static !important; min-height: auto; padding-block: 2rem; }
+      .orbit-card { display: none !important; }
+      .hero-terminal { position: relative; left: auto; top: auto; width: 100%; transform: none !important; opacity: 1 !important; }
+      .model-stage,
+      .pin-swap__inner { grid-template-columns: 1fr; }
+      .model-stack,
+      .scene-stack { min-height: auto; display: grid; gap: .5rem; }
+      .model-layer,
+      .step-scene { position: relative !important; inset: auto !important; opacity: 1 !important; visibility: visible !important; transform: none !important; page-break-inside: avoid; }
+      .step-index { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="ambient" aria-hidden="true"></div>
+  <div class="cursor-glow" aria-hidden="true"></div>
+
+  <nav class="manual-nav" aria-label="操作手册章节导航">
+    <div class="manual-nav__inner">
+      <a class="brand" href="#overview" aria-label="返回 Herdr 操作手册开头">
+        <span class="brand__mark" aria-hidden="true">H</span>
+        <span>HERDR / MANUAL</span>
+      </a>
+      <div class="manual-nav__links">
+        <a href="#model">心智模型</a>
+        <a href="#steps">六步上手</a>
+        <a href="#safety">安全边界</a>
+        <a href="#drill">60 秒演练</a>
+        <a href="#diagnostics">诊断</a>
+      </div>
+    </div>
+  </nav>
+  <div class="progress-rail" aria-hidden="true"><div class="progress-rail__fill"></div></div>
+
+  <main class="page-shell">
+    <section id="overview" class="hero-story" aria-labelledby="hero-title">
+      <div class="hero-stage">
+        <article class="orbit-card manual-card" data-card="session">
+          <span class="orbit-card__index">01 / SESSION</span>
+          <h3>会话</h3>
+          <p>后台服务器持续持有真实终端进程。</p>
+        </article>
+        <article class="orbit-card manual-card" data-card="workspace">
+          <span class="orbit-card__index">02 / WORKSPACE</span>
+          <h3>工作区</h3>
+          <p>当前项目：<code>kane_echoes</code></p>
+        </article>
+        <article class="orbit-card manual-card" data-card="tab">
+          <span class="orbit-card__index">03 / TAB</span>
+          <h3>标签页</h3>
+          <p>当前标识：<code>w1:t1</code></p>
+        </article>
+        <article class="orbit-card manual-card" data-card="pane">
+          <span class="orbit-card__index">04 / PANE</span>
+          <h3>窗格</h3>
+          <p>当前标识：<code>w1:p1</code></p>
+        </article>
+        <article class="orbit-card manual-card" data-card="agent">
+          <span class="orbit-card__index">05 / AGENT</span>
+          <h3>智能体</h3>
+          <p>OMP 已被 Herdr 识别。</p>
+        </article>
+        <article class="orbit-card manual-card" data-card="detach">
+          <span class="orbit-card__index">06 / DETACH</span>
+          <h3>分离</h3>
+          <p>客户端离开，后台进程继续运行。</p>
+        </article>
+
+        <div class="hero-copy">
+          <p class="hero-kicker" data-scramble>THE RUNTIME FIELD MANUAL</p>
+          <p class="hero-mark" aria-hidden="true">HERDR</p>
+          <h1 id="hero-title">
+            <span class="hero-word">让智能体</span>
+            <span class="hero-word hero-word--accent">持续运行</span><br>
+            <span class="hero-word">随时回来接管</span>
+          </h1>
+          <p class="hero-lede body-reveal">一份基于当前机器实测状态制作的中文操作手册。理解 Herdr 的五层结构，掌握分屏、智能体检测、分离、重连与安全停止。</p>
+          <div class="hero-status" aria-label="当前验收状态">
+            <span class="status-badge" data-status="running">Herdr 0.8.0</span>
+            <span class="status-badge" data-status="running">stable</span>
+            <span class="status-badge" data-status="running">server running</span>
+            <span class="status-badge" data-status="idle">OMP detected</span>
+          </div>
+          <div class="hero-actions">
+            <a class="action-button action-button--primary magnetic" href="#drill">开始 60 秒演练</a>
+            <a class="action-button magnetic" href="#model">先看心智模型</a>
+          </div>
+        </div>
+
+        <div class="hero-terminal terminal-panel" aria-label="当前 Herdr 环境验收示意">
+          <div class="terminal-panel__bar">
+            <strong>当前验收快照</strong>
+            <span>workspace w1 / tab w1:t1</span>
+          </div>
+          <div class="herdr-frame">
+            <aside class="herdr-sidebar">
+              <div class="herdr-sidebar__title">workspaces</div>
+              <div class="workspace-row">
+                <strong>kane_echoes</strong>
+                <small>main · 1 tab · 1 pane</small>
+              </div>
+              <div class="agent-row">
+                <span>omp</span>
+                <span class="status-badge" data-status="idle">idle</span>
+              </div>
+            </aside>
+            <div class="herdr-main">
+              <div class="tab-bar">
+                <span class="tab-pill is-active">w1:t1</span>
+                <span class="tab-pill">+</span>
+              </div>
+              <div class="pane-grid">
+                <div class="pane-demo">
+                  <div class="pane-label">pane w1:p1 / OMP</div>
+                  <p class="terminal-line"><span class="terminal-prompt">›</span> current task</p>
+                  <p class="terminal-line">Understand and set up Herdr</p>
+                  <p class="terminal-line terminal-success">agent detected · integration current (v8)</p>
+                  <p class="terminal-line terminal-dim">cwd /Users/kanehua/project/kane_echoes</p>
+                </div>
+                <div class="pane-demo">
+                  <div class="pane-label">runtime</div>
+                  <p class="terminal-line terminal-success">server running</p>
+                  <p class="terminal-line">client 0.8.0</p>
+                  <p class="terminal-line">protocol 19</p>
+                  <p class="terminal-line terminal-dim">compatible yes</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="model" class="section model-story" aria-labelledby="model-title">
+      <div class="section-inner model-stage">
+        <div>
+          <p class="eyebrow" data-scramble>01 / CONCEPT MODEL</p>
+          <h2 id="model-title" class="scroll-float">先建立正确的五层结构</h2>
+          <p class="section-lede body-reveal">Herdr 把后台运行能力、项目组织、终端布局与智能体状态分开管理。按层理解，之后所有鼠标与 CLI 操作都会变得直接。</p>
+          <ol class="model-order" aria-label="Herdr 概念顺序">
+            <li>Session</li>
+            <li>Workspace</li>
+            <li>Tab</li>
+            <li>Pane</li>
+            <li>Agent</li>
+          </ol>
+        </div>
+
+        <div class="model-stack" aria-label="Herdr 五层嵌套模型">
+          <article class="model-layer" style="--layer:0">
+            <div class="model-layer__head"><strong>Session</strong><span>default session</span></div>
+            <div class="model-layer__body"><h3>默认会话</h3><code>background server</code></div>
+          </article>
+          <article class="model-layer" style="--layer:1">
+            <div class="model-layer__head"><strong>Workspace</strong><span>kane_echoes · w1</span></div>
+            <div class="model-layer__body"><h3>kane_echoes</h3><code>w1</code></div>
+          </article>
+          <article class="model-layer" style="--layer:2">
+            <div class="model-layer__head"><strong>Tab</strong><span>w1:t1</span></div>
+            <div class="model-layer__body"><h3>当前标签页</h3><code>w1:t1</code></div>
+          </article>
+          <article class="model-layer" style="--layer:3">
+            <div class="model-layer__head"><strong>Pane</strong><span>w1:p1</span></div>
+            <div class="model-layer__body"><h3>当前窗格</h3><code>w1:p1</code></div>
+          </article>
+          <article class="model-layer" style="--layer:4">
+            <div class="model-layer__head"><strong>Agent</strong><span>recognized process</span></div>
+            <div class="model-layer__body"><h3>OMP</h3><span class="status-badge" data-status="idle">idle</span></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="steps" class="section steps-story" aria-labelledby="steps-title">
+      <div class="steps-stage">
+        <div class="section-inner pin-swap__inner">
+          <div>
+            <p class="eyebrow" data-scramble>02 / FIRST RUN</p>
+            <h2 id="steps-title" class="scroll-float">六步掌握日常操作</h2>
+            <p class="section-lede">左侧是步骤索引，右侧会随滚动切换真实操作场景。也可以直接单击任一步骤。</p>
+            <ol class="step-index" aria-label="六步操作索引">
+              <li><button class="step-index__item" type="button" data-scene-target="0" data-active aria-current="step"><span class="step-index__number">01</span><span class="step-index__text"><strong>先用鼠标</strong><small>聚焦、右键、拖动、复制</small></span></button></li>
+              <li><button class="step-index__item" type="button" data-scene-target="1"><span class="step-index__number">02</span><span class="step-index__text"><strong>掌握前缀键</strong><small>Ctrl+B，松开，再按操作键</small></span></button></li>
+              <li><button class="step-index__item" type="button" data-scene-target="2"><span class="step-index__number">03</span><span class="step-index__text"><strong>启动 OMP</strong><small>自动检测生命周期状态</small></span></button></li>
+              <li><button class="step-index__item" type="button" data-scene-target="3"><span class="step-index__number">04</span><span class="step-index__text"><strong>分离与重连</strong><small>离开客户端，进程继续运行</small></span></button></li>
+              <li><button class="step-index__item" type="button" data-scene-target="4"><span class="step-index__number">05</span><span class="step-index__text"><strong>识别停止边界</strong><small>server stop 会终止窗格进程</small></span></button></li>
+              <li><button class="step-index__item" type="button" data-scene-target="5"><span class="step-index__number">06</span><span class="step-index__text"><strong>故障诊断</strong><small>状态、集成、解释与日志</small></span></button></li>
+            </ol>
+          </div>
+
+          <div class="scene-stack" aria-live="polite">
+            <article class="step-scene manual-card" data-scene="0" aria-hidden="false">
+              <header class="scene-head"><span>STEP 01</span><h3>从鼠标开始</h3></header>
+              <div class="scene-body">
+                <p>Herdr 的整个界面都可以直接点击。新用户无需先记快捷键。</p>
+                <div class="mouse-map">
+                  <div class="mouse-map__item manual-card"><code>CLICK</code><strong>聚焦</strong><span>单击工作区、标签页、窗格或智能体。</span></div>
+                  <div class="mouse-map__item manual-card"><code>RIGHT CLICK</code><strong>打开操作菜单</strong><span>创建、分屏、重命名或关闭。</span></div>
+                  <div class="mouse-map__item manual-card"><code>DRAG BORDER</code><strong>调整大小</strong><span>拖动分隔线改变窗格比例。</span></div>
+                  <div class="mouse-map__item manual-card"><code>DRAG TEXT</code><strong>复制文本</strong><span>拖动选择终端文本即可复制。</span></div>
+                </div>
+              </div>
+            </article>
+
+            <article class="step-scene manual-card" data-scene="1" aria-hidden="true">
+              <header class="scene-head"><span>STEP 02</span><h3>把 prefix 当作顺序，而不是组合键</h3></header>
+              <div class="scene-body">
+                <div class="key-sequence" aria-label="前缀键操作顺序">
+                  <kbd>Ctrl+B</kbd><span class="key-sequence__arrow">松开 →</span><kbd>操作键</kbd>
+                </div>
+                <div class="shortcut-grid">
+                  <div class="shortcut-row"><span>快捷键帮助</span><code>prefix+?</code></div>
+                  <div class="shortcut-row"><span>新建标签页</span><code>prefix+c</code></div>
+                  <div class="shortcut-row"><span>向右分屏</span><code>prefix+v</code></div>
+                  <div class="shortcut-row"><span>向下分屏</span><code>prefix+-</code></div>
+                  <div class="shortcut-row"><span>窗格移动</span><code>prefix+h/j/k/l</code></div>
+                  <div class="shortcut-row"><span>分离客户端</span><code>prefix+q</code></div>
+                </div>
+                <div class="scene-note">以 <code>prefix+?</code> 显示的当前绑定为准。向下分屏时，最后按下的是 <code>-</code> 键。</div>
+              </div>
+            </article>
+
+            <article class="step-scene manual-card" data-scene="2" aria-hidden="true">
+              <header class="scene-head"><span>STEP 03</span><h3>在新窗格中启动 OMP</h3></header>
+              <div class="scene-body">
+                <p>在空闲 shell 窗格中正常运行 OMP。Herdr 会自动识别进程，并在侧边栏显示生命周期状态。</p>
+                <div class="terminal-panel" style="margin-top:1.1rem">
+                  <div class="terminal-panel__bar"><strong>new pane</strong><span>shell ready</span></div>
+                  <div class="command-row"><code data-type data-command="omp">omp</code><button class="action-button copy-button magnetic" type="button" data-copy="omp">复制</button></div>
+                  <div class="terminal-panel__body">
+                    <p class="terminal-line terminal-success">Herdr detects: omp</p>
+                    <p class="terminal-line terminal-dim">integration current (v8)</p>
+                  </div>
+                </div>
+                <div class="scene-note">当前进程早于集成安装而启动；此后新启动的 OMP 进程将加载集成。</div>
+              </div>
+            </article>
+
+            <article class="step-scene manual-card" data-scene="3" aria-hidden="true">
+              <header class="scene-head"><span>STEP 04</span><h3>分离客户端，后台继续运行</h3></header>
+              <div class="scene-body">
+                <div class="key-sequence"><kbd>Ctrl+B</kbd><span class="key-sequence__arrow">松开 →</span><kbd>q</kbd></div>
+                <div class="flow-line">
+                  <div class="flow-node"><div><strong>CLIENT</strong>已分离</div></div>
+                  <div class="flow-node"><div><strong>HERDR SERVER</strong>仍在运行<div class="process-heartbeat" aria-hidden="true"></div></div></div>
+                  <div class="flow-node"><div><strong>PANES</strong>进程继续</div></div>
+                </div>
+                <div class="terminal-panel" style="margin-top:1rem">
+                  <div class="terminal-panel__bar"><strong>在 Herdr 外部的普通终端重连</strong><span>default session</span></div>
+                  <div class="command-row"><code>herdr</code><button class="action-button copy-button magnetic" type="button" data-copy="herdr">复制</button></div>
+                </div>
+                <div class="scene-note">不要在当前 Herdr 窗格中运行不带参数的 <code>herdr</code>；嵌套启动会被阻止。</div>
+              </div>
+            </article>
+
+            <article class="step-scene manual-card danger-panel" data-scene="4" aria-hidden="true">
+              <header class="scene-head"><span>STEP 05</span><h3>明确破坏性停止边界</h3></header>
+              <div class="scene-body">
+                <p>分离只关闭客户端连接。下面的命令会停止服务器，并终止其窗格进程。</p>
+                <div class="terminal-panel" style="margin-top:1rem">
+                  <div class="terminal-panel__bar"><strong>危险命令</strong><span>terminates pane processes</span></div>
+                  <div class="command-row"><code>herdr server stop</code><button class="action-button copy-button" type="button" data-copy="herdr server stop">仅复制</button></div>
+                </div>
+                <div class="scene-note">布局之后可以恢复，受支持的智能体对话也可能恢复；普通命令、开发服务器与其他任意进程已经终止。</div>
+              </div>
+            </article>
+
+            <article class="step-scene manual-card" data-scene="5" aria-hidden="true">
+              <header class="scene-head"><span>STEP 06</span><h3>按证据诊断</h3></header>
+              <div class="scene-body">
+                <p>先看运行时，再看智能体检测与集成，最后读取解释和日志。</p>
+                <div class="diagnostic-list terminal-panel">
+                  <div class="command-row"><code>herdr status</code><button class="action-button copy-button" type="button" data-copy="herdr status">复制</button></div>
+                  <div class="command-row"><code>herdr agent list</code><button class="action-button copy-button" type="button" data-copy="herdr agent list">复制</button></div>
+                  <div class="command-row"><code>herdr integration status</code><button class="action-button copy-button" type="button" data-copy="herdr integration status">复制</button></div>
+                  <div class="command-row"><code>herdr agent explain &lt;target&gt; --json</code><button class="action-button copy-button" type="button" data-copy="herdr agent explain &lt;target&gt; --json">复制</button></div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="safety" class="section" aria-labelledby="safety-title">
+      <div class="section-inner">
+        <p class="eyebrow" data-scramble>03 / SAFETY BOUNDARY</p>
+        <h2 id="safety-title" class="scroll-float">分离与停止，后果完全不同</h2>
+        <p class="section-lede body-reveal">这是 Herdr 最重要的操作边界。先判断你是要“离开界面”，还是要“终止所有运行内容”。</p>
+
+        <div class="safety-grid">
+          <article class="safety-card manual-card" data-kind="safe">
+            <span class="safety-card__label">Detach / safe exit</span>
+            <h3><code>prefix+q</code></h3>
+            <p>客户端离开。后台服务器、窗格、智能体、开发服务器与测试进程继续运行。</p>
+            <div class="process-map" aria-label="分离后的进程状态">
+              <div class="process-map__line" data-state="live"><span>Herdr server</span><span>running</span></div>
+              <div class="process-map__line" data-state="live"><span>Pane processes</span><span>running</span></div>
+              <div class="process-map__line" data-state="live"><span>Agent session</span><span>live</span></div>
+            </div>
+          </article>
+
+          <article class="safety-card manual-card" data-kind="danger">
+            <span class="safety-card__label">Server stop / destructive</span>
+            <h3><code>herdr server stop</code></h3>
+            <p>服务器停止，窗格中的原始进程消失。布局与部分智能体会话可恢复，但任意运行命令不会继续。</p>
+            <div class="process-map" aria-label="停止服务器后的进程状态">
+              <div class="process-map__line" data-state="stopped"><span>Herdr server</span><span>stopped</span></div>
+              <div class="process-map__line" data-state="stopped"><span>Pane processes</span><span>terminated</span></div>
+              <div class="process-map__line" data-state="stopped"><span>Arbitrary commands</span><span>gone</span></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="drill" class="section" aria-labelledby="drill-title">
+      <div class="section-inner">
+        <p class="eyebrow" data-scramble>04 / 60 SECOND DRILL</p>
+        <h2 id="drill-title" class="scroll-float">完成一次最小闭环</h2>
+        <p class="section-lede body-reveal">逐项勾选。这个演练覆盖帮助、分屏、命令、窗格切换、分离与重新连接。</p>
+
+        <div class="drill-layout">
+          <aside class="drill-console terminal-panel">
+            <div class="terminal-panel__bar"><strong>drill status</strong><span id="drill-state">ready</span></div>
+            <div class="drill-console__status">
+              <p class="terminal-line"><span class="terminal-prompt">›</span> completion</p>
+              <div class="drill-meter">
+                <strong id="drill-count">0/5</strong>
+                <div class="drill-meter__track" aria-hidden="true"><div class="drill-meter__fill"></div></div>
+              </div>
+              <p id="drill-message" class="terminal-line terminal-dim" style="margin-top:1rem">从快捷键帮助开始。</p>
+              <div class="drill-actions">
+                <button id="drill-reset" class="action-button" type="button">重置演练</button>
+                <a class="action-button" href="#diagnostics">查看诊断</a>
+              </div>
+            </div>
+          </aside>
+
+          <ol class="checklist" aria-label="60 秒 Herdr 演练清单">
+            <li><label class="checklist-item"><input type="checkbox" data-drill><span><strong>打开快捷键帮助</strong><code>prefix+?</code></span></label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-drill><span><strong>创建右侧分屏</strong><code>prefix+v</code></span></label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-drill><span><strong>在新窗格确认目录</strong><code>pwd</code></span></label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-drill><span><strong>用鼠标切换窗格</strong><code>click pane</code></span></label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-drill><span><strong>分离并从普通终端重连</strong><code>prefix+q → herdr</code></span></label></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section id="diagnostics" class="section" aria-labelledby="diagnostics-title">
+      <div class="section-inner">
+        <p class="eyebrow" data-scramble>05 / DIAGNOSTICS</p>
+        <h2 id="diagnostics-title" class="scroll-float">四类证据，定位大多数问题</h2>
+        <p class="section-lede body-reveal">命令均来自 Herdr 官方指南与当前安装版本。先检查状态，再读取解释；不要猜测快捷键、检测规则或恢复行为。</p>
+
+        <div class="bento-grid">
+          <article class="bento-card manual-card span-4">
+            <span class="bento-card__label">Runtime</span>
+            <h3>客户端与服务器</h3>
+            <p>确认版本、协议、socket 与兼容性。</p>
+            <div class="terminal-panel" style="margin-top:1rem"><div class="command-row"><code>herdr status</code><button class="action-button copy-button" type="button" data-copy="herdr status">复制</button></div></div>
+          </article>
+
+          <article class="bento-card manual-card span-4">
+            <span class="bento-card__label">Agents</span>
+            <h3>智能体检测</h3>
+            <p>查看 Herdr 当前识别到的智能体与状态。</p>
+            <div class="terminal-panel" style="margin-top:1rem"><div class="command-row"><code>herdr agent list</code><button class="action-button copy-button" type="button" data-copy="herdr agent list">复制</button></div></div>
+          </article>
+
+          <article class="bento-card manual-card span-4">
+            <span class="bento-card__label">Integrations</span>
+            <h3>集成版本</h3>
+            <p>当前 OMP 集成为 <code>current (v8)</code>。</p>
+            <div class="terminal-panel" style="margin-top:1rem"><div class="command-row"><code>herdr integration status</code><button class="action-button copy-button" type="button" data-copy="herdr integration status">复制</button></div></div>
+          </article>
+
+          <article class="bento-card manual-card span-8">
+            <span class="bento-card__label">Explain</span>
+            <h3>为什么被判定为这个状态</h3>
+            <p><code>agent explain</code> 会给出检测依据、回退原因与阻塞信号。目标必须是唯一智能体名称或承载智能体的窗格 ID。</p>
+            <div class="terminal-panel" style="margin-top:1rem"><div class="command-row"><code>herdr agent explain &lt;target&gt; --json</code><button class="action-button copy-button" type="button" data-copy="herdr agent explain &lt;target&gt; --json">复制</button></div></div>
+          </article>
+
+          <article class="bento-card manual-card span-4">
+            <span class="bento-card__label">Config</span>
+            <h3>查看与重载配置</h3>
+            <p>当前没有自定义配置文件，默认配置正在生效。</p>
+            <div class="terminal-panel" style="margin-top:1rem">
+              <div class="command-row"><code>herdr --default-config</code><button class="action-button copy-button" type="button" data-copy="herdr --default-config">复制</button></div>
+              <div class="command-row"><code>herdr server reload-config</code><button class="action-button copy-button" type="button" data-copy="herdr server reload-config">复制</button></div>
+            </div>
+          </article>
+
+          <article class="bento-card manual-card span-12">
+            <span class="bento-card__label">Logs & Paths</span>
+            <h3>默认会话日志与配置位置</h3>
+            <ul class="path-list">
+              <li><code>~/.config/herdr/herdr.log</code></li>
+              <li><code>~/.config/herdr/herdr-client.log</code></li>
+              <li><code>~/.config/herdr/herdr-server.log</code></li>
+              <li><code>~/.config/herdr/config.toml</code></li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <p>内容依据 <a class="text-link" href="https://herdr.dev/agent-guide.md">Herdr agent guide</a>、<a class="text-link" href="https://herdr.dev/docs/keyboard/">Keyboard</a>、<a class="text-link" href="https://herdr.dev/docs/integrations/">Integrations</a> 与 <a class="text-link" href="https://herdr.dev/docs/session-state/">Session state</a>。</p>
+      <p><a class="text-link" href="../translation.md">阅读完整中文译文</a> · Motion effects inspired by <a class="text-link" href="https://github.com/DavidHDev/vue-bits">vue-bits</a> by DavidHDev (MIT).</p>
+    </div>
+  </footer>
+
+  <div id="copy-status" class="sr-only" aria-live="polite"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
+  <script>
+    (() => {
+      const root = document.documentElement;
+      const motion = {
+        reduce: matchMedia('(prefers-reduced-motion: reduce)').matches,
+        mobile: matchMedia('(max-width: 760px)').matches,
+        hover: matchMedia('(hover: hover)').matches,
+        lowCore: Boolean(navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4),
+      };
+      const hasGSAP = Boolean(window.gsap && window.ScrollTrigger);
+      const copyStatus = document.querySelector('#copy-status');
+      const scenes = Array.from(document.querySelectorAll('.step-scene'));
+      const sceneButtons = Array.from(document.querySelectorAll('.step-index__item'));
+      let activeScene = 0;
+      let pointerFrame = 0;
+      let typedScene = false;
+
+      const setScene = (index, animate = true) => {
+        const next = Math.max(0, Math.min(index, scenes.length - 1));
+        if (next === activeScene && animate) return;
+        activeScene = next;
+
+        scenes.forEach((scene, sceneIndex) => {
+          const selected = sceneIndex === next;
+          scene.setAttribute('aria-hidden', String(!selected));
+          if (hasGSAP && !motion.reduce && !motion.mobile && animate) {
+            gsap.to(scene, {
+              autoAlpha: selected ? 1 : 0,
+              y: selected ? 0 : 18,
+              duration: .34,
+              ease: 'power2.out',
+              overwrite: true,
+            });
+          } else {
+            scene.style.opacity = selected ? '1' : '0';
+            scene.style.visibility = selected ? 'visible' : 'hidden';
+            scene.style.transform = selected ? 'none' : 'translateY(18px)';
+          }
+        });
+
+        sceneButtons.forEach((button, buttonIndex) => {
+          const selected = buttonIndex === next;
+          button.toggleAttribute('data-active', selected);
+          if (selected) button.setAttribute('aria-current', 'step');
+          else button.removeAttribute('aria-current');
+        });
+
+        if (next === 2 && !typedScene) {
+          typedScene = true;
+          typeCommand(document.querySelector('[data-type]'));
+        }
+      };
+
+      const typeCommand = (element) => {
+        if (!element || motion.reduce) return;
+        const text = element.dataset.command || element.textContent;
+        element.textContent = '';
+        let index = 0;
+        const timer = window.setInterval(() => {
+          element.textContent += text[index] || '';
+          index += 1;
+          if (index >= text.length) window.clearInterval(timer);
+        }, 92);
+      };
+
+      const scramble = (element) => {
+        if (!element || motion.reduce) return;
+        const finalText = element.textContent;
+        const glyphs = 'HERDR0123456789/<>_';
+        let frame = 0;
+        const total = 14;
+        const timer = window.setInterval(() => {
+          const settled = Math.floor((frame / total) * finalText.length);
+          element.textContent = Array.from(finalText).map((char, index) => {
+            if (char === ' ') return ' ';
+            if (index < settled) return finalText[index];
+            return glyphs[Math.floor(Math.random() * glyphs.length)];
+          }).join('');
+          frame += 1;
+          if (frame > total) {
+            window.clearInterval(timer);
+            element.textContent = finalText;
+          }
+        }, 42);
+      };
+
+      const writeClipboard = async (text) => {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(text);
+          return;
+        }
+        const area = document.createElement('textarea');
+        area.value = text;
+        area.setAttribute('readonly', '');
+        area.style.position = 'fixed';
+        area.style.opacity = '0';
+        document.body.appendChild(area);
+        area.select();
+        const copied = document.execCommand('copy');
+        area.remove();
+        if (!copied) throw new Error('copy failed');
+      };
+
+      document.querySelectorAll('[data-copy]').forEach((button) => {
+        button.addEventListener('click', async () => {
+          const original = button.textContent;
+          try {
+            await writeClipboard(button.dataset.copy || '');
+            button.dataset.state = 'copied';
+            button.textContent = '已复制';
+            copyStatus.textContent = `已复制命令：${button.dataset.copy}`;
+          } catch {
+            button.dataset.state = 'error';
+            button.textContent = '复制失败';
+            copyStatus.textContent = '复制失败，请手动选择命令。';
+          }
+          window.setTimeout(() => {
+            button.dataset.state = '';
+            button.textContent = original;
+          }, 1500);
+        });
+      });
+
+      const updateDrill = () => {
+        const checks = Array.from(document.querySelectorAll('[data-drill]'));
+        const count = checks.filter((check) => check.checked).length;
+        const progress = `${(count / checks.length) * 100}%`;
+        document.querySelector('#drill-count').textContent = `${count}/${checks.length}`;
+        document.querySelector('.drill-meter').style.setProperty('--drill-progress', progress);
+        document.querySelector('#drill-state').textContent = count === checks.length ? 'complete' : count ? 'running' : 'ready';
+        document.querySelector('#drill-message').textContent = count === checks.length
+          ? '闭环完成：你已经分离并重新接管会话。'
+          : count
+            ? `已完成 ${count} 项，继续执行下一项。`
+            : '从快捷键帮助开始。';
+      };
+      document.querySelectorAll('[data-drill]').forEach((check) => check.addEventListener('change', updateDrill));
+      document.querySelector('#drill-reset').addEventListener('click', () => {
+        document.querySelectorAll('[data-drill]').forEach((check) => { check.checked = false; });
+        updateDrill();
+      });
+      updateDrill();
+
+      const nav = document.querySelector('.manual-nav');
+      const progressFill = document.querySelector('.progress-rail__fill');
+      const navLinks = Array.from(document.querySelectorAll('.manual-nav__links a'));
+      let scrollFrame = 0;
+      const updateScrollUI = () => {
+        const max = document.documentElement.scrollHeight - innerHeight;
+        const progress = max > 0 ? scrollY / max : 0;
+        progressFill.style.setProperty('--scroll-progress', String(progress));
+        nav.classList.toggle('is-scrolled', scrollY > 20);
+        scrollFrame = 0;
+      };
+      addEventListener('scroll', () => {
+        if (scrollFrame) return;
+        scrollFrame = requestAnimationFrame(updateScrollUI);
+      }, { passive: true });
+      updateScrollUI();
+
+      const sectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          navLinks.forEach((link) => {
+            const active = link.getAttribute('href') === `#${entry.target.id}`;
+            if (active) link.setAttribute('aria-current', 'location');
+            else link.removeAttribute('aria-current');
+          });
+        });
+      }, { rootMargin: '-40% 0px -50%', threshold: 0 });
+      document.querySelectorAll('main section[id]').forEach((section) => sectionObserver.observe(section));
+
+      if (motion.hover && !motion.reduce && !motion.lowCore) {
+        const glow = document.querySelector('.cursor-glow');
+        addEventListener('pointermove', (event) => {
+          if (pointerFrame) return;
+          pointerFrame = requestAnimationFrame(() => {
+            glow.style.left = `${event.clientX}px`;
+            glow.style.top = `${event.clientY}px`;
+            glow.classList.add('is-visible');
+            document.querySelectorAll('.manual-card').forEach((card) => {
+              const rect = card.getBoundingClientRect();
+              card.style.setProperty('--mx', `${event.clientX - rect.left}px`);
+              card.style.setProperty('--my', `${event.clientY - rect.top}px`);
+            });
+            pointerFrame = 0;
+          });
+        }, { passive: true });
+        document.documentElement.addEventListener('mouseleave', () => glow.classList.remove('is-visible'));
+
+        document.querySelectorAll('.magnetic').forEach((button) => {
+          button.addEventListener('pointermove', (event) => {
+            const rect = button.getBoundingClientRect();
+            const x = event.clientX - rect.left - rect.width / 2;
+            const y = event.clientY - rect.top - rect.height / 2;
+            button.style.transform = `translate3d(${x * .12}px, ${y * .12}px, 0)`;
+          });
+          button.addEventListener('pointerleave', () => { button.style.transform = ''; });
+        });
+      }
+
+      sceneButtons.forEach((button, index) => {
+        button.addEventListener('click', () => {
+          const story = document.querySelector('.steps-story');
+          const span = Math.max(0, story.offsetHeight - innerHeight);
+          const top = story.getBoundingClientRect().top + scrollY;
+          scrollTo({ top: top + span * (index / (scenes.length - 1)), behavior: motion.reduce ? 'auto' : 'smooth' });
+          setScene(index);
+        });
+      });
+
+      if (!hasGSAP || motion.reduce || motion.mobile) {
+        root.classList.add('motion-off');
+        scenes.forEach((scene) => scene.setAttribute('aria-hidden', 'false'));
+        document.querySelectorAll('[data-scramble]').forEach((element) => { element.textContent = element.textContent; });
+        return;
+      }
+
+      root.classList.add('motion-on');
+      gsap.registerPlugin(ScrollTrigger);
+      gsap.set('.hero-terminal', { autoAlpha: 0, scale: .82 });
+      gsap.set('.hero-word', { autoAlpha: 0, yPercent: 110 });
+      gsap.to('.hero-word', { autoAlpha: 1, yPercent: 0, duration: .9, stagger: .055, ease: 'power4.out' });
+      document.querySelectorAll('[data-scramble]').forEach(scramble);
+
+      gsap.utils.toArray('.scroll-float').forEach((heading) => {
+        gsap.from(heading, {
+          y: 48,
+          autoAlpha: 0,
+          duration: .9,
+          ease: 'power3.out',
+          scrollTrigger: { trigger: heading, start: 'top 84%', once: true },
+        });
+      });
+      gsap.utils.toArray('.body-reveal').forEach((body) => {
+        gsap.from(body, {
+          y: 22,
+          autoAlpha: 0,
+          duration: .75,
+          ease: 'power2.out',
+          scrollTrigger: { trigger: body, start: 'top 88%', once: true },
+        });
+      });
+
+      const cards = gsap.utils.toArray('.orbit-card');
+      cards.forEach((card, index) => {
+        gsap.to(card, {
+          y: index % 2 ? 9 : -9,
+          rotate: index % 2 ? '+=1.4' : '-=1.4',
+          duration: 3.8 + index * .22,
+          yoyo: true,
+          repeat: -1,
+          ease: 'sine.inOut',
+        });
+      });
+
+      const heroTimeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: '.hero-story',
+          start: 'top top',
+          end: '+=125%',
+          pin: '.hero-stage',
+          scrub: .8,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+        },
+      });
+      heroTimeline.to('.hero-copy', { autoAlpha: 0, y: -26, duration: .32, ease: 'power2.in' });
+      cards.forEach((card, index) => {
+        heroTimeline.to(card, {
+          x: () => {
+            const cardRect = card.getBoundingClientRect();
+            return innerWidth / 2 - (cardRect.left + cardRect.width / 2);
+          },
+          y: () => {
+            const cardRect = card.getBoundingClientRect();
+            return innerHeight / 2 - (cardRect.top + cardRect.height / 2);
+          },
+          rotate: 0,
+          scale: .34,
+          autoAlpha: 0,
+          duration: .48,
+          ease: 'power2.in',
+        }, .18 + index * .025);
+      });
+      heroTimeline.to('.hero-terminal', { autoAlpha: 1, scale: 1, duration: .58, ease: 'power3.out' }, .42);
+
+      const modelLayers = gsap.utils.toArray('.model-layer');
+      const modelTimeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: '.model-story',
+          start: 'top top',
+          end: '+=180%',
+          pin: '.model-stage',
+          scrub: .7,
+          anticipatePin: 1,
+        },
+      });
+      modelTimeline.from(modelLayers, {
+        y: 84,
+        autoAlpha: 0,
+        scale: .93,
+        stagger: .24,
+        ease: 'power2.out',
+      });
+
+      setScene(0, false);
+      ScrollTrigger.create({
+        trigger: '.steps-story',
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: .35,
+        onUpdate(self) {
+          const next = Math.min(Math.floor(self.progress * scenes.length), scenes.length - 1);
+          if (next !== activeScene) setScene(next);
+        },
+      });
+
+      ScrollTrigger.refresh();
+    })();
+  </script>
+</body>
+</html>
