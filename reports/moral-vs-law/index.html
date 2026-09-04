@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>道德批判伤不到他，法律才是下一个版本</title>
+<meta name="description" content="两性关系正在从道德约束转向法律博弈。法律工具的获取门槛降到几乎为零，普通人必须靠自我投入、资产积累与选择能力更新认知——自立自强永不过时。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="道德批判伤不到他，法律才是下一个版本">
+<meta property="og:description" content="两性关系正在从道德约束转向法律博弈。普通人必须靠自我投入、资产积累与选择能力更新认知。">
+<meta property="og:image" content="assets/05_全文核心信息图.webp">
+<meta property="og:locale" content="zh_CN">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23FAFAF7'/%3E%3Crect x='10' y='10' width='44' height='44' fill='%23E5261B'/%3E%3C/svg%3E">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@600;900&family=IBM+Plex+Mono:wght@400;600&display=swap');
+
+:root {
+  /* Backgrounds */
+  --bg: #FAFAF7;
+  --surface: #FFFFFF;
+  --surface-alt: #F0EFE9;
+  --surface-hover: #F5F4EF;
+  --surface-ink: #141414;
+
+  /* Borders & rules */
+  --rule: #141414;
+  --border: #E3E1D9;
+  --border-hover: #E5261B;
+
+  /* Text */
+  --text: #141414;
+  --text-secondary: #3D3D3A;
+  --text-tertiary: #6E6C64;
+  --text-inverse: #FAFAF7;
+
+  /* Accent */
+  --accent: #E5261B;
+  --accent-hover: #C41E14;
+  --accent-soft: #FBE9E7;
+
+  /* RGB variants */
+  --bg-rgb: 250,250,247;
+  --rule-rgb: 20,20,20;
+  --accent-rgb: 229,38,27;
+
+  /* Semantic */
+  --success: #1F7A3D;
+  --error: #B3261E;
+  --warning: #B27A00;
+
+  /* Fonts */
+  --font-sans: 'Noto Sans SC', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  --font-serif: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+  --font-mono: 'IBM Plex Mono', 'SFMono-Regular', 'Menlo', monospace;
+}
+
+/* ============ Base ============ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+[id] { scroll-margin-top: 80px; }
+body {
+  background: var(--bg);
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.85;
+  letter-spacing: 0.02em;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+::selection { background: var(--accent); color: var(--text-inverse); }
+img { max-width: 100%; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* 纸纹噪点氛围层（静态，全页覆盖） */
+.grain {
+  position: fixed; inset: 0; z-index: 200; pointer-events: none; opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ============ Navigation ============ */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; height: 56px; padding: 0 clamp(16px, 4vw, 40px);
+  background: transparent; border-bottom: 1.5px solid transparent;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+.nav.scrolled {
+  background: rgba(var(--bg-rgb), 0.96);
+  border-bottom-color: var(--rule);
+}
+.nav__brand, .nav__status {
+  font-family: var(--font-mono); font-size: 0.75rem;
+  letter-spacing: 0.08em; font-weight: 600; color: var(--text);
+  white-space: nowrap;
+}
+.nav__status .pct { color: var(--accent); }
+.nav__bar {
+  position: absolute; left: 0; bottom: -1.5px; height: 3px; width: 100%;
+  background: var(--accent); transform-origin: left; transform: scaleX(0);
+}
+.nav__btn { min-height: 40px; padding: 0 14px; font-size: 0.75rem; }
+
+/* ============ Buttons ============ */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  font-family: var(--font-mono); font-size: 0.8125rem; font-weight: 600;
+  letter-spacing: 0.08em; text-decoration: none; cursor: pointer;
+  min-height: 44px; padding: 0 22px;
+  border: 1.5px solid var(--rule); border-radius: 2px;
+  background: var(--surface); color: var(--text);
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease,
+              transform 0.15s ease, box-shadow 0.15s ease;
+}
+.btn:hover {
+  background: var(--rule); color: var(--text-inverse);
+  border-color: var(--rule);
+  box-shadow: 4px 4px 0 var(--accent);
+  transform: translate(-1px, -1px);
+}
+.btn:active { transform: translate(0, 0) scale(0.97); box-shadow: none; }
+.btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.btn:disabled { opacity: 0.35; cursor: not-allowed; box-shadow: none; transform: none; }
+.btn--primary { background: var(--rule); color: var(--text-inverse); }
+.btn--primary:hover { background: var(--accent); border-color: var(--accent); box-shadow: 4px 4px 0 var(--rule); }
+.btn--inverse { background: transparent; color: var(--text-inverse); border-color: var(--text-inverse); }
+.btn--inverse:hover {
+  background: var(--accent); border-color: var(--accent); color: var(--text-inverse);
+  box-shadow: 4px 4px 0 rgba(var(--bg-rgb), 0.9);
+}
+.btn svg { flex: none; }
+
+/* 复制反馈 tooltip（巧思） */
+.share-wrap { position: relative; display: inline-flex; }
+.share-tip {
+  position: absolute; bottom: calc(100% + 10px); left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: 0.08em;
+  white-space: nowrap; padding: 8px 12px;
+  background: var(--surface-ink); color: var(--text-inverse);
+  border-radius: 2px; opacity: 0; pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.16,1,0.3,1);
+  z-index: 10;
+}
+.share-tip::after {
+  content: ''; position: absolute; left: 50%; top: 100%;
+  transform: translateX(-50%);
+  border: 5px solid transparent; border-top-color: var(--surface-ink);
+}
+.share-tip.on { opacity: 1; transform: translateX(-50%) translateY(0); }
+/* 导航右侧 tooltip 右对齐，避免超出视口 */
+.nav .share-tip { left: auto; right: 0; transform: translateY(4px); }
+.nav .share-tip.on { transform: translateY(0); }
+.nav .share-tip::after { left: auto; right: 16px; transform: none; }
+
+/* ClickSpark 粒子 */
+.spark-p {
+  position: fixed; width: 6px; height: 6px; background: var(--accent);
+  pointer-events: none; z-index: 999;
+}
+
+/* ============ Hero ============ */
+.hero {
+  position: relative;
+  min-height: calc(100svh - 56px);
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 120px clamp(20px, 5vw, 40px) 72px;
+}
+.hero__inner { max-width: 1120px; margin: 0 auto; width: 100%; position: relative; }
+/* DotGrid 点阵背景，向下渐隐 */
+.hero::before {
+  content: ''; position: absolute; inset: 0; z-index: 0;
+  background-image: radial-gradient(var(--border) 1px, transparent 1.5px);
+  background-size: 28px 28px;
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%);
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%);
+}
+.hero__inner, .hero__foot { position: relative; z-index: 1; }
+
+.eyebrow {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 600;
+  letter-spacing: 0.18em; color: var(--text-tertiary);
+  border-bottom: 2px solid var(--accent);
+  padding-bottom: 10px; margin-bottom: clamp(28px, 5vw, 48px);
+  width: fit-content;
+}
+.eyebrow .zh { color: var(--text); }
+
+.hero h1 {
+  font-family: var(--font-sans); font-weight: 900;
+  font-size: clamp(2.3rem, 9.5vw, 6.5rem);
+  line-height: 1.08; letter-spacing: 0.01em;
+  color: var(--text); margin-bottom: clamp(24px, 4vw, 40px);
+}
+.h1-line { display: block; overflow: hidden; padding-bottom: 0.06em; }
+.h1-char {
+  display: inline-block; transform: translateY(115%);
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+.h1-char.law { color: var(--accent); }
+.loaded .h1-char { transform: translateY(0); }
+
+.hero__dek {
+  font-family: var(--font-serif); font-weight: 600;
+  font-size: clamp(1.05rem, 2.2vw, 1.25rem); line-height: 1.9;
+  color: var(--text-secondary); max-width: 34em;
+  margin-bottom: clamp(28px, 5vw, 48px);
+}
+.hero__meta {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 600;
+  letter-spacing: 0.14em; color: var(--text-tertiary);
+}
+.hero__meta .sep { width: 8px; height: 8px; background: var(--accent); flex: none; }
+
+/* 版本戳 */
+.stamp {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 6px 12px; border: 1.5px solid currentColor; border-radius: 2px;
+  color: var(--accent); background: var(--surface);
+}
+.stamp--ink { color: var(--rule); }
+.stamp--solid { background: var(--accent); color: var(--text-inverse); border-color: var(--accent); }
+.stamp--rotate { transform: rotate(-3deg); }
+
+/* 红色印刷色块 */
+.hero__block {
+  position: absolute; right: clamp(0px, 2vw, 24px); top: -8px;
+  width: clamp(36px, 6vw, 72px); height: clamp(36px, 6vw, 72px);
+  background: var(--accent);
+}
+.h1-mark {
+  display: block; width: clamp(72px, 12vw, 120px); height: 10px;
+  background: var(--accent); margin-top: clamp(14px, 2.5vw, 26px);
+}
+
+.hero__foot {
+  max-width: 1120px; margin: clamp(48px, 8vh, 96px) auto 0; width: 100%;
+  display: flex; justify-content: space-between; align-items: flex-end; gap: 16px;
+}
+.hero__scroll {
+  font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 600;
+  letter-spacing: 0.18em; color: var(--text-tertiary);
+  text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+  min-height: 44px; border-bottom: 2px solid var(--accent); padding-bottom: 4px;
+}
+.hero__scroll:hover { color: var(--accent); }
+.hero__scroll svg { animation: bob 1.6s ease-in-out infinite; }
+@keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(4px); } }
+
+/* ============ Marquee 宣言横滚带 ============ */
+.marquee {
+  overflow: hidden; background: var(--accent); color: var(--text-inverse);
+  border-top: 3px solid var(--rule); border-bottom: 3px solid var(--rule);
+}
+.marquee__track {
+  display: flex; width: max-content;
+  animation: marqueeScroll 28s linear infinite;
+}
+.marquee__group { display: flex; }
+.marquee__item {
+  font-family: var(--font-serif); font-weight: 900;
+  font-size: clamp(1.3rem, 3.2vw, 2.4rem); letter-spacing: 0.04em;
+  white-space: nowrap; display: flex; align-items: center; gap: 2.5rem;
+  padding: 18px 0 18px 2.5rem;
+}
+.marquee__item .sep { width: 10px; height: 10px; background: var(--surface-ink); flex: none; }
+@keyframes marqueeScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.marquee:hover .marquee__track { animation-play-state: paused; }
+
+/* ============ Stats 数据带 ============ */
+.stats-band {
+  border-bottom: 1.5px solid var(--rule);
+  padding: clamp(48px, 7vw, 88px) clamp(20px, 5vw, 40px);
+}
+.stats {
+  max-width: 1120px; margin: 0 auto;
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: clamp(20px, 4vw, 48px);
+}
+.stat { border-top: 1.5px solid var(--rule); padding-top: 18px; }
+.stat__num {
+  font-family: var(--font-mono); font-weight: 600;
+  font-size: clamp(2.2rem, 5vw, 3.6rem); line-height: 1.05; color: var(--text);
+  letter-spacing: -0.01em;
+}
+.stat__num .unit { font-size: 0.45em; color: var(--accent); }
+.stat__label {
+  font-family: var(--font-mono); font-size: 0.6875rem;
+  letter-spacing: 0.14em; color: var(--text-tertiary); margin-top: 10px;
+  text-transform: uppercase; line-height: 1.6;
+}
+/* 传导链 */
+.chain { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+.chain span {
+  font-family: var(--font-mono); font-size: 0.8125rem; font-weight: 600;
+  color: var(--text); letter-spacing: 0.04em; line-height: 1.5;
+  display: flex; align-items: center; gap: 10px;
+}
+.chain span::before {
+  content: ''; width: 8px; height: 8px; background: var(--accent); flex: none;
+}
+.chain span.dim { color: var(--text-tertiary); }
+.chain span.dim::before { background: var(--border); }
+
+/* ============ Article ============ */
+.article {
+  max-width: 720px; margin: 0 auto;
+  padding: clamp(72px, 10vw, 128px) clamp(20px, 5vw, 32px) clamp(88px, 12vw, 160px);
+}
+.article section + section { margin-top: clamp(64px, 10vw, 104px); }
+
+.sec-head {
+  display: flex; align-items: baseline; gap: 16px;
+  border-bottom: 1.5px solid var(--rule);
+  padding-bottom: 14px; margin-bottom: 32px;
+  opacity: 0; translate: 0 36px;
+  transition: opacity 0.65s cubic-bezier(0.16,1,0.3,1),
+              translate 0.65s cubic-bezier(0.16,1,0.3,1);
+}
+.sec-head.in-view { opacity: 1; translate: 0 0; }
+.sec-head .idx {
+  font-family: var(--font-mono); font-weight: 600;
+  font-size: 0.875rem; color: var(--accent); letter-spacing: 0.1em;
+  flex: none;
+}
+.sec-head h2 {
+  font-family: var(--font-sans); font-weight: 900;
+  font-size: clamp(1.6rem, 3.6vw, 2.6rem); line-height: 1.25;
+  letter-spacing: 0.01em; color: var(--text);
+}
+
+.article p { color: var(--text-secondary); }
+.article p + p { margin-top: 1.5em; }
+.article strong { font-weight: 700; color: var(--text); }
+
+.article ul { list-style: none; margin-top: 1.5em; }
+.article ul li {
+  position: relative; padding-left: 24px; color: var(--text-secondary);
+}
+.article ul li + li { margin-top: 0.75em; }
+.article ul li::before {
+  content: ''; position: absolute; left: 2px; top: 0.72em;
+  width: 8px; height: 8px; background: var(--accent);
+}
+
+/* Pull-quote */
+.pullquote {
+  font-family: var(--font-serif); font-weight: 900;
+  font-size: clamp(1.5rem, 4vw, 3.25rem); line-height: 1.4; letter-spacing: 0.02em;
+  color: var(--text); padding-left: clamp(18px, 4vw, 32px);
+  border-left: 6px solid var(--accent); margin: clamp(48px, 8vw, 72px) 0;
+}
+
+/* 黑底引言带 */
+.interlude {
+  width: 100vw; max-width: 100vw;
+  margin-left: calc(50% - 50vw);
+  background: var(--surface-ink); color: var(--text-inverse);
+  padding: clamp(72px, 12vw, 140px) clamp(20px, 5vw, 32px);
+  border-top: 3px solid var(--rule); border-bottom: 3px solid var(--rule);
+  margin-top: clamp(56px, 9vw, 96px);
+  margin-bottom: clamp(56px, 9vw, 96px);
+}
+.interlude .pullquote { border-left-color: var(--accent); color: var(--text-inverse); margin: 0; font-size: clamp(1.5rem, 4vw, 2.8rem); }
+.interlude .note {
+  font-family: var(--font-mono); font-size: 0.8125rem;
+  color: rgba(var(--bg-rgb), 0.55); letter-spacing: 0.06em;
+  margin-top: 28px; padding-left: clamp(18px, 4vw, 32px);
+}
+
+/* 剪报/证物卡 */
+.clipping {
+  position: relative; background: var(--surface);
+  border: 2px solid var(--rule); border-radius: 2px;
+  padding: 14px 14px 12px;
+  max-width: var(--clip-w, 640px);
+  margin: clamp(48px, 8vw, 88px) 0;
+  transform: rotate(var(--clip-rot, 0deg));
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              translate 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.clipping::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%),
+              rgba(var(--accent-rgb), 0.07), transparent 65%);
+  opacity: 0; transition: opacity 0.3s ease;
+}
+.article .clipping:hover, .article .clipping:focus-within {
+  transform: rotate(0deg); translate: 0 -4px;
+  border-color: var(--accent);
+  box-shadow: 8px 8px 0 var(--rule);
+}
+.clipping:hover::before, .clipping:focus-within::before { opacity: 1; }
+.clipping .clip-media { overflow: hidden; }
+.clipping img {
+  display: block; width: 100%; height: auto;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.clipping figcaption {
+  font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.06em;
+  color: var(--text-tertiary); margin-top: 10px;
+  display: flex; justify-content: space-between; gap: 12px; line-height: 1.5;
+}
+.clipping figcaption .no { color: var(--accent); font-weight: 600; }
+
+.clipping--a { --clip-w: 640px; --clip-rot: -1.2deg; margin-left: auto; }
+.clipping--b { --clip-w: 560px; --clip-rot: 1deg; }
+.clipping--c { --clip-w: 680px; --clip-rot: 0.8deg; margin-left: auto; }
+.clipping--d { --clip-w: 540px; --clip-rot: -1deg; }
+.clipping--e { --clip-w: 720px; --clip-rot: 0deg; }
+
+/* Reveal */
+.reveal {
+  opacity: 0; translate: 0 26px;
+  transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1),
+              translate 0.7s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal.in-view { opacity: 1; translate: 0 0; }
+.reveal-group > * {
+  opacity: 0; translate: 0 26px;
+  transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1),
+              translate 0.7s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal-group.in-view > * { opacity: 1; translate: 0 0; }
+
+/* ============ Footer ============ */
+.footer {
+  background: var(--surface-ink); color: var(--text-inverse);
+  border-top: 3px solid var(--rule);
+  padding: clamp(72px, 12vw, 140px) clamp(20px, 5vw, 32px) 40px;
+}
+.footer__inner { max-width: 900px; margin: 0 auto; text-align: center; }
+.footer__quote {
+  font-family: var(--font-serif); font-weight: 900;
+  font-size: clamp(1.5rem, 4vw, 2.8rem); line-height: 1.4;
+  letter-spacing: 0.02em; color: var(--text-inverse);
+  margin-bottom: 12px;
+}
+.footer__quote .dot { color: var(--accent); }
+.footer__sub {
+  font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.18em;
+  color: rgba(var(--bg-rgb), 0.55); margin-bottom: clamp(40px, 6vw, 64px);
+}
+.footer__actions {
+  display: flex; justify-content: center; align-items: center; gap: 16px; flex-wrap: wrap;
+  margin-bottom: clamp(56px, 8vw, 96px);
+}
+.footer__colophon {
+  border-top: 1.5px solid rgba(var(--bg-rgb), 0.25);
+  padding-top: 24px;
+  display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: 0.1em;
+  color: rgba(var(--bg-rgb), 0.55); line-height: 1.8;
+}
+.footer__colophon a { color: rgba(var(--bg-rgb), 0.75); text-decoration: none; border-bottom: 1px solid var(--accent); }
+.footer__colophon a:hover { color: var(--accent); }
+
+/* ============ Responsive ============ */
+@media (max-width: 1024px) {
+  .stats { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 720px) {
+  .clipping {
+    --clip-w: 100% !important;
+    --clip-rot: calc(var(--clip-r, 0deg) * 0.5) !important;
+    margin-inline: 0 !important;
+  }
+  .clipping--a { --clip-r: -1.2deg; } .clipping--b { --clip-r: 1deg; }
+  .clipping--c { --clip-r: 0.8deg; } .clipping--d { --clip-r: -1deg; }
+  .clipping--e { --clip-r: 0deg; }
+}
+@media (max-width: 640px) {
+  body { font-size: 16px; }
+  .nav__brand { display: none; }
+  .nav__btn { min-height: 44px; }
+  .hero h1 { font-size: clamp(2rem, 8.8vw, 3.4rem); }
+  .hero__block { display: none; }
+  .hero__foot { flex-direction: column; align-items: flex-start; gap: 24px; }
+  .stats { gap: 24px; }
+  .footer__colophon { flex-direction: column; text-align: center; }
+}
+
+/* ============ Reduced Motion ============ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .marquee__track { animation: none; transform: none; }
+  .reveal, .sec-head { opacity: 1 !important; translate: none !important; transform: none !important; }
+  .reveal-group > * { opacity: 1 !important; translate: none !important; transform: none !important; }
+  .h1-char { transform: none; }
+  .hero__scroll svg { animation: none; }
+}
+</style>
+<noscript>
+<style>
+.reveal, .sec-head, .reveal-group > *, .h1-char { opacity: 1 !important; translate: none !important; transform: none !important; }
+</style>
+</noscript>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ================= NAV ================= -->
+<header class="nav" id="nav">
+  <div class="nav__brand">KANE·ECHOES — OPINION</div>
+  <div class="nav__status"><span class="pct" id="navPct">READ · 0%</span></div>
+  <span class="share-wrap">
+    <button class="btn nav__btn js-copy" type="button" aria-label="复制本页链接">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="1"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg>
+      SHARE
+    </button>
+    <span class="share-tip" role="status">链接已复制 · 转给还停在 v1.0 的人</span>
+  </span>
+  <span class="nav__bar" id="navBar" aria-hidden="true"></span>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero" aria-label="导语">
+  <div class="hero__inner">
+    <div class="hero__block" aria-hidden="true"></div>
+    <p class="eyebrow">
+      <span data-scramble="RELATIONSHIP OS · RELEASE NOTES">RELATIONSHIP OS · RELEASE NOTES</span>
+      <span class="zh">两性关系操作系统 · 版本发布说明</span>
+    </p>
+    <h1 aria-label="道德批判伤不到他，法律才是下一个版本。">
+      <span class="h1-line" aria-hidden="true"><span class="h1-char" style="transition-delay:0ms">道</span><span class="h1-char" style="transition-delay:45ms">德</span><span class="h1-char" style="transition-delay:90ms">批</span><span class="h1-char" style="transition-delay:135ms">判</span><span class="h1-char" style="transition-delay:180ms">伤</span><span class="h1-char" style="transition-delay:225ms">不</span><span class="h1-char" style="transition-delay:270ms">到</span><span class="h1-char" style="transition-delay:315ms">他</span><span class="h1-char" style="transition-delay:360ms">，</span></span>
+      <span class="h1-line" aria-hidden="true"><span class="h1-char law" style="transition-delay:260ms">法</span><span class="h1-char law" style="transition-delay:305ms">律</span><span class="h1-char" style="transition-delay:350ms">才</span><span class="h1-char" style="transition-delay:395ms">是</span><span class="h1-char" style="transition-delay:440ms">下</span><span class="h1-char" style="transition-delay:485ms">一</span><span class="h1-char" style="transition-delay:530ms">个</span><span class="h1-char" style="transition-delay:575ms">版</span><span class="h1-char" style="transition-delay:620ms">本</span><span class="h1-char" style="transition-delay:665ms">。</span></span>
+    </h1>
+    <span class="h1-mark" aria-hidden="true"></span>
+    <p class="hero__dek">两性关系正在从道德约束转向法律博弈：法律武器的获取门槛降到几乎为零，使用者正从富豪圈扩展到普通人。在经济放缓、存量博弈加剧的环境里，自立、自我投资和资产积累，才是更可靠的安全感与议价权来源。</p>
+    <div class="hero__meta reveal-group">
+      <span class="stamp stamp--ink">v1.0 道德约束</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" style="color:var(--text-tertiary)"><path d="M4 12h16m0 0-6-6m6 6-6 6"/></svg>
+      <span class="stamp stamp--solid stamp--rotate">v2.0 法律博弈</span>
+      <span class="sep" aria-hidden="true"></span>
+      <span>全文 · 约 9 分钟 · 14 节 · 5 图</span>
+    </div>
+  </div>
+  <div class="hero__foot">
+    <a class="hero__scroll" href="#article">阅读全文
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 4v16m0 0 6-6m-6 6-6-6"/></svg>
+    </a>
+    <span class="nav__status">KANE·ECHOES · 2026-09</span>
+  </div>
+</section>
+
+<!-- ================= MARQUEE ================= -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track">
+    <div class="marquee__group">
+      <span class="marquee__item">自立自强永不过时 <span class="sep"></span></span>
+      <span class="marquee__item">投入自己，才能拥有议价权 <span class="sep"></span></span>
+      <span class="marquee__item">世界奖励行动力强的人 <span class="sep"></span></span>
+      <span class="marquee__item">只会有强弱，没有性别 <span class="sep"></span></span>
+      <span class="marquee__item">法律会比道德更有效 <span class="sep"></span></span>
+    </div>
+    <div class="marquee__group">
+      <span class="marquee__item">自立自强永不过时 <span class="sep"></span></span>
+      <span class="marquee__item">投入自己，才能拥有议价权 <span class="sep"></span></span>
+      <span class="marquee__item">世界奖励行动力强的人 <span class="sep"></span></span>
+      <span class="marquee__item">只会有强弱，没有性别 <span class="sep"></span></span>
+      <span class="marquee__item">法律会比道德更有效 <span class="sep"></span></span>
+    </div>
+  </div>
+</div>
+
+<!-- ================= STATS ================= -->
+<section class="stats-band" aria-label="核心数据">
+  <div class="stats reveal-group">
+    <div class="stat">
+      <div class="stat__num" style="font-size:1rem; line-height:1.4; margin-bottom:10px;">传导链</div>
+      <div class="chain">
+        <span>超级富豪</span>
+        <span class="dim">前 1% 收入群体</span>
+        <span class="dim">超一线城市普通人</span>
+        <span class="dim">一线 / 二三线城市</span>
+        <span class="dim">基层</span>
+      </div>
+      <div class="stat__label">法律武器的下沉路径 · 不可逆</div>
+    </div>
+    <div class="stat">
+      <div class="stat__num" id="statCost">¥0</div>
+      <div class="stat__label">法律工具获取成本<br>五年前 ≈ 律师咨询费</div>
+    </div>
+    <div class="stat">
+      <div class="stat__num" id="statVer">v2.0</div>
+      <div class="stat__label">当前版本<br>道德约束 → 法律博弈</div>
+    </div>
+    <div class="stat">
+      <div class="stat__num">3<span class="unit">–</span>5<span class="unit">年</span></div>
+      <div class="stat__label">建议完成认知<br>更新的窗口期</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ARTICLE ================= -->
+<main class="article" id="article">
+
+  <section>
+    <div class="sec-head"><span class="idx">01</span><h2>先更新版本认知</h2></div>
+    <p class="reveal">调查时我刷到过一个视频：一位年纪不小、应该很有社会阅历的女性博主，对这件事的结论是孙宇晨太抠门、不愿给景甜多花钱，评论区大量赞同。</p>
+    <p class="reveal">我想对所有看我视频的女性观众说一句：如果你有这种想法，建议尽可能在三到五年内修正它。</p>
+    <p class="reveal">不是因为这个想法在道德上有问题——每个人都可以有自己的感情和金钱观——而是<strong>版本更新会很快，停留在这个版本的人会遇到非常多问题：轻则人财两空的概率越来越高，重则被倒打一耙进监狱。</strong></p>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="idx">02</span><h2>道德批判伤不到他的实际利益</h2></div>
+    <p class="reveal">传统社会有个底层共识：你对一个有过亲密关系的女性采取非常绝情的方式，即使法律上站得住脚，周围的人也会降低对你的信任——连感情关系都能这样算，和他做生意呢？</p>
+    <p class="reveal">于是声誉商誉受损。</p>
+    <p class="reveal">这个共识运行了几十年，本质是用社会压力补充法律覆盖不到的地方：法律管不了道德，但社会评价可以。</p>
+    <p class="reveal">现在不同了。</p>
+    <p class="reveal">孙宇晨这个案例展示了一种新可能：在法律上把每一步走干净，让道德批判在实操层面没有操作空间。</p>
+    <p class="reveal">你可以骂他不道德，但他的交易所照常运营、资产照常增值、法律诉求照常推进，<strong>道德批判伤不到他的实际利益。</strong></p>
+    <figure class="clipping clipping--a reveal">
+      <div class="clip-media">
+        <img src="assets/01_道德约束与法律博弈.webp" width="1672" height="941" loading="lazy" alt="手绘信息图：左侧道德约束（社会评价、声誉商誉），右侧法律博弈（协议、证据、法律诉求），箭头标注版本更新">
+      </div>
+      <figcaption><span>FIG.01 · 道德约束与法律博弈</span><span class="no">EXHIBIT 01</span></figcaption>
+    </figure>
+    <p class="reveal">这不是孤例——郎咸平的案例很多人都知道，和前任的财务纠纷经法律手段操作，结果让旁观者瞠目结舌。</p>
+    <p class="reveal">现在的趋势是：婚检、儿女 DNA 检测、婚前财产分割协议，各种普通家庭平时见不到的法律手段和套路，正从专业领域向普通人扩散。</p>
+    <p class="reveal">简单概括：</p>
+    <div class="interlude reveal">
+      <div class="interlude__inner">
+        <blockquote class="pullquote">我把你玩完了，还要你倾家荡产赔我钱。</blockquote>
+        <p class="note">这句话十年前没人信，现在正在一步步实现。</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="idx">03</span><h2>法律武器的获取门槛降到几乎为零</h2></div>
+    <p class="reveal">过去法律武器化主要发生在超级富豪层面，但这个东西会向下传导：超级富豪到普通富豪，到前百分之一收入群体，到前百分之五，到超一线城市的大多数普通人，到一线、二三线城市，再到基层。</p>
+    <p class="reveal">传导速度取决于两个因素：信息传播，和法律服务的平民化。</p>
+    <p class="reveal">抖音上大量律师做普法短视频，教你婚前协议怎么写、婚前财产怎么保护、证据怎么取——这些知识五年前要花几千块咨询律师，现在免费看视频就能学到。</p>
+    <p class="reveal"><strong>法律武器的获取门槛降到几乎为零，使用者数量就会急剧增加。</strong></p>
+    <figure class="clipping clipping--b reveal">
+      <div class="clip-media">
+        <img src="assets/02_法律工具下沉.webp" width="1672" height="941" loading="lazy" alt="手绘信息图：法律工具从高门槛的专业领域逐级下沉到普通人，获取成本趋近于零">
+      </div>
+      <figcaption><span>FIG.02 · 法律工具下沉</span><span class="no">EXHIBIT 02</span></figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="idx">04</span><h2>旧版本男性是消耗品</h2></div>
+    <p class="reveal">再说一句很难听的话：国内女性目前最大的红利不仅是年纪，更是一群还处于旧版本的男性。</p>
+    <p class="reveal">他们活在过去的版本里，行为模式、对感情金钱的认知、对法律工具的了解，都停留在上一个时代。</p>
+    <blockquote class="pullquote reveal">你领先一个版本，就能把他捏扁搓圆。</blockquote>
+    <p class="reveal">但这批人像消耗品，捏一次少一个：要么被你搞得彻底失去经济价值、沉到社会底层，要么在这个过程中清醒、更新认知进入下一个版本——下个版本的他，要么捏不动，要么直接退出不玩。</p>
+    <p class="reveal"><strong>这批人持续减少，而每个被坑过的人都会成为新版本的传播者，把自己的经历讲给兄弟、同事、朋友，后者更新更快。</strong></p>
+    <p class="reveal">这是不可逆的。</p>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="idx">05</span><h2>日本女明星为什么嫁给普通人</h2></div>
+    <p class="reveal">可以参考日本：为什么不少女明星退役后找个普通人——所谓社畜——结婚？</p>
+    <p class="reveal">因为行业生态里能匹配她们社会地位的男性，要么完成了全面的自我保护，要么本身精于算计，和这些人在一起每一步都是博弈；反而是普通人——收入不高但稳定，不用法律武器，感情认知朴素——在情感体验上最舒适。</p>
+    <p class="reveal">前提是她自己已有足够经济基础，不需要靠婚姻获得财务安全。</p>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="idx">06</span><h2>前辈们把路堵得差不多了</h2></div>
+    <p class="reveal">找老外呢？</p>
+    <p class="reveal">对不起，你的前辈们已经把路堵得差不多了。</p>
+    <p class="reveal">老外对国内女性的态度近十年变化很大：一边是越来越多真实案例在海外社交媒体传播，一边是中国女性在海外的行为模式形成了刻板印象。</p>
+    <p class="reveal">背后有：</p>
+    <ul class="reveal">
+      <li>逆种族主义——认为白人男性天然比亚洲男性优越，所以更容易接受更不利的交往条件</li>
+      <li>辉格史观——认为西方社会天然更进步，所以那里一切都更好</li>
+      <li>还有一种缺少智力支撑的崇拜——不判断对方的能力人品，只因为种族和国籍就崇拜</li>
+    </ul>
+    <p class="reveal">结果越来越多老外找中国异性的目的，从喜欢一个不同文化的外乡人，变成免费找一个解决生理需求的饭票。</p>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="idx">07</span><h2>去工作这条路，也要出新版本了</h2></div>
+    <p class="reveal">回归生产、去工作这条路，也要出新版本了。</p>
+    <p class="reveal">日本的经验是：经济停滞的三十年里女性职场参与率确实上升，但方式不是越来越多女性当上高管，而是大量进入非正规就业、派遣用工和零工经济，收入和职业前景与正规雇员差距很大。</p>
+    <p class="reveal"><strong>这不是一个只要努力就能解决一切的简单叙事。</strong></p>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="idx">08</span><h2>性别叙事是无差别打击</h2></div>
+    <p class="reveal">古话讲盛极而衰。</p>
+    <p class="reveal">二〇一五年之前，两性话题里有大量同情女性的言论，也有大量操控女性、骗人骗财的案例。</p>
+    <p class="reveal">那时有正常价值观的人都会支持女性，因为现实中确实有太多女性在感情和经济上被伤害；相当一部分十八到三十五岁的中青年男性是支持者主力——他们也有女儿、有母亲，共情极高。</p>
+    <p class="reveal">之后女性权益随生产力、城镇化、社会化程度提升而上升，这本身是好事。</p>
+    <p class="reveal">但问题在于，当初支持女性的男性被夹在了中间：渣男没因社会进步消失，反而靠操纵情绪、利用信息差过得更好；捞女也更如鱼得水——只要理由听着没问题，大家就默认支持甚至给钱。</p>
+    <p class="reveal">那些真心帮过女性的男性，不仅没被更好对待，还有不少被反向伤害——因为<strong>性别叙事不是定向打击，而是无差别打击</strong>，支持女性的男性很容易被别有用心的个体抓住破绽。</p>
+    <p class="reveal">正向案例很多，但一颗老鼠屎坏了一锅粥，还有人觉得没问题，事情就越来越不可控。</p>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="idx">09</span><h2>天道奖励行动力强的人</h2></div>
+    <p class="reveal">这不是我们独有的：德国、法国、日本、美国，甚至中东、东南亚，都进入了这个版本的前期。</p>
+    <p class="reveal">真正有问题的，是捞女、田园、渣男、龟男这些还活在封建版本里的人，不是普通男女。</p>
+    <p class="reveal">但普通人会被舆论裹挟去维护这批人的利益，而维护他们的利益就是牺牲自己的利益——这是我觉得最可笑的地方。</p>
+    <p class="reveal">为什么？</p>
+    <p class="reveal">因为这批人道德底线足够低，欲望很强，行动力更强——而<strong>世界，或者说天道，会奖励行动力强的人。</strong></p>
+    <p class="reveal">生理性别在未来会逐渐模糊，未来<strong>只会有强弱，没有性别</strong>。</p>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="idx">10</span><h2>情绪摆到极端，就会反向摆回来</h2></div>
+    <p class="reveal">当然，一切的本质还是经济：增速放缓、存量博弈加剧，每份资源的争夺都更激烈，两性关系不例外，对立只是催化剂。</p>
+    <p class="reveal">而未来的舆论也会大变：日本就有一个标志性事件——某电视台高管对旗下记者实施迷奸，社会的反应不是声援受害者，而是大量指责受害女性「是她自己有问题」，大家可以查，叫伊藤诗织事件。</p>
+    <p class="reveal">具体细节我后续会深查确认，但它反映的趋势明确：<strong>社会对两性议题的情绪摆到一个极端后，会反向摆回来</strong>，反弹力度往往超出预期。</p>
+    <figure class="clipping clipping--c reveal">
+      <div class="clip-media">
+        <img src="assets/03_舆论反摆与多版本并存.webp" width="1672" height="941" loading="lazy" alt="手绘信息图：舆论像钟摆摆到极端后反向摆回，社会多版本并存">
+      </div>
+      <figcaption><span>FIG.03 · 舆论反摆与多版本并存</span><span class="no">EXHIBIT 03</span></figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="idx">11</span><h2>他们的诉求在上个版本是对的</h2></div>
+    <p class="reveal">简单说，女性的法律地位会不断提高，形成对落后版本男性的降维打击甚至一定程度的磨灭；代价是牺牲相当一部分既得利益——要花更多努力去获取生存资源，你的价值会越来越具现化。</p>
+    <p class="reveal">相亲节目里连线的嘉宾上来就说要找 A8、A9，最差也要大 A7——听着离谱，但他们的诉求在上个版本是对的：那时夫妻共同奋斗、互相扶持，能在城市安家，达到 A7；能力强点，有机会摸到 A8。</p>
+    <p class="reveal">现在已经不可能了，前辈把路都堵上了。</p>
+    <p class="reveal">这个版本还抱着「异性就要给自己多花钱」的心思非常危险——愿意无条件答应这些诉求的只有一种结果：缅北业务员。</p>
+    <p class="reveal"><strong>自立自强永不过时，增加自己的资产才是安全感的最大来源。</strong></p>
+    <figure class="clipping clipping--d reveal">
+      <div class="clip-media">
+        <img src="assets/04_自立自强.webp" width="1672" height="941" loading="lazy" alt="手绘信息图：外部依赖（人财两空）对比自我投入（选择能力、议价权、身体与形象、资产积累）">
+      </div>
+      <figcaption><span>FIG.04 · 从外部依赖转向自我投入</span><span class="no">EXHIBIT 04</span></figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="idx">12</span><h2>给男性观众的建议</h2></div>
+    <p class="reveal">给男性观众的建议：第一，现在发大财的难度越来越高，如果你清楚自己没有百分之一甚至千分之一的能力和运气，那在所有投资里，最有价值的之一一定一定是健身——有一副健硕的身体，愿意研究两性的思维特征，学会控制情绪，用更高的视角看两性话题，才是最好的觉醒：不是仇恨、谁放弃什么，而是<strong>把自己变成有选择能力的人</strong>。</p>
+    <p class="reveal">还想当龟男，结局一样是人财两空。</p>
+    <p class="reveal">最近短视频上有个话题是「中国男性娶老挝女性」，推给普通中国男性看娶到年轻漂亮老挝人的视频；但老挝那边已有对应话题：老挝人觉得中国男性把女性单纯当生育机器，生育完态度变差，没有真实情感支撑。</p>
+    <p class="reveal">可以预见，老挝面对中国男性的彩礼会不断提高——越南已经开始进入这个版本了。</p>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="idx">13</span><h2>投入自己，才能拥有议价权</h2></div>
+    <p class="reveal">先遣服之一的韩国男性，为什么疯狂健身、医美、穿搭，出门花一小时打扮？</p>
+    <p class="reveal">因为他清楚，<strong>投入自己才能拥有议价权。</strong></p>
+    <p class="reveal">在韩国想让约会对象替你买单？</p>
+    <p class="reveal">他只会说凭什么——不让你请客就不错了。</p>
+    <p class="reveal">他的逻辑是：我已经是高价值的人，你和我在一起是因为我的吸引力，不是因为我替你付钱。</p>
+    <p class="reveal">这在韩国已是主流。</p>
+    <p class="reveal">日本男性其实也一样，只是宅文化严重、两性对立没韩国尖锐，加上刻板印象，所以没人察觉。</p>
+    <p class="reveal">回忆你看过的日剧：男主性格再好也必须和女主 AA，情侣也 AA；安慰对方时，顺手请喝个自动贩卖机或便利店的饮料。</p>
+    <p class="reveal">不花女朋友的钱、不劈腿，在日本已经是好男人；请客反而是没有边界感的行为——<strong>这就是下一个版本的预告。</strong></p>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="idx">14</span><h2>不会只朝一个版本走</h2></div>
+    <p class="reveal">总而言之，国内人口众多、领土够大，不会只朝一个版本走，而是多版本并存——欧美日谈的版本都会有。</p>
+    <p class="reveal">过程中，<strong>法律会成为两性博弈中比道德更有效的武器</strong>，掌握这套工具的人正从富豪圈扩展到普通人；孙宇晨和景甜这件事，只是让这个趋势被更多人看到的节点。</p>
+    <p class="reveal">后面还会不会有新线索不好说，如果法院出了实体审理结果，或出现真正的一手证据——法院文书、银行流水、原始协议——我会更新或发动态。</p>
+    <p class="reveal">这期时间比较紧，很多地方没做得足够仔细，大家看着玩就行了。</p>
+    <figure class="clipping clipping--e reveal">
+      <div class="clip-media">
+        <img src="assets/05_全文核心信息图.webp" width="1672" height="941" loading="lazy" alt="手绘信息图：全文核心信息汇总——法律比道德更有效、门槛几乎为零、旧版本持续减少、情绪反摆、投入自己获得议价权">
+      </div>
+      <figcaption><span>FIG.05 · 全文核心信息图</span><span class="no">EXHIBIT 05</span></figcaption>
+    </figure>
+  </section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <div class="footer__inner">
+    <p class="footer__quote reveal">把自己变成有选择能力的人<span class="dot">。</span></p>
+    <p class="footer__sub reveal">— 全文完 · SELF-RELIANCE NEVER GOES OUT OF STYLE —</p>
+    <div class="footer__actions reveal">
+      <span class="share-wrap">
+        <button class="btn btn--inverse js-copy" type="button">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="1"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg>
+          复制链接
+        </button>
+        <span class="share-tip" role="status">链接已复制 · 转给还停在 v1.0 的人</span>
+      </span>
+      <button class="btn btn--inverse" id="btnShare" type="button" hidden>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 3v13m0-13L7 8m5-5 5 5M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg>
+        分享
+      </button>
+    </div>
+    <div class="footer__colophon">
+      <span>KANE·ECHOES · 观点专栏</span>
+      <span>整理于 2026-09 · PAGE v2.0.0</span>
+      <span>Motion derived from <a href="https://github.com/DavidHDev/vue-bits" rel="noopener" target="_blank">vue-bits</a> · DavidHDev (MIT)</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+  var REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var CAN_HOVER = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  /* ---------- Hero SplitText 入场 ---------- */
+  function heroIn() {
+    var t = null;
+    function show() {
+      if (t) { clearTimeout(t); t = null; }
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () { document.body.classList.add('loaded'); });
+      });
+    }
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(show);
+      t = setTimeout(show, 600); // 兜底：字体加载异常时也入场
+    } else { show(); }
+  }
+  heroIn();
+
+  /* ---------- Eyebrow ScrambleText ---------- */
+  function scramble(el) {
+    var final = el.getAttribute('data-scramble');
+    if (!final) return;
+    if (REDUCED) { el.textContent = final; return; }
+    var pool = '!<>-_\\/[]{}=+*^#?';
+    var frame = 0, total = 26;
+    (function tick() {
+      frame++;
+      el.textContent = final.split('').map(function (c, i) {
+        if (c === ' ') return ' ';
+        return i < (frame / total) * final.length ? c : pool[Math.floor(Math.random() * pool.length)];
+      }).join('');
+      if (frame < total) setTimeout(tick, 28);
+      else el.textContent = final;
+    })();
+  }
+  document.querySelectorAll('[data-scramble]').forEach(scramble);
+
+  /* ---------- Scroll Reveal（IO） ---------- */
+  document.querySelectorAll('.reveal-group').forEach(function (g) {
+    Array.prototype.forEach.call(g.children, function (c, i) {
+      c.style.transitionDelay = Math.min(i * 90, 600) + 'ms';
+    });
+  });
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal, .sec-head, .reveal-group').forEach(function (el) { io.observe(el); });
+  } else {
+    document.querySelectorAll('.reveal, .sec-head, .reveal-group').forEach(function (el) { el.classList.add('in-view'); });
+  }
+
+  /* ---------- 导航滚动态 + 阅读进度 ---------- */
+  var nav = document.getElementById('nav');
+  var pctEl = document.getElementById('navPct');
+  var bar = document.getElementById('navBar');
+  var ticking = false;
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () {
+      var y = window.scrollY || window.pageYOffset;
+      nav.classList.toggle('scrolled', y > 24);
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      var p = max > 0 ? Math.min(y / max, 1) : 0;
+      pctEl.textContent = 'READ · ' + Math.round(p * 100) + '%';
+      bar.style.transform = 'scaleX(' + p + ')';
+      ticking = false;
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* ---------- CountUp / CountDown ---------- */
+  function countTo(el, start, end, dur, fmt) {
+    var t0 = performance.now();
+    function ease(x) { return 1 - Math.pow(1 - x, 3); }
+    (function step(t) {
+      var p = Math.min((t - t0) / dur, 1);
+      el.textContent = fmt(start + (end - start) * ease(p));
+      if (p < 1) requestAnimationFrame(step);
+    })(t0);
+  }
+  var statCost = document.getElementById('statCost');
+  var statVer = document.getElementById('statVer');
+  function runCounters() {
+    if (REDUCED) { statCost.textContent = '¥0'; statVer.textContent = 'v2.0'; return; }
+    countTo(statCost, 3000, 0, 1200, function (v) { return '¥' + Math.round(v).toLocaleString('en-US'); });
+    countTo(statVer, 0, 2, 1200, function (v) { return 'v' + v.toFixed(1); });
+  }
+  if (REDUCED) { runCounters(); }
+  else if ('IntersectionObserver' in window) {
+    statCost.textContent = '¥3,000';
+    statVer.textContent = 'v0.0';
+    var cio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { runCounters(); cio.disconnect(); }
+      });
+    }, { threshold: 0.5 });
+    cio.observe(document.querySelector('.stats'));
+  } else { runCounters(); }
+
+  /* ---------- Magnet 磁吸（仅精确指针设备） ---------- */
+  if (CAN_HOVER && !REDUCED) {
+    document.querySelectorAll('.js-copy').forEach(function (b) {
+      b.addEventListener('pointermove', function (e) {
+        var r = b.getBoundingClientRect();
+        var x = e.clientX - r.left - r.width / 2;
+        var y = e.clientY - r.top - r.height / 2;
+        b.style.transform = 'translate(' + x * 0.25 + 'px,' + y * 0.25 + 'px)';
+      });
+      b.addEventListener('pointerleave', function () { b.style.transform = ''; });
+    });
+  }
+
+  /* ---------- SpotlightCard 聚光（rAF 节流） ---------- */
+  if (CAN_HOVER && !REDUCED) {
+    document.querySelectorAll('.clipping').forEach(function (c) {
+      var raf = null;
+      c.addEventListener('pointermove', function (e) {
+        if (raf) return;
+        raf = requestAnimationFrame(function () {
+          var r = c.getBoundingClientRect();
+          c.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+          c.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
+          raf = null;
+        });
+      });
+    });
+  }
+
+  /* ---------- ClickSpark ---------- */
+  function spark(x, y) {
+    if (REDUCED || !CAN_HOVER) return;
+    for (var i = 0; i < 6; i++) {
+      var s = document.createElement('span');
+      s.className = 'spark-p';
+      s.style.left = x + 'px';
+      s.style.top = y + 'px';
+      document.body.appendChild(s);
+      var a = Math.random() * Math.PI * 2;
+      var d = 18 + Math.random() * 24;
+      var anim = s.animate(
+        [
+          { transform: 'translate(0,0) rotate(0deg)', opacity: 1 },
+          { transform: 'translate(' + Math.cos(a) * d + 'px,' + Math.sin(a) * d + 'px) rotate(' + (90 + Math.random() * 120) + 'deg)', opacity: 0 }
+        ],
+        { duration: 400 + Math.random() * 120, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' }
+      );
+      anim.onfinish = function () { this.effect.target.remove(); }.bind(anim);
+    }
+  }
+
+  /* ---------- 复制链接 + tooltip ---------- */
+  var tipTimers = new WeakMap();
+  function copyLink(btn, ev) {
+    var url = location.href;
+    var done = function () {
+      var wrap = btn.closest('.share-wrap');
+      var tip = wrap && wrap.querySelector('.share-tip');
+      if (tip) {
+        tip.classList.add('on');
+        if (tipTimers.has(tip)) clearTimeout(tipTimers.get(tip));
+        tipTimers.set(tip, setTimeout(function () { tip.classList.remove('on'); }, 2000));
+      }
+      if (ev) spark(ev.clientX, ev.clientY);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(done, function () { legacyCopy(url); done(); });
+    } else { legacyCopy(url); done(); }
+  }
+  function legacyCopy(url) {
+    var ta = document.createElement('textarea');
+    ta.value = url;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch (e) {}
+    ta.remove();
+  }
+  document.querySelectorAll('.js-copy').forEach(function (b) {
+    b.addEventListener('click', function (ev) { copyLink(b, ev); });
+  });
+
+  /* ---------- 原生分享（可用才显示） ---------- */
+  var shareBtn = document.getElementById('btnShare');
+  if (shareBtn && navigator.share) {
+    shareBtn.hidden = false;
+    shareBtn.addEventListener('click', function () {
+      navigator.share({
+        title: document.title,
+        text: document.querySelector('meta[name="description"]').getAttribute('content'),
+        url: location.href
+      }).catch(function () {});
+    });
+  }
+})();
+</script>
+</body>
+</html>
